@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html lang="pt-br"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    
+<html lang="pt-br"><head>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Juros de Capital - BNB | Master Consultoria Empresarial</title>
 
@@ -64,7 +64,7 @@
             position: absolute;
             top: 10%; left: 50%;
             transform: translate(-50%, -50%);
-            width: 800px; height: 800px;
+            width: min(800px, 100vw); height: 800px;
             background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
             pointer-events: none;
             z-index: 0;
@@ -375,7 +375,8 @@
             box-shadow: 0 10px 20px rgba(0,0,0,0.2); 
             color: #ffffff;
         }
-        .checklist-item input[type="checkbox"] { display: none; }
+        .checklist-item input[type="checkbox"] { position: absolute; opacity: 0; width: 1px; height: 1px; pointer-events: none; }
+        .checklist-item input[type="checkbox"]:focus-visible + .check-box { outline: 2px solid var(--green); outline-offset: 3px; }
         
         .check-box {
             width: 24px; height: 24px; border: 2px solid rgba(255,255,255,0.2); border-radius: 6px;
@@ -511,10 +512,25 @@
         /* FOOTER */
         .footer { margin-top: 100px; padding-top: 35px; border-top: 1px solid rgba(255,255,255,0.05); text-align: center; font-size: 11px; color: #475569; letter-spacing: 3px; text-transform: uppercase; }
 
+        /* Links do menu não herdam o estilo das listas de conteúdo */
+        .nav-links li { padding: 0; margin: 0; }
+        .nav-links li::before { content: none; }
+
+        a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px solid var(--green); outline-offset: 3px; }
+
+        @media (prefers-reduced-motion: reduce) {
+            body { animation: none; }
+            *, *::before, *::after { transition: none !important; }
+        }
+
         /* RESPONSIVE */
         @media (max-width: 768px) {
             .about-section { padding: 40px 30px; }
-            .nav-links { display: none; }
+            .nav { height: auto; padding: 10px 16px; }
+            .nav-inner { flex-direction: column; align-items: flex-start; gap: 6px; }
+            .nav-links { flex-wrap: nowrap; overflow-x: auto; width: 100%; justify-content: flex-start; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+            .nav-links::-webkit-scrollbar { display: none; }
+            .nav-links a { padding: 6px 12px; }
         }
 
         @media (max-width: 600px) {
@@ -631,7 +647,7 @@
                 <div>
                     <p class="checklist-progress-text">Progresso: <span id="checkCount">0</span> de <span id="checkTotal">15</span> documentos reunidos</p>
                 </div>
-                <button class="checklist-reset" onclick="resetChecklist()" aria-label="Resetar checklist">↺ Limpar Seleção</button>
+                <button type="button" class="checklist-reset" onclick="resetChecklist()" aria-label="Resetar checklist">↺ Limpar Seleção</button>
             </div>
 
             <div class="progress-bar-track" role="progressbar" aria-valuemin="0" aria-valuemax="15" aria-valuenow="0" id="progressBar" aria-label="Progresso da documentação">
