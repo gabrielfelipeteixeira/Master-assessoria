@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>document.documentElement.classList.add("js");</script>
     <title>Crédito Corporativo | Master Consultoria</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -416,6 +417,17 @@
             .success-fee-box { padding: 30px 25px; }
             .execution-box { padding: 25px; }
         }
+
+        /* Sem JavaScript (prévia do WhatsApp/celular): menu vira linha rolável e some o que depende de JS */
+        html:not(.js) .checklist-reset { display: none; }
+        @media (max-width: 768px) {
+            html:not(.js) .nav { height: auto; padding: 10px 16px; }
+            html:not(.js) .nav-inner { flex-direction: column; align-items: flex-start; gap: 6px; }
+            html:not(.js) .nav-toggle { display: none; }
+            html:not(.js) .nav-links { display: flex; flex-wrap: nowrap; overflow-x: auto; width: 100%; justify-content: flex-start; scrollbar-width: none; }
+            html:not(.js) .nav-links::-webkit-scrollbar { display: none; }
+            html:not(.js) .nav-links a { padding: 6px 12px; }
+        }
     </style>
 </head>
 <body>
@@ -571,7 +583,62 @@
             </div>
 
             <div class="checklist-grid" id="checklistGrid">
-                </div>
+                <label class="checklist-item" for="chk0">
+                    <input type="checkbox" id="chk0" data-index="0">
+                    <span class="check-box" aria-hidden="true"></span>
+                    <span class="item-text">Cartão CNPJ atualizado</span>
+                </label>
+                <label class="checklist-item" for="chk1">
+                    <input type="checkbox" id="chk1" data-index="1">
+                    <span class="check-box" aria-hidden="true"></span>
+                    <span class="item-text">Contrato Social e todas as alterações</span>
+                </label>
+                <label class="checklist-item" for="chk2">
+                    <input type="checkbox" id="chk2" data-index="2">
+                    <span class="check-box" aria-hidden="true"></span>
+                    <span class="item-text">RG, CPF ou CNH dos sócios</span>
+                </label>
+                <label class="checklist-item" for="chk3">
+                    <input type="checkbox" id="chk3" data-index="3">
+                    <span class="check-box" aria-hidden="true"></span>
+                    <span class="item-text">Certidão de casamento (se aplicável)</span>
+                </label>
+                <label class="checklist-item" for="chk4">
+                    <input type="checkbox" id="chk4" data-index="4">
+                    <span class="check-box" aria-hidden="true"></span>
+                    <span class="item-text">Comprovante de residência dos sócios</span>
+                </label>
+                <label class="checklist-item" for="chk5">
+                    <input type="checkbox" id="chk5" data-index="5">
+                    <span class="check-box" aria-hidden="true"></span>
+                    <span class="item-text">Comprovante de endereço da empresa</span>
+                </label>
+                <label class="checklist-item" for="chk6">
+                    <input type="checkbox" id="chk6" data-index="6">
+                    <span class="check-box" aria-hidden="true"></span>
+                    <span class="item-text">Alvará de funcionamento (Importante)</span>
+                </label>
+                <label class="checklist-item" for="chk7">
+                    <input type="checkbox" id="chk7" data-index="7">
+                    <span class="check-box" aria-hidden="true"></span>
+                    <span class="item-text">Faturamento dos últimos 12 meses</span>
+                </label>
+                <label class="checklist-item" for="chk8">
+                    <input type="checkbox" id="chk8" data-index="8">
+                    <span class="check-box" aria-hidden="true"></span>
+                    <span class="item-text">Balanço Patrimonial (23, 24, 25 e 1º tri 26)</span>
+                </label>
+                <label class="checklist-item" for="chk9">
+                    <input type="checkbox" id="chk9" data-index="9">
+                    <span class="check-box" aria-hidden="true"></span>
+                    <span class="item-text">DRE (2023, 2024, 2025 e 1º tri 2026)</span>
+                </label>
+                <label class="checklist-item" for="chk10">
+                    <input type="checkbox" id="chk10" data-index="10">
+                    <span class="check-box" aria-hidden="true"></span>
+                    <span class="item-text">Relatório de Desempenho Financeiro (Engenheiros CVM)</span>
+                </label>
+            </div>
 
             <div class="execution-box">
                 <h4 style="color: var(--silver-light); font-size: 20px; font-family: 'Playfair Display', serif; margin-bottom: 10px;">Prazo de Execução</h4>
@@ -607,75 +674,44 @@
 
 <script>
 // ============================================================
-// CHECKLIST COM LOCALSTORAGE
+// CHECKLIST: os itens já estão no HTML (abre até sem JavaScript,
+// ex.: prévia do WhatsApp). Aqui só salvamos o progresso.
 // ============================================================
-var CHECKLIST_ITEMS = [
-    'Cartão CNPJ atualizado',
-    'Contrato Social e todas as alterações',
-    'RG, CPF ou CNH dos sócios',
-    'Certidão de casamento (se aplicável)',
-    'Comprovante de residência dos sócios',
-    'Comprovante de endereço da empresa',
-    'Alvará de funcionamento (Importante)',
-    'Faturamento dos últimos 12 meses',
-    'Balanço Patrimonial (23, 24, 25 e 1º tri 26)',
-    'DRE (2023, 2024, 2025 e 1º tri 2026)',
-    'Relatório de Desempenho Financeiro (Engenheiros CVM)'
-];
+(function () {
+    var STORAGE_KEY = 'master_corp_checklist';
+    var grid  = document.getElementById('checklistGrid');
+    var boxes = grid.querySelectorAll('input[type=checkbox]');
 
-var STORAGE_KEY = 'master_corp_checklist';
+    function load() {
+        try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); } catch (e) { return []; }
+    }
+    function save() {
+        var marked = [];
+        for (var i = 0; i < boxes.length; i++) if (boxes[i].checked) marked.push(i);
+        try { localStorage.setItem(STORAGE_KEY, JSON.stringify(marked)); } catch (e) {}
+    }
 
-function loadChecked() {
-    try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); } catch(e) { return []; }
-}
-function saveChecked(arr) {
-    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(arr)); } catch(e) {}
-}
+    function updateProgress() {
+        var done = grid.querySelectorAll('input:checked').length;
+        document.getElementById('checkCount').textContent = done;
+        document.getElementById('progressFill').style.width = (boxes.length ? done / boxes.length * 100 : 0).toFixed(1) + '%';
+        document.getElementById('progressBar').setAttribute('aria-valuenow', done);
+    }
 
-function renderChecklist() {
-    var checked = loadChecked();
-    var grid    = document.getElementById('checklistGrid');
-    var total   = CHECKLIST_ITEMS.length;
+    var saved = load();
+    for (var i = 0; i < boxes.length; i++) boxes[i].checked = saved.indexOf(i) !== -1;
 
-    grid.innerHTML = CHECKLIST_ITEMS.map(function(item, i) {
-        var isDone = checked.indexOf(i) !== -1;
-        return '<label class="checklist-item' + (isDone ? ' done' : '') + '" for="chk' + i + '">' +
-               '<input type="checkbox" id="chk' + i + '" data-index="' + i + '"' + (isDone ? ' checked' : '') + '>' +
-               '<span class="check-box"></span>' +
-               '<span class="item-text">' + item + '</span>' +
-               '</label>';
-    }).join('');
+    grid.addEventListener('change', function () { save(); updateProgress(); });
 
-    updateProgress(checked.length, total);
+    window.resetChecklist = function () {
+        if (!confirm('Deseja limpar todos os documentos marcados?')) return;
+        for (var i = 0; i < boxes.length; i++) boxes[i].checked = false;
+        save();
+        updateProgress();
+    };
 
-    grid.querySelectorAll('input[type=checkbox]').forEach(function(cb) {
-        cb.addEventListener('change', function() {
-            var idx     = parseInt(this.dataset.index);
-            var checked = loadChecked();
-            if (this.checked) {
-                if (checked.indexOf(idx) === -1) checked.push(idx);
-            } else {
-                checked = checked.filter(function(i) { return i !== idx; });
-            }
-            saveChecked(checked);
-            renderChecklist();
-        });
-    });
-}
-
-function updateProgress(done, total) {
-    document.getElementById('checkCount').textContent = done;
-    document.getElementById('checkTotal').textContent = total;
-    var pct = total > 0 ? (done / total * 100) : 0;
-    document.getElementById('progressFill').style.width = pct.toFixed(1) + '%';
-    document.getElementById('progressBar').setAttribute('aria-valuenow', done);
-}
-
-function resetChecklist() {
-    if (confirm('Deseja resetar o progresso do checklist?')) { saveChecked([]); renderChecklist(); }
-}
-
-renderChecklist();
+    updateProgress();
+})();
 
 // ============================================================
 // SCROLL SUAVE PARA ÂNCORAS

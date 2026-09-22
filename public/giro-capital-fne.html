@@ -607,46 +607,6 @@
         .nav.open .nav-toggle span:nth-child(2) { opacity: 0; }
         .nav.open .nav-toggle span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
 
-        /* SIMULADOR */
-        .sim {
-            display: grid; grid-template-columns: 1fr 1fr; gap: 30px;
-            background: linear-gradient(145deg, rgba(15,23,42,0.5) 0%, rgba(2,4,8,0.8) 100%);
-            border: 1px solid var(--border-chrome);
-            border-radius: 24px; padding: 40px;
-        }
-        .sim-inputs { display: flex; flex-direction: column; gap: 24px; }
-        .sim-field { display: flex; flex-direction: column; gap: 10px; }
-        .sim-field label { color: var(--silver-main); font-size: 15px; font-weight: 500; }
-        .sim-field output { color: #fff; font-weight: 600; }
-        .sim-field input[type="text"], .sim-field input[type="number"] {
-            background: rgba(0,0,0,0.35);
-            border: 1px solid rgba(255,255,255,0.12);
-            border-radius: 12px; padding: 14px 16px;
-            color: #fff; font: inherit; font-size: 17px;
-        }
-        .sim-field input[type="text"]:focus, .sim-field input[type="number"]:focus { border-color: var(--green); outline: none; }
-        .sim-field input[type="range"] { width: 100%; accent-color: var(--green); height: 28px; }
-        .sim-limit {
-            font-size: 15px; color: var(--text-dim);
-            background: rgba(16,185,129,0.06);
-            border: 1px solid rgba(16,185,129,0.2);
-            border-radius: 12px; padding: 14px 16px;
-        }
-        .sim-limit strong { color: var(--green-light); font-weight: 600; }
-        .sim-results { display: flex; flex-direction: column; gap: 12px; }
-        .sim-result {
-            display: flex; justify-content: space-between; align-items: baseline; gap: 16px;
-            padding: 16px 20px; border-radius: 14px;
-            background: rgba(255,255,255,0.02);
-            border: 1px solid rgba(255,255,255,0.05);
-        }
-        .sim-result span { color: var(--text-dim); font-size: 15px; }
-        .sim-result small { display: block; font-size: 12.5px; opacity: 0.8; }
-        .sim-result strong { color: #fff; font-size: 19px; font-weight: 600; white-space: nowrap; }
-        .sim-result-main { border-color: rgba(16,185,129,0.35); background: rgba(16,185,129,0.07); }
-        .sim-result-main strong { color: var(--green-light); font-size: 26px; }
-        .sim-note { color: #64748b; font-size: 13px; margin-top: 16px; line-height: 1.6; }
-
         @media (max-width: 768px) {
             /* Menu mobile */
             .nav-toggle { display: flex; }
@@ -665,12 +625,21 @@
                 backdrop-filter: none; -webkit-backdrop-filter: none;
             }
             .bg-glow { width: min(500px, 100vw); height: 500px; }
-
-            .sim { grid-template-columns: 1fr; padding: 28px 22px; }
         }
 
         /* Blur fica só onde faz diferença (nav); itens pequenos não precisam */
         .etapa-item, .checklist-item, .testimonial-card, .faq-item { backdrop-filter: none; -webkit-backdrop-filter: none; }
+
+        /* Sem JavaScript (prévia do WhatsApp/celular): menu vira linha rolável e some o que depende de JS */
+        html:not(.js) .checklist-reset { display: none; }
+        @media (max-width: 768px) {
+            html:not(.js) .nav { height: auto; padding: 10px 16px; }
+            html:not(.js) .nav-inner { flex-direction: column; align-items: flex-start; gap: 6px; }
+            html:not(.js) .nav-toggle { display: none; }
+            html:not(.js) .nav-links { display: flex; flex-wrap: nowrap; overflow-x: auto; width: 100%; justify-content: flex-start; scrollbar-width: none; }
+            html:not(.js) .nav-links::-webkit-scrollbar { display: none; }
+            html:not(.js) .nav-links a { padding: 6px 12px; }
+        }
     </style>
 </head>
 <body>
@@ -686,7 +655,6 @@
         <ul class="nav-links" id="navLinks">
             <li><a href="#parametros">Parâmetros</a></li>
             <li><a href="#processo">Processo</a></li>
-            <li><a href="#simulador">Simulador</a></li>
             <li><a href="#checklist">Checklist</a></li>
             <li><a href="#sucesso">Clientes</a></li>
             <li><a href="#sobre">Sobre</a></li>
@@ -774,68 +742,94 @@
             </div>
         </div>
 
-        <div class="reveal" id="simulador">
-            <h2 class="section-title">03 — Simule sua Operação</h2>
-            <p style="color:var(--text-dim);margin-bottom:30px;max-width:800px;font-size:17px;">Informe o faturamento anual da empresa e veja quanto pode ser liberado e como ficam as parcelas.</p>
-
-            <div class="sim">
-                <div class="sim-inputs">
-                    <div class="sim-field">
-                        <label for="simFat">Faturamento anual da empresa</label>
-                        <input type="text" id="simFat" inputmode="numeric" autocomplete="off" value="R$ 1.200.000,00">
-                    </div>
-                    <div class="sim-limit">Limite estimado (20% do faturamento): <strong id="simLimite">—</strong></div>
-                    <div class="sim-field">
-                        <label for="simValor">Valor desejado: <output id="simValorOut" for="simValor">—</output></label>
-                        <input type="range" id="simValor" min="0" max="240000" step="1000" value="240000">
-                    </div>
-                    <div class="sim-field">
-                        <label for="simTaxa">Taxa ao mês (%)</label>
-                        <input type="number" id="simTaxa" min="0" max="5" step="0.01" value="0.9">
-                    </div>
-                </div>
-
-                <div class="sim-results" aria-live="polite">
-                    <div class="sim-result">
-                        <span>Saldo após a carência <small>(6 meses sem parcelas, juros incorporados)</small></span>
-                        <strong id="simCarencia">—</strong>
-                    </div>
-                    <div class="sim-result sim-result-main">
-                        <span>Parcela na amortização <small>(30 meses)</small></span>
-                        <strong id="simParcela">—</strong>
-                    </div>
-                    <div class="sim-result">
-                        <span>Total de juros</span>
-                        <strong id="simJuros">—</strong>
-                    </div>
-                    <div class="sim-result">
-                        <span>Total pago em 36 meses</span>
-                        <strong id="simTotal">—</strong>
-                    </div>
-                </div>
-            </div>
-            <p class="sim-note">Simulação ilustrativa pela tabela Price. Nos 6 meses de carência não há pagamento; os juros do período são incorporados ao saldo e diluídos nas 30 parcelas. Valores finais dependem da análise de crédito e das condições vigentes do Banco do Nordeste na contratação.</p>
-        </div>
-
         <div class="reveal" id="checklist">
-            <h2 class="section-title">04 — Checklist Documental</h2>
+            <h2 class="section-title">03 — Checklist Documental</h2>
 
             <div class="checklist-header">
                 <div>
-                    <p class="checklist-progress-text">Progresso: <span id="checkCount">0</span> de <span id="checkTotal">0</span> documentos reunidos</p>
+                    <p class="checklist-progress-text">Progresso: <span id="checkCount">0</span> de <span id="checkTotal">13</span> documentos reunidos</p>
                 </div>
                 <button type="button" class="checklist-reset" onclick="resetChecklist()" aria-label="Resetar checklist">↺ Limpar Seleção</button>
             </div>
 
-            <div class="progress-bar-track" role="progressbar" aria-valuemin="0" aria-valuemax="0" aria-valuenow="0" id="progressBar" aria-label="Progresso da documentação">
+            <div class="progress-bar-track" role="progressbar" aria-valuemin="0" aria-valuemax="13" aria-valuenow="0" id="progressBar" aria-label="Progresso da documentação">
                 <div class="progress-bar-fill" id="progressFill" style="width: 0%;"></div>
             </div>
 
-            <div class="checklist-grid" id="checklistGrid"></div>
+            <div class="checklist-grid" id="checklistGrid">
+                <h3 class="checklist-group-title">Documentos Corporativos</h3>
+                <label class="checklist-item" for="chk0">
+                    <input type="checkbox" id="chk0" data-index="0">
+                    <span class="check-box" aria-hidden="true"></span>
+                    <span class="item-text">Cartão CNPJ</span>
+                </label>
+                <label class="checklist-item" for="chk1">
+                    <input type="checkbox" id="chk1" data-index="1">
+                    <span class="check-box" aria-hidden="true"></span>
+                    <span class="item-text">Contrato Social e alterações (se houver)</span>
+                </label>
+                <label class="checklist-item" for="chk2">
+                    <input type="checkbox" id="chk2" data-index="2">
+                    <span class="check-box" aria-hidden="true"></span>
+                    <span class="item-text">Faturamento dos últimos 12 meses (assinado digitalmente)</span>
+                </label>
+                <label class="checklist-item" for="chk3">
+                    <input type="checkbox" id="chk3" data-index="3">
+                    <span class="check-box" aria-hidden="true"></span>
+                    <span class="item-text">Comprovante de endereço da Empresa (recente)</span>
+                </label>
+                <label class="checklist-item" for="chk4">
+                    <input type="checkbox" id="chk4" data-index="4">
+                    <span class="check-box" aria-hidden="true"></span>
+                    <span class="item-text">Alvará de Funcionamento (se aplicável)</span>
+                </label>
+                <label class="checklist-item" for="chk5">
+                    <input type="checkbox" id="chk5" data-index="5">
+                    <span class="check-box" aria-hidden="true"></span>
+                    <span class="item-text">Fotos do estabelecimento (fachada e estrutura interna)</span>
+                </label>
+                <h3 class="checklist-group-title">Documentação Societária</h3>
+                <label class="checklist-item" for="chk6">
+                    <input type="checkbox" id="chk6" data-index="6">
+                    <span class="check-box" aria-hidden="true"></span>
+                    <span class="item-text">RG ou CNH de todos os sócios</span>
+                </label>
+                <label class="checklist-item" for="chk7">
+                    <input type="checkbox" id="chk7" data-index="7">
+                    <span class="check-box" aria-hidden="true"></span>
+                    <span class="item-text">Comprovante de Residência de todos os sócios</span>
+                </label>
+                <label class="checklist-item" for="chk8">
+                    <input type="checkbox" id="chk8" data-index="8">
+                    <span class="check-box" aria-hidden="true"></span>
+                    <span class="item-text">Declaração de Imposto de Renda (Pessoa Física) completa</span>
+                </label>
+                <label class="checklist-item" for="chk9">
+                    <input type="checkbox" id="chk9" data-index="9">
+                    <span class="check-box" aria-hidden="true"></span>
+                    <span class="item-text">Certidão de casamento (Se houver)</span>
+                </label>
+                <h3 class="checklist-group-title">Credenciais de Acesso</h3>
+                <label class="checklist-item" for="chk10">
+                    <input type="checkbox" id="chk10" data-index="10">
+                    <span class="check-box" aria-hidden="true"></span>
+                    <span class="item-text">E-mail e Telefone para contato</span>
+                </label>
+                <label class="checklist-item" for="chk11">
+                    <input type="checkbox" id="chk11" data-index="11">
+                    <span class="check-box" aria-hidden="true"></span>
+                    <span class="item-text">Certificado Digital A1 (.pfx) com senha</span>
+                </label>
+                <label class="checklist-item" for="chk12">
+                    <input type="checkbox" id="chk12" data-index="12">
+                    <span class="check-box" aria-hidden="true"></span>
+                    <span class="item-text">Senha GOV.BR (sem verificação em duas etapas)</span>
+                </label>
+            </div>
         </div>
 
         <div class="reveal" id="sucesso">
-            <h2 class="section-title">05 — Empresas Atendidas</h2>
+            <h2 class="section-title">04 — Empresas Atendidas</h2>
             <p style="color:var(--text-dim);margin-bottom:30px;font-size:17px;">Algumas das empresas que estruturaram seu crédito com o acompanhamento da Master Consultoria.</p>
 
             <div class="client-grid">
@@ -879,7 +873,7 @@
         </div>
 
         <div class="reveal" id="sobre">
-            <h2 class="section-title">06 — Quem Somos</h2>
+            <h2 class="section-title">05 — Quem Somos</h2>
             <div class="about-section">
                 <p>A <strong>Master Consultoria Empresarial</strong> é especialista em estruturação de crédito, fomento e alavancagem financeira para empresas de médio e pequeno porte. Com forte atuação em Mato Grosso, Ceará e em franca expansão nacional, nossa missão é desburocratizar o acesso ao capital corporativo.</p>
                 <p>Trabalhamos lado a lado com o empresário brasileiro, unindo conhecimento de mercado, compliance rigoroso e relacionamento sólido com as principais instituições financeiras, como o Banco do Nordeste e fundos constitucionais de fomento (FNE), entregando soluções ágeis e seguras para o crescimento do seu negócio.</p>
@@ -887,7 +881,7 @@
         </div>
 
         <div class="reveal" id="faq">
-            <h2 class="section-title">07 — Dúvidas Frequentes</h2>
+            <h2 class="section-title">06 — Dúvidas Frequentes</h2>
             <div class="faq-container">
                 <details class="faq-item">
                     <summary class="faq-question">
@@ -943,145 +937,43 @@
 
 <script>
 // ============================================================
-// CHECKLIST (salva no navegador)
-// ============================================================
-var CHECKLIST_GROUPS = [
-    { title: 'Documentos Corporativos', items: [
-        'Cartão CNPJ',
-        'Contrato Social e alterações (se houver)',
-        'Faturamento dos últimos 12 meses (assinado digitalmente)',
-        'Comprovante de endereço da Empresa (recente)',
-        'Alvará de Funcionamento (se aplicável)',
-        'Fotos do estabelecimento (fachada e estrutura interna)'
-    ]},
-    { title: 'Documentação Societária', items: [
-        'RG ou CNH de todos os sócios',
-        'Comprovante de Residência de todos os sócios',
-        'Declaração de Imposto de Renda (Pessoa Física) completa',
-        'Certidão de casamento (Se houver)'
-    ]},
-    { title: 'Credenciais de Acesso', items: [
-        'E-mail e Telefone para contato',
-        'Certificado Digital A1 (.pfx) com senha',
-        'Senha GOV.BR (sem verificação em duas etapas)'
-    ]}
-];
-
-// Lista plana (usada para contagem e para salvar o progresso)
-var CHECKLIST_ITEMS = CHECKLIST_GROUPS.reduce(function (acc, g) { return acc.concat(g.items); }, []);
-
-var STORAGE_KEY = 'master_fne_giro_checklist_v2';
-
-function loadChecked() {
-    try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); } catch (e) { return []; }
-}
-function saveChecked(arr) {
-    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(arr)); } catch (e) {}
-}
-
-function updateProgress() {
-    var total = CHECKLIST_ITEMS.length;
-    var done  = document.querySelectorAll('#checklistGrid input:checked').length;
-    document.getElementById('checkCount').textContent = done;
-    document.getElementById('checkTotal').textContent = total;
-    document.getElementById('progressFill').style.width = (total ? done / total * 100 : 0).toFixed(1) + '%';
-    var bar = document.getElementById('progressBar');
-    bar.setAttribute('aria-valuemax', total);
-    bar.setAttribute('aria-valuenow', done);
-}
-
-function renderChecklist() {
-    var checked = loadChecked();
-    var grid = document.getElementById('checklistGrid');
-
-    var i = 0;
-    grid.innerHTML = CHECKLIST_GROUPS.map(function (group) {
-        return '<h3 class="checklist-group-title">' + group.title + '</h3>' +
-            group.items.map(function (item) {
-                var idx = i++;
-                var isDone = checked.indexOf(idx) !== -1;
-                return '<label class="checklist-item" for="chk' + idx + '">' +
-                       '<input type="checkbox" id="chk' + idx + '" data-index="' + idx + '"' + (isDone ? ' checked' : '') + '>' +
-                       '<span class="check-box" aria-hidden="true"></span>' +
-                       '<span class="item-text">' + item + '</span>' +
-                       '</label>';
-            }).join('');
-    }).join('');
-
-    updateProgress();
-}
-
-// Um único listener; atualiza só o necessário (não perde o foco do teclado)
-document.getElementById('checklistGrid').addEventListener('change', function (e) {
-    if (!e.target.matches('input[type=checkbox]')) return;
-    var marked = Array.prototype.map.call(
-        this.querySelectorAll('input:checked'),
-        function (cb) { return parseInt(cb.dataset.index, 10); }
-    );
-    saveChecked(marked);
-    updateProgress();
-});
-
-function resetChecklist() {
-    if (confirm('Deseja limpar todos os documentos marcados?')) { saveChecked([]); renderChecklist(); }
-}
-
-renderChecklist();
-
-// ============================================================
-// SIMULADOR
+// CHECKLIST: os itens já estão no HTML (abre até sem JavaScript,
+// ex.: prévia do WhatsApp). Aqui só salvamos o progresso.
 // ============================================================
 (function () {
-    var CARENCIA = 6, AMORTIZACAO = 30, PERCENTUAL = 0.20;
+    var STORAGE_KEY = 'master_fne_giro_checklist_v2';
+    var grid  = document.getElementById('checklistGrid');
+    var boxes = grid.querySelectorAll('input[type=checkbox]');
 
-    var fatInput  = document.getElementById('simFat');
-    var valorIn   = document.getElementById('simValor');
-    var valorOut  = document.getElementById('simValorOut');
-    var taxaIn    = document.getElementById('simTaxa');
-
-    var brl = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' });
-
-    function parseBRL(str) {
-        var digits = (str || '').replace(/\D/g, '');
-        return digits ? parseInt(digits, 10) / 100 : 0;
+    function load() {
+        try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); } catch (e) { return []; }
+    }
+    function save() {
+        var marked = [];
+        for (var i = 0; i < boxes.length; i++) if (boxes[i].checked) marked.push(i);
+        try { localStorage.setItem(STORAGE_KEY, JSON.stringify(marked)); } catch (e) {}
     }
 
-    function setText(id, v) { document.getElementById(id).textContent = v; }
-
-    function calcular() {
-        var limite = Math.floor(parseBRL(fatInput.value) * PERCENTUAL / 1000) * 1000;
-        setText('simLimite', brl.format(limite));
-
-        // Ajusta o slider ao novo limite
-        var estavaNoMax = Number(valorIn.value) >= Number(valorIn.max);
-        valorIn.max = limite;
-        if (estavaNoMax || Number(valorIn.value) > limite) valorIn.value = limite;
-
-        var pv = Number(valorIn.value);
-        var i  = Math.max(0, parseFloat(String(taxaIn.value).replace(',', '.')) || 0) / 100;
-
-        valorOut.textContent = brl.format(pv);
-
-        // Carência sem pagamento: juros capitalizados no saldo
-        var saldo   = pv * Math.pow(1 + i, CARENCIA);
-        var parcela = i > 0 ? saldo * i / (1 - Math.pow(1 + i, -AMORTIZACAO)) : saldo / AMORTIZACAO;
-        var total   = parcela * AMORTIZACAO;
-
-        setText('simCarencia', brl.format(saldo));
-        setText('simParcela',  brl.format(parcela));
-        setText('simJuros',    brl.format(total - pv));
-        setText('simTotal',    brl.format(total));
+    function updateProgress() {
+        var done = grid.querySelectorAll('input:checked').length;
+        document.getElementById('checkCount').textContent = done;
+        document.getElementById('progressFill').style.width = (boxes.length ? done / boxes.length * 100 : 0).toFixed(1) + '%';
+        document.getElementById('progressBar').setAttribute('aria-valuenow', done);
     }
 
-    // Máscara de moeda
-    fatInput.addEventListener('input', function () {
-        this.value = brl.format(parseBRL(this.value));
-        calcular();
-    });
-    valorIn.addEventListener('input', calcular);
-    taxaIn.addEventListener('input', calcular);
+    var saved = load();
+    for (var i = 0; i < boxes.length; i++) boxes[i].checked = saved.indexOf(i) !== -1;
 
-    calcular();
+    grid.addEventListener('change', function () { save(); updateProgress(); });
+
+    window.resetChecklist = function () {
+        if (!confirm('Deseja limpar todos os documentos marcados?')) return;
+        for (var i = 0; i < boxes.length; i++) boxes[i].checked = false;
+        save();
+        updateProgress();
+    };
+
+    updateProgress();
 })();
 
 // ============================================================

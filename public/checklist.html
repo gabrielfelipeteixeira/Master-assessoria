@@ -6,6 +6,7 @@
     <meta name="robots" content="noindex">
     <title>Checklist Documental | Master Consultoria Empresarial</title>
     <meta name="theme-color" content="#04070d">
+    <script>document.documentElement.classList.add("js");</script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -132,6 +133,8 @@
         .checklist-item input:checked ~ .item-text { color: rgba(255,255,255,0.35); text-decoration: line-through; }
         .checklist-item input:focus-visible + .check-box, .btn:focus-visible { outline: 2px solid var(--green-light); outline-offset: 3px; }
 
+        html:not(.js) .actions, html:not(.js) .progress-bar-track { display: none; }
+
         .footer {
             margin-top: 60px; padding-top: 30px;
             border-top: 1px solid rgba(255,255,255,0.05);
@@ -175,18 +178,99 @@
     <main>
         <div class="progress-card">
             <div class="progress-head">
-                <p class="status-text" id="statusText" aria-live="polite"></p>
+                <p class="status-text" id="statusText" aria-live="polite">13 documentos necessários</p>
                 <div class="actions">
-                    <button type="button" class="btn btn-ghost" id="btnReset">↺ Limpar seleção</button>
+                    <button type="button" class="btn btn-ghost" onclick="resetChecklist()">↺ Limpar seleção</button>
                     <button type="button" class="btn btn-primary" onclick="window.print()">Gerar PDF</button>
                 </div>
             </div>
-            <div class="progress-bar-track" role="progressbar" aria-valuemin="0" aria-label="Progresso da documentação" id="progressBar">
+            <div class="progress-bar-track" role="progressbar" aria-valuemin="0" aria-valuemax="13" aria-valuenow="0" aria-label="Progresso da documentação" id="progressBar">
                 <div class="progress-bar-fill" id="progressFill"></div>
             </div>
         </div>
 
-        <div id="groups"></div>
+        <div id="groups">
+            <section class="group">
+                <h2 class="group-title">Documentos Corporativos</h2>
+                <div class="checklist-grid">
+                    <label class="checklist-item" for="chk0">
+                        <input type="checkbox" id="chk0" data-index="0">
+                        <span class="check-box" aria-hidden="true"></span>
+                        <span class="item-text">Cartão CNPJ</span>
+                    </label>
+                    <label class="checklist-item" for="chk1">
+                        <input type="checkbox" id="chk1" data-index="1">
+                        <span class="check-box" aria-hidden="true"></span>
+                        <span class="item-text">Contrato Social e alterações (se houver)</span>
+                    </label>
+                    <label class="checklist-item" for="chk2">
+                        <input type="checkbox" id="chk2" data-index="2">
+                        <span class="check-box" aria-hidden="true"></span>
+                        <span class="item-text">Faturamento dos últimos 12 meses (assinado digitalmente)</span>
+                    </label>
+                    <label class="checklist-item" for="chk3">
+                        <input type="checkbox" id="chk3" data-index="3">
+                        <span class="check-box" aria-hidden="true"></span>
+                        <span class="item-text">Comprovante de endereço da Empresa (recente)</span>
+                    </label>
+                    <label class="checklist-item" for="chk4">
+                        <input type="checkbox" id="chk4" data-index="4">
+                        <span class="check-box" aria-hidden="true"></span>
+                        <span class="item-text">Alvará de Funcionamento (se aplicável)</span>
+                    </label>
+                    <label class="checklist-item" for="chk5">
+                        <input type="checkbox" id="chk5" data-index="5">
+                        <span class="check-box" aria-hidden="true"></span>
+                        <span class="item-text">Fotos do estabelecimento (fachada e estrutura interna)</span>
+                    </label>
+                </div>
+            </section>
+            <section class="group">
+                <h2 class="group-title">Documentação Societária</h2>
+                <div class="checklist-grid">
+                    <label class="checklist-item" for="chk6">
+                        <input type="checkbox" id="chk6" data-index="6">
+                        <span class="check-box" aria-hidden="true"></span>
+                        <span class="item-text">RG ou CNH de todos os sócios</span>
+                    </label>
+                    <label class="checklist-item" for="chk7">
+                        <input type="checkbox" id="chk7" data-index="7">
+                        <span class="check-box" aria-hidden="true"></span>
+                        <span class="item-text">Comprovante de Residência de todos os sócios</span>
+                    </label>
+                    <label class="checklist-item" for="chk8">
+                        <input type="checkbox" id="chk8" data-index="8">
+                        <span class="check-box" aria-hidden="true"></span>
+                        <span class="item-text">Declaração de Imposto de Renda (Pessoa Física) completa</span>
+                    </label>
+                    <label class="checklist-item" for="chk9">
+                        <input type="checkbox" id="chk9" data-index="9">
+                        <span class="check-box" aria-hidden="true"></span>
+                        <span class="item-text">Certidão de casamento (Se houver)</span>
+                    </label>
+                </div>
+            </section>
+            <section class="group">
+                <h2 class="group-title">Credenciais de Acesso</h2>
+                <div class="checklist-grid">
+                    <label class="checklist-item" for="chk10">
+                        <input type="checkbox" id="chk10" data-index="10">
+                        <span class="check-box" aria-hidden="true"></span>
+                        <span class="item-text">E-mail e Telefone para contato</span>
+                    </label>
+                    <label class="checklist-item" for="chk11">
+                        <input type="checkbox" id="chk11" data-index="11">
+                        <span class="check-box" aria-hidden="true"></span>
+                        <span class="item-text">Certificado Digital A1 (.pfx) com senha</span>
+                    </label>
+                    <label class="checklist-item" for="chk12">
+                        <input type="checkbox" id="chk12" data-index="12">
+                        <span class="check-box" aria-hidden="true"></span>
+                        <span class="item-text">Senha GOV.BR (sem verificação em duas etapas)</span>
+                    </label>
+                </div>
+            </section>
+        </div>
     </main>
 
     <footer class="footer">
@@ -195,88 +279,50 @@
 </div>
 
 <script>
-var CHECKLIST_GROUPS = [
-    {
-        "title": "Documentos Corporativos",
-        "items": [
-            "Cartão CNPJ",
-            "Contrato Social e alterações (se houver)",
-            "Faturamento dos últimos 12 meses (assinado digitalmente)",
-            "Comprovante de endereço da Empresa (recente)",
-            "Alvará de Funcionamento (se aplicável)",
-            "Fotos do estabelecimento (fachada e estrutura interna)"
-        ]
-    },
-    {
-        "title": "Documentação Societária",
-        "items": [
-            "RG ou CNH de todos os sócios",
-            "Comprovante de Residência de todos os sócios",
-            "Declaração de Imposto de Renda (Pessoa Física) completa",
-            "Certidão de casamento (Se houver)"
-        ]
-    },
-    {
-        "title": "Credenciais de Acesso",
-        "items": [
-            "E-mail e Telefone para contato",
-            "Certificado Digital A1 (.pfx) com senha",
-            "Senha GOV.BR (sem verificação em duas etapas)"
-        ]
+// ============================================================
+// CHECKLIST: os itens já estão no HTML (abre até sem JavaScript,
+// ex.: prévia do WhatsApp). Aqui só salvamos o progresso.
+// ============================================================
+(function () {
+    var STORAGE_KEY = 'master_checklist_empresa';
+    var grid  = document.getElementById('groups');
+    var boxes = grid.querySelectorAll('input[type=checkbox]');
+
+    function load() {
+        try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); } catch (e) { return []; }
     }
-];
-var STORAGE_KEY = 'master_checklist_empresa';
+    function save() {
+        var marked = [];
+        for (var i = 0; i < boxes.length; i++) if (boxes[i].checked) marked.push(i);
+        try { localStorage.setItem(STORAGE_KEY, JSON.stringify(marked)); } catch (e) {}
+    }
 
-function loadChecked() {
-    try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); } catch (e) { return []; }
-}
-function saveChecked(arr) {
-    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(arr)); } catch (e) {}
-}
+    function updateProgress() {
+        var total = boxes.length;
+        var done  = grid.querySelectorAll('input:checked').length;
+        var status = document.getElementById('statusText');
+        status.className = 'status-text' + (done === total ? ' done' : '');
+        status.innerHTML = done === total
+            ? '<strong>Documentação completa ✓</strong>'
+            : 'Progresso: <strong>' + done + ' de ' + total + '</strong> documentos reunidos';
+        document.getElementById('progressFill').style.width = (total ? done / total * 100 : 0).toFixed(1) + '%';
+        document.getElementById('progressBar').setAttribute('aria-valuenow', done);
+    }
 
-function updateProgress() {
-    var total = document.querySelectorAll('#groups input').length;
-    var done  = document.querySelectorAll('#groups input:checked').length;
-    var status = document.getElementById('statusText');
-    status.className = 'status-text' + (done === total ? ' done' : '');
-    status.innerHTML = done === total
-        ? '<strong>Documentação completa ✓</strong>'
-        : 'Progresso: <strong>' + done + ' de ' + total + '</strong> documentos reunidos';
-    document.getElementById('progressFill').style.width = (total ? done / total * 100 : 0).toFixed(1) + '%';
-    var bar = document.getElementById('progressBar');
-    bar.setAttribute('aria-valuemax', total);
-    bar.setAttribute('aria-valuenow', done);
-}
+    var saved = load();
+    for (var i = 0; i < boxes.length; i++) boxes[i].checked = saved.indexOf(i) !== -1;
 
-function render() {
-    var checked = loadChecked();
-    var i = 0;
-    document.getElementById('groups').innerHTML = CHECKLIST_GROUPS.map(function (group) {
-        return '<section class="group"><h2 class="group-title">' + group.title + '</h2><div class="checklist-grid">' +
-            group.items.map(function (item) {
-                var idx = i++;
-                return '<label class="checklist-item" for="chk' + idx + '">' +
-                       '<input type="checkbox" id="chk' + idx + '" data-index="' + idx + '"' + (checked.indexOf(idx) !== -1 ? ' checked' : '') + '>' +
-                       '<span class="check-box" aria-hidden="true"></span>' +
-                       '<span class="item-text">' + item + '</span>' +
-                       '</label>';
-            }).join('') + '</div></section>';
-    }).join('');
+    grid.addEventListener('change', function () { save(); updateProgress(); });
+
+    window.resetChecklist = function () {
+        if (!confirm('Deseja limpar todos os documentos marcados?')) return;
+        for (var i = 0; i < boxes.length; i++) boxes[i].checked = false;
+        save();
+        updateProgress();
+    };
+
     updateProgress();
-}
-
-document.getElementById('groups').addEventListener('change', function () {
-    saveChecked(Array.prototype.map.call(this.querySelectorAll('input:checked'), function (cb) {
-        return parseInt(cb.dataset.index, 10);
-    }));
-    updateProgress();
-});
-
-document.getElementById('btnReset').addEventListener('click', function () {
-    if (confirm('Deseja limpar todos os documentos marcados?')) { saveChecked([]); render(); }
-});
-
-render();
+})();
 </script>
 
 </body>
