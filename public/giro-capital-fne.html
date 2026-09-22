@@ -2,14 +2,15 @@
 <html lang="pt-br"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Juros de Capital - BNB | Master Consultoria Empresarial</title>
+    <title>FNE Giro (Capital de Giro) - BNB | Master Consultoria Empresarial</title>
 
     <meta property="og:type" content="website">
-    <meta property="og:title" content="Juros de Capital - BNB | Master Consultoria Empresarial">
+    <meta property="og:title" content="FNE Giro (Capital de Giro) - BNB | Master Consultoria Empresarial">
     <meta property="og:description" content="Linha de crédito com taxa fixa de 0,9% a.m., via Banco do Nordeste (FNE). Liberação de até 20% do seu faturamento anual com 6 meses de carência.">
     <meta property="og:locale" content="pt_BR">
     <meta name="description" content="Solução financeira em parceria com o Banco do Nordeste. Até 20% do faturamento anual com taxa fixa de 0,9% a.m. e 36 meses para pagar.">
     <meta name="theme-color" content="#04070d">
+    <script>document.documentElement.classList.add("js");</script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com/">
     <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
@@ -359,6 +360,14 @@
         .progress-bar-fill { height: 100%; background: linear-gradient(90deg, #059669, #34d399); border-radius: 3px; transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1); box-shadow: 0 0 15px rgba(16,185,129,0.6); }
 
         .checklist-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 18px; margin-top: 20px; }
+        .checklist-group-title {
+            grid-column: 1 / -1;
+            font-family: 'Playfair Display', serif;
+            font-size: 21px; font-weight: 500; color: var(--silver-light);
+            margin-top: 22px; padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+        .checklist-group-title:first-child { margin-top: 0; }
         
         .checklist-item {
             display: flex; align-items: center; gap: 18px; font-size: 15px; color: var(--silver-main);
@@ -375,8 +384,7 @@
             box-shadow: 0 10px 20px rgba(0,0,0,0.2); 
             color: #ffffff;
         }
-        .checklist-item input[type="checkbox"] { position: absolute; opacity: 0; width: 1px; height: 1px; pointer-events: none; }
-        .checklist-item input[type="checkbox"]:focus-visible + .check-box { outline: 2px solid var(--green); outline-offset: 3px; }
+        .checklist-item input[type="checkbox"] { display: none; }
         
         .check-box {
             width: 24px; height: 24px; border: 2px solid rgba(255,255,255,0.2); border-radius: 6px;
@@ -512,25 +520,10 @@
         /* FOOTER */
         .footer { margin-top: 100px; padding-top: 35px; border-top: 1px solid rgba(255,255,255,0.05); text-align: center; font-size: 11px; color: #475569; letter-spacing: 3px; text-transform: uppercase; }
 
-        /* Links do menu não herdam o estilo das listas de conteúdo */
-        .nav-links li { padding: 0; margin: 0; }
-        .nav-links li::before { content: none; }
-
-        a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px solid var(--green); outline-offset: 3px; }
-
-        @media (prefers-reduced-motion: reduce) {
-            body { animation: none; }
-            *, *::before, *::after { transition: none !important; }
-        }
-
         /* RESPONSIVE */
         @media (max-width: 768px) {
             .about-section { padding: 40px 30px; }
-            .nav { height: auto; padding: 10px 16px; }
-            .nav-inner { flex-direction: column; align-items: flex-start; gap: 6px; }
-            .nav-links { flex-wrap: nowrap; overflow-x: auto; width: 100%; justify-content: flex-start; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
-            .nav-links::-webkit-scrollbar { display: none; }
-            .nav-links a { padding: 6px 12px; }
+            .nav-links { display: none; }
         }
 
         @media (max-width: 600px) {
@@ -541,6 +534,131 @@
             .faq-answer { padding: 0 24px 24px 24px; font-size: 15px; }
             .faq-divider { margin: 0 24px 15px 24px; }
         }
+
+        /* ============================================
+           AJUSTES (revisão)
+        ============================================ */
+
+        /* Bug: estilo global de li vazava para o menu */
+        .nav-links li { padding: 0; margin: 0; }
+        .nav-links li::before { content: none; }
+        .nav-links li:hover { color: inherit; }
+
+        /* Scroll suave nativo + compensação do nav fixo */
+        [id] { scroll-margin-top: calc(var(--nav-h) + 20px); }
+        @media (prefers-reduced-motion: no-preference) {
+            html { scroll-behavior: smooth; }
+        }
+
+        /* Foco visível para teclado */
+        a:focus-visible, button:focus-visible, summary:focus-visible, input:focus-visible {
+            outline: 2px solid var(--green-light);
+            outline-offset: 3px;
+        }
+
+        /* Checklist acessível: checkbox oculto só visualmente */
+        .checklist-item input[type="checkbox"] {
+            display: block;
+            position: absolute; width: 1px; height: 1px;
+            margin: -1px; padding: 0; overflow: hidden;
+            clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+        }
+        .checklist-item { position: relative; }
+        .checklist-item input[type="checkbox"]:focus-visible + .check-box {
+            outline: 2px solid var(--green-light);
+            outline-offset: 3px;
+        }
+
+        /* Reveal ao rolar (só com JS e sem redução de movimento) */
+        @media (prefers-reduced-motion: no-preference) {
+            .js .reveal {
+                opacity: 0;
+                transform: translateY(30px);
+                transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s cubic-bezier(0.16,1,0.3,1);
+            }
+            .js .reveal.is-visible { opacity: 1; transform: none; }
+        }
+
+        /* Botão do menu mobile */
+        .nav-toggle {
+            display: none;
+            background: none; border: 0; cursor: pointer;
+            width: 40px; height: 40px; padding: 9px;
+            flex-direction: column; justify-content: space-between;
+        }
+        .nav-toggle span {
+            display: block; height: 2px; width: 100%;
+            background: var(--silver-light); border-radius: 2px;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+        .nav.open .nav-toggle span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+        .nav.open .nav-toggle span:nth-child(2) { opacity: 0; }
+        .nav.open .nav-toggle span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+        /* SIMULADOR */
+        .sim {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 30px;
+            background: linear-gradient(145deg, rgba(15,23,42,0.5) 0%, rgba(2,4,8,0.8) 100%);
+            border: 1px solid var(--border-chrome);
+            border-radius: 24px; padding: 40px;
+        }
+        .sim-inputs { display: flex; flex-direction: column; gap: 24px; }
+        .sim-field { display: flex; flex-direction: column; gap: 10px; }
+        .sim-field label { color: var(--silver-main); font-size: 15px; font-weight: 500; }
+        .sim-field output { color: #fff; font-weight: 600; }
+        .sim-field input[type="text"], .sim-field input[type="number"] {
+            background: rgba(0,0,0,0.35);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 12px; padding: 14px 16px;
+            color: #fff; font: inherit; font-size: 17px;
+        }
+        .sim-field input[type="text"]:focus, .sim-field input[type="number"]:focus { border-color: var(--green); outline: none; }
+        .sim-field input[type="range"] { width: 100%; accent-color: var(--green); height: 28px; }
+        .sim-limit {
+            font-size: 15px; color: var(--text-dim);
+            background: rgba(16,185,129,0.06);
+            border: 1px solid rgba(16,185,129,0.2);
+            border-radius: 12px; padding: 14px 16px;
+        }
+        .sim-limit strong { color: var(--green-light); font-weight: 600; }
+        .sim-results { display: flex; flex-direction: column; gap: 12px; }
+        .sim-result {
+            display: flex; justify-content: space-between; align-items: baseline; gap: 16px;
+            padding: 16px 20px; border-radius: 14px;
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        .sim-result span { color: var(--text-dim); font-size: 15px; }
+        .sim-result small { display: block; font-size: 12.5px; opacity: 0.8; }
+        .sim-result strong { color: #fff; font-size: 19px; font-weight: 600; white-space: nowrap; }
+        .sim-result-main { border-color: rgba(16,185,129,0.35); background: rgba(16,185,129,0.07); }
+        .sim-result-main strong { color: var(--green-light); font-size: 26px; }
+        .sim-note { color: #64748b; font-size: 13px; margin-top: 16px; line-height: 1.6; }
+
+        @media (max-width: 768px) {
+            /* Menu mobile */
+            .nav-toggle { display: flex; }
+            .nav.open .nav-links {
+                display: flex; flex-direction: column; gap: 4px;
+                position: absolute; top: var(--nav-h); left: 0; right: 0;
+                background: #03060c; box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+                border-bottom: 1px solid rgba(255,255,255,0.06);
+                padding: 12px 24px 20px;
+            }
+            .nav.open .nav-links a { display: block; padding: 12px 16px; font-size: 15px; }
+
+            /* Performance em celular: sem fundo animado e sem blur nos itens menores */
+            body { animation: none; background-size: 100% 100%; }
+            .etapa-item, .checklist-item, .testimonial-card, .faq-item, .card, .intro-letter, .about-section, .diferencial {
+                backdrop-filter: none; -webkit-backdrop-filter: none;
+            }
+            .bg-glow { width: min(500px, 100vw); height: 500px; }
+
+            .sim { grid-template-columns: 1fr; padding: 28px 22px; }
+        }
+
+        /* Blur fica só onde faz diferença (nav); itens pequenos não precisam */
+        .etapa-item, .checklist-item, .testimonial-card, .faq-item { backdrop-filter: none; -webkit-backdrop-filter: none; }
     </style>
 </head>
 <body>
@@ -550,9 +668,13 @@
 <nav class="nav" aria-label="Navegação principal">
     <div class="nav-inner">
         <span class="nav-brand">Master Consultoria</span>
-        <ul class="nav-links">
+        <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="navLinks" aria-label="Abrir menu">
+            <span></span><span></span><span></span>
+        </button>
+        <ul class="nav-links" id="navLinks">
             <li><a href="#parametros">Parâmetros</a></li>
             <li><a href="#processo">Processo</a></li>
+            <li><a href="#simulador">Simulador</a></li>
             <li><a href="#checklist">Checklist</a></li>
             <li><a href="#sucesso">Casos</a></li>
             <li><a href="#sobre">Sobre</a></li>
@@ -565,13 +687,13 @@
 
     <header class="hero">
         <div class="tag">MASTER CONSULTORIA EMPRESARIAL</div>
-        <h1>Linha de Crédito Juros de Capital</h1>
+        <h1>Linha de Crédito FNE Giro</h1>
         <p>Solução financeira estratégica em parceria com o Banco do Nordeste e recursos do Fundo FNE. Estruturação dedicada para impulsionar sua empresa com taxa fixa e alta previsibilidade.</p>
     </header>
 
     <div class="intro-letter animate-2">
         <h4>Prezado(a) Cliente,</h4>
-        <p>Agradecemos pela oportunidade de apresentar nossa proposta de serviços de consultoria. Nosso objetivo principal é fornecer soluções financeiras estruturadas e personalizadas que ajudem a sua empresa a alcançar seus objetivos de crescimento, escalar faturamento e aumentar sua estrutura comercial de forma blindada.</p>
+        <p>Agradecemos pela oportunidade de apresentar nossa proposta de serviços de consultoria. Nosso objetivo principal é fornecer soluções financeiras estruturadas e personalizadas que ajudem a sua empresa a alcançar seus objetivos de crescimento, escalar faturamento e aumentar sua estrutura comercial com segurança.</p>
     </div>
 
     <main class="animate-2">
@@ -590,7 +712,7 @@
             </div>
             <div class="card">
                 <h3>Mecânica e Parceria</h3>
-                <p style="font-size:15px;color:var(--text-dim);margin-bottom:20px;line-height:1.7;">O programa Juros de Capital foi desenhado para alavancar o crescimento do empresário com previsibilidade, através da nossa aliança estratégica:</p>
+                <p style="font-size:15px;color:var(--text-dim);margin-bottom:20px;line-height:1.7;">O FNE Giro foi desenhado para alavancar o crescimento do empresário com previsibilidade, através da nossa aliança estratégica:</p>
                 <ul>
                     <li><strong>Instituição Parceira:</strong> Operação conduzida e aprovada via Banco do Nordeste.</li>
                     <li><strong>Origem dos Recursos:</strong> Lastreado diretamente pelos fundos de desenvolvimento do FNE.</li>
@@ -621,7 +743,7 @@
                 <div class="etapa-numero">03</div>
                 <div class="etapa-text">
                     <h4>Protocolo no Banco do Nordeste</h4>
-                    <p>Entrada formal e submissão do pedido de crédito estruturado na linha Juros de Capital (FNE).</p>
+                    <p>Entrada formal e submissão do pedido de crédito estruturado na linha FNE Giro.</p>
                 </div>
             </div>
             <div class="etapa-item">
@@ -640,30 +762,73 @@
             </div>
         </div>
 
-        <div class="animate-3" id="checklist">
-            <h2 class="section-title">03 — Checklist Documental</h2>
+        <div class="reveal" id="simulador">
+            <h2 class="section-title">03 — Simule sua Operação</h2>
+            <p style="color:var(--text-dim);margin-bottom:30px;max-width:800px;font-size:17px;">Informe o faturamento anual da empresa e veja quanto pode ser liberado e como ficam as parcelas.</p>
+
+            <div class="sim">
+                <div class="sim-inputs">
+                    <div class="sim-field">
+                        <label for="simFat">Faturamento anual da empresa</label>
+                        <input type="text" id="simFat" inputmode="numeric" autocomplete="off" value="R$ 1.200.000,00">
+                    </div>
+                    <div class="sim-limit">Limite estimado (20% do faturamento): <strong id="simLimite">—</strong></div>
+                    <div class="sim-field">
+                        <label for="simValor">Valor desejado: <output id="simValorOut" for="simValor">—</output></label>
+                        <input type="range" id="simValor" min="0" max="240000" step="1000" value="240000">
+                    </div>
+                    <div class="sim-field">
+                        <label for="simTaxa">Taxa ao mês (%)</label>
+                        <input type="number" id="simTaxa" min="0" max="5" step="0.01" value="0.9">
+                    </div>
+                </div>
+
+                <div class="sim-results" aria-live="polite">
+                    <div class="sim-result">
+                        <span>Saldo após a carência <small>(6 meses sem parcelas, juros incorporados)</small></span>
+                        <strong id="simCarencia">—</strong>
+                    </div>
+                    <div class="sim-result sim-result-main">
+                        <span>Parcela na amortização <small>(30 meses)</small></span>
+                        <strong id="simParcela">—</strong>
+                    </div>
+                    <div class="sim-result">
+                        <span>Total de juros</span>
+                        <strong id="simJuros">—</strong>
+                    </div>
+                    <div class="sim-result">
+                        <span>Total pago em 36 meses</span>
+                        <strong id="simTotal">—</strong>
+                    </div>
+                </div>
+            </div>
+            <p class="sim-note">Simulação ilustrativa pela tabela Price. Nos 6 meses de carência não há pagamento; os juros do período são incorporados ao saldo e diluídos nas 30 parcelas. Valores finais dependem da análise de crédito e das condições vigentes do Banco do Nordeste na contratação.</p>
+        </div>
+
+        <div class="reveal" id="checklist">
+            <h2 class="section-title">04 — Checklist Documental</h2>
 
             <div class="checklist-header">
                 <div>
-                    <p class="checklist-progress-text">Progresso: <span id="checkCount">0</span> de <span id="checkTotal">15</span> documentos reunidos</p>
+                    <p class="checklist-progress-text">Progresso: <span id="checkCount">0</span> de <span id="checkTotal">0</span> documentos reunidos</p>
                 </div>
                 <button type="button" class="checklist-reset" onclick="resetChecklist()" aria-label="Resetar checklist">↺ Limpar Seleção</button>
             </div>
 
-            <div class="progress-bar-track" role="progressbar" aria-valuemin="0" aria-valuemax="15" aria-valuenow="0" id="progressBar" aria-label="Progresso da documentação">
+            <div class="progress-bar-track" role="progressbar" aria-valuemin="0" aria-valuemax="0" aria-valuenow="0" id="progressBar" aria-label="Progresso da documentação">
                 <div class="progress-bar-fill" id="progressFill" style="width: 0%;"></div>
             </div>
 
             <div class="checklist-grid" id="checklistGrid"></div>
         </div>
 
-        <div class="animate-3" id="sucesso">
-            <h2 class="section-title">04 — Casos de Sucesso</h2>
+        <div class="reveal" id="sucesso">
+            <h2 class="section-title">05 — Casos de Sucesso</h2>
             <p style="color:var(--text-dim);margin-bottom:30px;font-size:17px;">Confira empresas que estruturaram suas finanças e alavancaram seus negócios através do nosso acompanhamento especializado junto ao Banco do Nordeste no Ceará.</p>
 
             <div class="testimonial-grid">
                 <div class="testimonial-card">
-                    <p class="testimonial-text">"O enquadramento na linha Juros de Capital foi perfeito. Garantimos uma taxa fixa de 0,9% que viabilizou a expansão da nossa produção de forma totalmente previsível."</p>
+                    <p class="testimonial-text">"O enquadramento no FNE Giro foi perfeito. Garantimos uma taxa fixa de 0,9% que viabilizou a expansão da nossa produção de forma totalmente previsível."</p>
                     <div class="testimonial-author">
                         <div class="author-avatar">E</div>
                         <div class="author-info">
@@ -727,37 +892,37 @@
             </div>
         </div>
 
-        <div class="animate-3" id="sobre">
-            <h2 class="section-title">05 — Quem Somos</h2>
+        <div class="reveal" id="sobre">
+            <h2 class="section-title">06 — Quem Somos</h2>
             <div class="about-section">
                 <p>A <strong>Master Consultoria Empresarial</strong> é especialista em estruturação de crédito, fomento e alavancagem financeira para empresas de médio e pequeno porte. Com forte atuação em Mato Grosso, Ceará e em franca expansão nacional, nossa missão é desburocratizar o acesso ao capital corporativo.</p>
-                <p>Trabalhamos lado a lado com o empresário brasileiro, unindo conhecimento de mercado, compliance rigoroso e relacionamento sólido com as principais instituições financeiras, como o Banco do Nordeste e fundos constitucionais de fomento (FNE), entregando soluções ágeis e blindadas para o crescimento do seu negócio.</p>
+                <p>Trabalhamos lado a lado com o empresário brasileiro, unindo conhecimento de mercado, compliance rigoroso e relacionamento sólido com as principais instituições financeiras, como o Banco do Nordeste e fundos constitucionais de fomento (FNE), entregando soluções ágeis e seguras para o crescimento do seu negócio.</p>
             </div>
         </div>
 
-        <div class="animate-3" id="faq">
-            <h2 class="section-title">06 — Dúvidas Frequentes</h2>
+        <div class="reveal" id="faq">
+            <h2 class="section-title">07 — Dúvidas Frequentes</h2>
             <div class="faq-container">
                 <details class="faq-item">
                     <summary class="faq-question">
                         A Master Consultoria cobra algum valor adiantado?
-                        <svg class="faq-icon" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"></path></svg>
+                        <svg class="faq-icon" aria-hidden="true" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"></path></svg>
                     </summary>
                     <div class="faq-divider"></div>
-                    <div class="faq-answer"><strong>Absolutamente não.</strong> Nosso compromisso é com o seu resultado. Operamos sob o modelo de <em>Success Fee</em> (Taxa de Sucesso), o que significa que nossos honorários só serão devidos <strong>após a efetiva aprovação e o recurso estar liberado</strong> na conta da sua empresa. Risco zero para o seu negócio.</div>
+                    <div class="faq-answer"><strong>Absolutamente não.</strong> Nosso compromisso é com o seu resultado. Operamos sob o modelo de <em>Success Fee</em> (Taxa de Sucesso), o que significa que nossos honorários só serão devidos <strong>após a efetiva aprovação e o recurso estar liberado</strong> na conta da sua empresa. Se o crédito não sair, você não paga nada pela consultoria.</div>
                 </details>
                 <details class="faq-item">
                     <summary class="faq-question">
                         A taxa de 0,9% ao mês realmente não muda?
-                        <svg class="faq-icon" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"></path></svg>
+                        <svg class="faq-icon" aria-hidden="true" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"></path></svg>
                     </summary>
                     <div class="faq-divider"></div>
-                    <div class="faq-answer"><strong>Exatamente.</strong> A linha Juros de Capital através da nossa parceria com o Banco do Nordeste / FNE possui <strong>Taxa Fixa</strong>. O seu contrato não sofre oscilações atreladas a índices econômicos como Selic ou IPCA. Você sabe o valor da parcela do início ao fim dos 36 meses.</div>
+                    <div class="faq-answer"><strong>Exatamente.</strong> A linha FNE Giro, através da nossa parceria com o Banco do Nordeste / FNE possui <strong>Taxa Fixa</strong>. O seu contrato não sofre oscilações atreladas a índices econômicos como Selic ou IPCA. Você sabe o valor da parcela do início ao fim dos 36 meses.</div>
                 </details>
                 <details class="faq-item">
                     <summary class="faq-question">
                         E se a minha empresa não tiver conta no Banco do Nordeste?
-                        <svg class="faq-icon" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"></path></svg>
+                        <svg class="faq-icon" aria-hidden="true" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"></path></svg>
                     </summary>
                     <div class="faq-divider"></div>
                     <div class="faq-answer"><strong>Nós cuidamos de toda a estruturação bancária.</strong> Não é impeditivo não ter conta prévia. Após a aprovação do seu perfil, nossa equipe conduzirá a abertura da conta e a negociação das reciprocidades diretamente com a gerência do banco.</div>
@@ -765,7 +930,7 @@
                 <details class="faq-item">
                     <summary class="faq-question">
                         Quanto tempo leva todo o processo até o recurso cair na conta?
-                        <svg class="faq-icon" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"></path></svg>
+                        <svg class="faq-icon" aria-hidden="true" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"></path></svg>
                     </summary>
                     <div class="faq-divider"></div>
                     <div class="faq-answer">O ciclo completo, desde a análise documental inicial até a liberação do crédito, leva em média de <strong>30 a 60 dias úteis</strong>. Este prazo pode ser otimizado dependendo da rapidez no envio dos documentos do nosso checklist.</div>
@@ -773,7 +938,7 @@
             </div>
         </div>
 
-        <section class="diferencial animate-3">
+        <section class="diferencial reveal">
             <h3>Garantias e Transparência</h3>
             <div class="success-fee-box">
                 <h4>Atendimento Ético e Seguro</h4>
@@ -784,81 +949,92 @@
 
     </main>
 
-    <footer class="footer animate-3">
-        Documento Confidencial • Uso Institucional • Master Consultoria Empresarial
+    <footer class="footer reveal">
+        Master Consultoria Empresarial • Edifício Top Tower Center, Sala 101 - Avenida do CPA. Cuiabá - MT
     </footer>
 
 </div>
 
 <script>
 // ============================================================
-// CHECKLIST COM LOCALSTORAGE E ANIMAÇÃO
+// CHECKLIST (salva no navegador)
 // ============================================================
-var CHECKLIST_ITEMS = [
-    'Cartão CNPJ atualizado',
-    'Contrato Social e alterações (se houver)',
-    'Faturamento dos últimos 12 meses (assinado digitalmente)',
-    'Comprovante de endereço da Empresa (recente)',
-    'Todos os Alvarás (Obrigatórios)',
-    'Fotos do estabelecimento (fachada e estrutura interna)',
-    'RG ou CNH de todos os sócios',
-    'Comprovante de Residência de todos os sócios',
-    'Declaração de Imposto de Renda (Pessoa Física) completa',
-    'Certidão de casamento (Se houver)',
-    'E-mail e Telefone para contato',
-    'Certificado Digital A1 (.pfx)',
-    'Acesso GOV.BR (nível prata ou ouro)',
-    'Relatório de desempenho assinado pelos engenheiros CNR',
-    'e-Social (1 funcionário registrado obrigatório)'
+var CHECKLIST_GROUPS = [
+    { title: 'Documentos Corporativos', items: [
+        'Cartão CNPJ',
+        'Contrato Social e alterações (se houver)',
+        'Faturamento dos últimos 12 meses (assinado digitalmente)',
+        'Comprovante de endereço da Empresa (recente)',
+        'Alvará de Funcionamento (se aplicável)',
+        'Fotos do estabelecimento (fachada e estrutura interna)'
+    ]},
+    { title: 'Documentação Societária', items: [
+        'RG ou CNH de todos os sócios',
+        'Comprovante de Residência de todos os sócios',
+        'Declaração de Imposto de Renda (Pessoa Física) completa',
+        'Certidão de casamento (Se houver)'
+    ]},
+    { title: 'Credenciais de Acesso', items: [
+        'E-mail e Telefone para contato',
+        'Certificado Digital A1 (.pfx) com senha',
+        'Senha GOV.BR (sem verificação em duas etapas)'
+    ]}
 ];
 
-var STORAGE_KEY = 'master_juros_capital_checklist_ceara';
+// Lista plana (usada para contagem e para salvar o progresso)
+var CHECKLIST_ITEMS = CHECKLIST_GROUPS.reduce(function (acc, g) { return acc.concat(g.items); }, []);
+
+var STORAGE_KEY = 'master_fne_giro_checklist_v2';
 
 function loadChecked() {
-    try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); } catch(e) { return []; }
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); } catch (e) { return []; }
 }
 function saveChecked(arr) {
-    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(arr)); } catch(e) {}
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(arr)); } catch (e) {}
+}
+
+function updateProgress() {
+    var total = CHECKLIST_ITEMS.length;
+    var done  = document.querySelectorAll('#checklistGrid input:checked').length;
+    document.getElementById('checkCount').textContent = done;
+    document.getElementById('checkTotal').textContent = total;
+    document.getElementById('progressFill').style.width = (total ? done / total * 100 : 0).toFixed(1) + '%';
+    var bar = document.getElementById('progressBar');
+    bar.setAttribute('aria-valuemax', total);
+    bar.setAttribute('aria-valuenow', done);
 }
 
 function renderChecklist() {
     var checked = loadChecked();
-    var grid    = document.getElementById('checklistGrid');
-    var total   = CHECKLIST_ITEMS.length;
+    var grid = document.getElementById('checklistGrid');
 
-    grid.innerHTML = CHECKLIST_ITEMS.map(function(item, i) {
-        var isDone = checked.indexOf(i) !== -1;
-        return '<label class="checklist-item' + (isDone ? ' done' : '') + '" for="chk' + i + '">' +
-               '<input type="checkbox" id="chk' + i + '" data-index="' + i + '"' + (isDone ? ' checked' : '') + '>' +
-               '<span class="check-box"></span>' +
-               '<span class="item-text">' + item + '</span>' +
-               '</label>';
+    var i = 0;
+    grid.innerHTML = CHECKLIST_GROUPS.map(function (group) {
+        return '<h3 class="checklist-group-title">' + group.title + '</h3>' +
+            group.items.map(function (item) {
+                var idx = i++;
+                var isDone = checked.indexOf(idx) !== -1;
+                return '<label class="checklist-item" for="chk' + idx + '">' +
+                       '<input type="checkbox" id="chk' + idx + '" data-index="' + idx + '"' + (isDone ? ' checked' : '') + '>' +
+                       '<span class="check-box" aria-hidden="true"></span>' +
+                       '<span class="item-text">' + item + '</span>' +
+                       '</label>';
+            }).join('');
     }).join('');
 
-    updateProgress(checked.length, total);
-
-    grid.querySelectorAll('input[type=checkbox]').forEach(function(cb) {
-        cb.addEventListener('change', function() {
-            var idx     = parseInt(this.dataset.index);
-            var checked = loadChecked();
-            if (this.checked) {
-                if (checked.indexOf(idx) === -1) checked.push(idx);
-            } else {
-                checked = checked.filter(function(i) { return i !== idx; });
-            }
-            saveChecked(checked);
-            renderChecklist();
-        });
-    });
+    updateProgress();
 }
 
-function updateProgress(done, total) {
-    document.getElementById('checkCount').textContent = done;
-    document.getElementById('checkTotal').textContent = total;
-    var pct = total > 0 ? (done / total * 100) : 0;
-    document.getElementById('progressFill').style.width = pct.toFixed(1) + '%';
-    document.getElementById('progressBar').setAttribute('aria-valuenow', done);
-}
+// Um único listener; atualiza só o necessário (não perde o foco do teclado)
+document.getElementById('checklistGrid').addEventListener('change', function (e) {
+    if (!e.target.matches('input[type=checkbox]')) return;
+    var marked = Array.prototype.map.call(
+        this.querySelectorAll('input:checked'),
+        function (cb) { return parseInt(cb.dataset.index, 10); }
+    );
+    saveChecked(marked);
+    updateProgress();
+});
 
 function resetChecklist() {
     if (confirm('Deseja limpar todos os documentos marcados?')) { saveChecked([]); renderChecklist(); }
@@ -867,19 +1043,98 @@ function resetChecklist() {
 renderChecklist();
 
 // ============================================================
-// SCROLL SUAVE PARA ÂNCORAS
+// SIMULADOR
 // ============================================================
-document.querySelectorAll('a[href^="#"]').forEach(function(a) {
-    a.addEventListener('click', function(e) {
-        var target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-            e.preventDefault();
-            var navH = document.querySelector('.nav').offsetHeight;
-            var top  = target.getBoundingClientRect().top + window.scrollY - navH - 20;
-            window.scrollTo({ top: top, behavior: 'smooth' });
-        }
+(function () {
+    var CARENCIA = 6, AMORTIZACAO = 30, PERCENTUAL = 0.20;
+
+    var fatInput  = document.getElementById('simFat');
+    var valorIn   = document.getElementById('simValor');
+    var valorOut  = document.getElementById('simValorOut');
+    var taxaIn    = document.getElementById('simTaxa');
+
+    var brl = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' });
+
+    function parseBRL(str) {
+        var digits = (str || '').replace(/\D/g, '');
+        return digits ? parseInt(digits, 10) / 100 : 0;
+    }
+
+    function setText(id, v) { document.getElementById(id).textContent = v; }
+
+    function calcular() {
+        var limite = Math.floor(parseBRL(fatInput.value) * PERCENTUAL / 1000) * 1000;
+        setText('simLimite', brl.format(limite));
+
+        // Ajusta o slider ao novo limite
+        var estavaNoMax = Number(valorIn.value) >= Number(valorIn.max);
+        valorIn.max = limite;
+        if (estavaNoMax || Number(valorIn.value) > limite) valorIn.value = limite;
+
+        var pv = Number(valorIn.value);
+        var i  = Math.max(0, parseFloat(String(taxaIn.value).replace(',', '.')) || 0) / 100;
+
+        valorOut.textContent = brl.format(pv);
+
+        // Carência sem pagamento: juros capitalizados no saldo
+        var saldo   = pv * Math.pow(1 + i, CARENCIA);
+        var parcela = i > 0 ? saldo * i / (1 - Math.pow(1 + i, -AMORTIZACAO)) : saldo / AMORTIZACAO;
+        var total   = parcela * AMORTIZACAO;
+
+        setText('simCarencia', brl.format(saldo));
+        setText('simParcela',  brl.format(parcela));
+        setText('simJuros',    brl.format(total - pv));
+        setText('simTotal',    brl.format(total));
+    }
+
+    // Máscara de moeda
+    fatInput.addEventListener('input', function () {
+        this.value = brl.format(parseBRL(this.value));
+        calcular();
     });
-});
+    valorIn.addEventListener('input', calcular);
+    taxaIn.addEventListener('input', calcular);
+
+    calcular();
+})();
+
+// ============================================================
+// MENU MOBILE
+// ============================================================
+(function () {
+    var nav = document.querySelector('.nav');
+    var btn = document.querySelector('.nav-toggle');
+
+    function setOpen(open) {
+        nav.classList.toggle('open', open);
+        btn.setAttribute('aria-expanded', open);
+        btn.setAttribute('aria-label', open ? 'Fechar menu' : 'Abrir menu');
+    }
+    btn.addEventListener('click', function () { setOpen(!nav.classList.contains('open')); });
+    document.querySelectorAll('.nav-links a').forEach(function (a) {
+        a.addEventListener('click', function () { setOpen(false); });
+    });
+})();
+
+// ============================================================
+// REVEAL AO ROLAR
+// ============================================================
+(function () {
+    var items = document.querySelectorAll('.reveal');
+    if (!('IntersectionObserver' in window)) {
+        items.forEach(function (el) { el.classList.add('is-visible'); });
+        return;
+    }
+    var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('is-visible');
+                io.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    items.forEach(function (el) { io.observe(el); });
+})();
 </script>
 
 </body></html>

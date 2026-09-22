@@ -4,474 +4,280 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="noindex">
-    <title>Dossiê Premium - Master Consultoria Empresarial</title>
-    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <title>Checklist Documental | Master Consultoria Empresarial</title>
+    <meta name="theme-color" content="#04070d">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,500;0,600;1,500&display=swap" rel="stylesheet">
+
     <style>
         :root {
-            --bg-dark: #020203;
-            --card-bg: rgba(8, 10, 14, 0.95);
-            --primary-blue: #001224;
-            --accent-blue: #0044cc;
-            --glow-blue: rgba(0, 68, 204, 0.4);
-            --text-light: #f4f4f4;
-            --text-muted: #a8a8b8;
-            --border-color: #1a1f2b;
+            --silver-light: #f8fafc;
+            --silver-main: #cbd5e1;
+            --silver-dark: #94a3b8;
+            --text-main: #f1f5f9;
+            --text-dim: #94a3b8;
+            --text-chrome: linear-gradient(180deg, #ffffff 0%, #cbd5e1 50%, #94a3b8 100%);
+            --green: #10b981;
+            --green-light: #34d399;
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Baskerville', 'Libre Baskerville', serif;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html { background: #020408; }
 
         body {
-            background-color: var(--bg-dark);
-            background-image: linear-gradient(135deg, #000411 0%, #00152b 50%, #000411 100%);
-            color: var(--text-light);
-            line-height: 1.7;
-            padding: 40px 15px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(-45deg, #020408, #0a1128, #050b14, #020408);
+            color: var(--text-main);
+            line-height: 1.6;
             min-height: 100vh;
         }
 
-        .document-wrapper {
-            width: 100%;
-            max-width: 900px;
-            background: var(--card-bg);
-            backdrop-filter: blur(20px);
-            border-radius: 4px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8), 0 0 30px rgba(0, 18, 36, 0.6);
-            border: 1px solid #1a2a40;
-            overflow: hidden;
-            position: relative;
+        body::before {
+            content: '';
+            position: fixed; inset: 0;
+            background: url('data:image/svg+xml;utf8,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.85%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22 opacity=%220.035%22/%3E%3C/svg%3E');
+            pointer-events: none; z-index: -1;
         }
 
-        .progress-container {
-            width: 100%;
-            height: 4px;
-            background: #000;
-            position: absolute;
-            top: 0;
-            left: 0;
-            z-index: 10;
-        }
+        .container { max-width: 900px; margin: 0 auto; padding: 70px 24px; }
 
-        .progress-bar {
-            height: 100%;
-            width: 0%;
-            background: linear-gradient(90deg, #002266, var(--accent-blue), #5588ff);
-            box-shadow: 0 0 15px var(--accent-blue);
-            transition: width 0.6s ease-in-out;
+        /* CABEÇALHO */
+        .hero { text-align: center; margin-bottom: 50px; }
+        .hero .tag {
+            display: inline-block;
+            color: var(--green-light);
+            font-size: 12.5px; font-weight: 600;
+            text-transform: uppercase; letter-spacing: 5px;
+            margin-bottom: 22px;
+            background: rgba(16, 185, 129, 0.08);
+            padding: 8px 22px; border-radius: 30px;
+            border: 1px solid rgba(16, 185, 129, 0.2);
         }
-
-        header {
-            padding: 60px 30px 40px;
-            text-align: center;
-            border-bottom: 1px solid #1a2a40;
-            background: radial-gradient(circle at top, rgba(0, 40, 100, 0.2), transparent 80%);
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(34px, 5vw, 52px);
+            background: var(--text-chrome);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1.15; margin-bottom: 16px;
         }
+        .hero p { font-size: 17px; color: var(--silver-main); font-weight: 300; max-width: 640px; margin: 0 auto; }
 
-        header h1 {
-            font-size: 42px;
-            font-weight: 700;
-            letter-spacing: 2px;
-            color: #ffffff;
-            text-shadow: 0 4px 15px rgba(0, 0, 0, 0.9);
-            margin-bottom: 10px;
-            text-transform: uppercase;
+        /* PROGRESSO */
+        .progress-card {
+            background: linear-gradient(145deg, rgba(15,23,42,0.5) 0%, rgba(2,4,8,0.8) 100%);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 20px; padding: 26px 30px; margin-bottom: 40px;
         }
-
-        header p {
-            font-size: 15px;
-            font-weight: 400;
-            letter-spacing: 6px;
-            color: #77aaff;
-            text-transform: uppercase;
-            font-style: italic;
-        }
-
-        main {
-            padding: 50px 40px;
-        }
-
-        fieldset {
-            border: 1px solid #1a2a40;
-            border-radius: 2px;
-            margin-bottom: 50px;
-            padding: 40px 30px 25px;
-            position: relative;
-            background: rgba(0, 5, 10, 0.4);
-            transition: all 0.4s ease;
-        }
-
-        fieldset:hover {
-            border-color: #3366cc;
-            background: rgba(0, 15, 30, 0.6);
-        }
-
-        legend {
-            color: #ffffff;
-            font-size: 20px;
-            font-weight: 700;
-            letter-spacing: 2px;
-            padding: 8px 30px;
-            background: #000a14;
-            border: 1px solid #3366cc;
-            margin-left: 10px;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.8);
-            text-transform: uppercase;
-        }
-
-        .check-container {
-            display: flex;
-            align-items: center;
-            position: relative;
-            padding-left: 55px;
-            margin-bottom: 30px;
-            cursor: pointer;
-            font-size: 17px;
-            font-weight: 400;
-            color: var(--text-muted);
-            transition: all 0.4s ease;
-            letter-spacing: 0.5px;
-        }
-
-        .check-container:hover {
-            color: #ffffff;
-            transform: translateX(5px);
-        }
-
-        .check-container input {
-            position: absolute;
-            opacity: 0;
-            cursor: pointer;
-            height: 0;
-            width: 0;
-        }
-
-        .checkmark {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            left: 10px;
-            height: 24px;
-            width: 24px;
-            background-color: transparent;
-            border: 1px solid #445566;
+        .progress-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 16px; }
+        .status-text { font-size: 15px; color: var(--text-dim); }
+        .status-text strong { color: #fff; font-weight: 600; }
+        .status-text.done strong { color: var(--green-light); }
+        .actions { display: flex; gap: 10px; flex-wrap: wrap; }
+        .btn {
+            font: inherit; font-size: 13.5px; font-weight: 500;
+            padding: 9px 18px; border-radius: 30px; cursor: pointer;
             transition: all 0.3s ease;
         }
+        .btn-primary { background: var(--green); color: #04070d; border: 1px solid var(--green); }
+        .btn-primary:hover { background: var(--green-light); border-color: var(--green-light); }
+        .btn-ghost { background: rgba(255,255,255,0.03); color: var(--silver-main); border: 1px solid rgba(255,255,255,0.1); }
+        .btn-ghost:hover { background: rgba(255,255,255,0.08); color: #fff; border-color: rgba(255,255,255,0.25); }
+        .progress-bar-track { height: 6px; background: rgba(255,255,255,0.05); border-radius: 3px; overflow: hidden; }
+        .progress-bar-fill { height: 100%; width: 0; background: linear-gradient(90deg, #059669, #34d399); border-radius: 3px; transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1); box-shadow: 0 0 15px rgba(16,185,129,0.6); }
 
-        .check-container:hover .checkmark {
-            border-color: #77aaff;
+        /* GRUPOS */
+        .group { margin-bottom: 40px; }
+        .group-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 24px; font-weight: 500; color: #fff;
+            display: flex; align-items: center; gap: 14px;
+            margin-bottom: 18px;
+        }
+        .group-title::before {
+            content: ''; width: 10px; height: 10px; border-radius: 50%;
+            background: var(--green); box-shadow: 0 0 12px var(--green); flex-shrink: 0;
+        }
+        .group-title::after { content: ''; flex-grow: 1; height: 1px; background: linear-gradient(90deg, rgba(255,255,255,0.1), transparent); }
+
+        .checklist-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; }
+
+        .checklist-item {
+            position: relative;
+            display: flex; align-items: center; gap: 16px;
+            font-size: 15px; color: var(--silver-main);
+            background: linear-gradient(145deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.005) 100%);
+            padding: 18px 22px; border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.05);
+            cursor: pointer; user-select: none;
+            transition: all 0.3s ease;
+        }
+        .checklist-item:hover { background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.15); color: #fff; }
+        .checklist-item input {
+            position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0;
+            overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+        }
+        .check-box {
+            width: 24px; height: 24px; flex-shrink: 0;
+            border: 2px solid rgba(255,255,255,0.2); border-radius: 6px;
+            background: rgba(0,0,0,0.3);
+            display: flex; align-items: center; justify-content: center;
+            transition: all 0.3s ease;
+        }
+        .checklist-item input:checked + .check-box { background: var(--green); border-color: var(--green); box-shadow: 0 0 10px rgba(16,185,129,0.4); }
+        .checklist-item input:checked + .check-box::after { content: "✓"; color: #04070d; font-weight: 900; font-size: 16px; }
+        .checklist-item input:checked ~ .item-text { color: rgba(255,255,255,0.35); text-decoration: line-through; }
+        .checklist-item input:focus-visible + .check-box, .btn:focus-visible { outline: 2px solid var(--green-light); outline-offset: 3px; }
+
+        .footer {
+            margin-top: 60px; padding-top: 30px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            text-align: center; font-size: 11px; color: #64748b;
+            letter-spacing: 2px; text-transform: uppercase;
         }
 
-        .check-container input:checked ~ .checkmark {
-            background-color: var(--accent-blue);
-            border-color: var(--accent-blue);
-            box-shadow: 0 0 20px var(--glow-blue);
+        @media (max-width: 600px) {
+            .container { padding: 44px 16px; }
+            .progress-card { padding: 22px 20px; }
+            .actions { width: 100%; }
+            .actions .btn { flex: 1; }
         }
 
-        .check-container:has(input:checked) {
-            color: #ffffff;
-        }
-
-        .check-container input:focus-visible ~ .checkmark {
-            outline: 2px solid #77aaff;
-            outline-offset: 3px;
-        }
-
-        .btn-reset {
-            background: transparent;
-            color: #667788;
-            border: none;
-            font-size: 12px;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            cursor: pointer;
-            margin-bottom: 20px;
-            text-decoration: underline;
-        }
-
-        .btn-reset:hover { color: #ffffff; }
-
-        .checkmark:after {
-            content: "";
-            position: absolute;
-            display: none;
-            left: 7px;
-            top: 2px;
-            width: 6px;
-            height: 12px;
-            border: solid #ffffff;
-            border-width: 0 2px 2px 0;
-            transform: rotate(45deg);
-        }
-
-        .check-container input:checked ~ .checkmark:after {
-            display: block;
-        }
-
-        footer {
-            background-color: #010102;
-            padding: 40px 30px;
-            text-align: center;
-            border-top: 1px solid #1a2a40;
-        }
-
-        .status-text {
-            font-size: 18px;
-            font-weight: 700;
-            color: #77aaff;
-            margin-bottom: 20px;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-        }
-
-        footer p {
-            font-size: 12px;
-            font-weight: 400;
-            color: #667788;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-        }
-
-        .btn-print {
-            background: transparent;
-            color: #ffffff;
-            border: 1px solid #77aaff;
-            padding: 18px 50px;
-            font-size: 16px;
-            font-weight: 700;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            cursor: pointer;
-            margin-bottom: 40px;
-            transition: all 0.4s ease;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
-        }
-
-        .btn-print:hover {
-            background: #002255;
-            border-color: #ffffff;
-            box-shadow: 0 15px 40px rgba(0, 68, 204, 0.6);
-            transform: translateY(-2px);
-        }
-
-        /* AJUSTES PARA CELULAR (RESPONSIVIDADE) */
-        @media (max-width: 768px) {
-            body {
-                padding: 20px 10px;
-            }
-            header {
-                padding: 40px 20px 30px;
-            }
-            header h1 {
-                font-size: 26px; /* Letra menor para não quebrar a tela */
-                letter-spacing: 1px;
-            }
-            header p {
-                font-size: 11px;
-                letter-spacing: 3px;
-            }
-            main {
-                padding: 30px 20px;
-            }
-            fieldset {
-                padding: 30px 15px 20px;
-                margin-bottom: 40px;
-            }
-            legend {
-                font-size: 15px;
-                padding: 6px 15px;
-                margin-left: 0;
-                letter-spacing: 1px;
-                width: 90%; /* Ajuste para não vazar a borda */
-                text-align: center;
-            }
-            .check-container {
-                font-size: 15px;
-                padding-left: 45px;
-                margin-bottom: 25px;
-            }
-            .check-container:hover {
-                transform: none; /* Desativa a animação de lado no touch */
-            }
-            .checkmark {
-                height: 22px;
-                width: 22px;
-                left: 5px;
-            }
-            .btn-print {
-                padding: 15px 20px;
-                font-size: 14px;
-                width: 100%; /* Botão ocupa toda a largura */
-                letter-spacing: 2px;
-            }
-            .status-text {
-                font-size: 15px;
-            }
-            footer p {
-                font-size: 10px;
-                letter-spacing: 1px;
-            }
-        }
-
-        /* Ocultar elementos na impressão */
+        /* IMPRESSÃO / PDF */
         @media print {
-            body { background: #fff; color: #000; padding: 0; }
-            .document-wrapper { box-shadow: none; border: none; background: #fff; max-width: 100%; }
-            header h1, header p, legend, .check-container, footer p { color: #000; text-shadow: none; }
-            header { background: none; border-bottom: 2px solid #000; padding: 20px; }
-            legend { background: #fff; border: 1px solid #000; box-shadow: none; width: auto; }
-            fieldset { border: 1px solid #000; background: none; margin-bottom: 30px; padding: 30px 20px 20px; }
-            .checkmark { border: 1px solid #000; background: #fff !important; box-shadow: none !important; }
-            .check-container input:checked ~ .checkmark:after { border-color: #000; }
-            .btn-print, .btn-reset, .progress-container, .status-text { display: none; }
-            footer { background: #fff; border-top: 2px solid #000; padding: 20px; }
+            body { background: #fff; color: #000; }
+            body::before, .actions, .progress-bar-track { display: none; }
+            .container { padding: 0; }
+            .hero .tag { background: none; border: 1px solid #000; color: #000; }
+            .hero h1 { background: none; -webkit-text-fill-color: #000; color: #000; }
+            .hero p, .status-text, .status-text strong, .group-title, .checklist-item, .footer { color: #000 !important; }
+            .progress-card, .checklist-item { background: none; border: 1px solid #999; }
+            .group-title::before { background: #000; box-shadow: none; }
+            .group { break-inside: avoid; }
+            .check-box { border-color: #000; background: #fff !important; box-shadow: none !important; }
+            .checklist-item input:checked + .check-box::after { color: #000; }
+            .checklist-item input:checked ~ .item-text { color: #000; text-decoration: none; }
         }
     </style>
 </head>
 <body>
 
-    <button type="button" class="btn-print" onclick="window.print()">GERAR DOSSIÊ OFICIAL</button>
+<div class="container">
+    <header class="hero">
+        <div class="tag">Master Consultoria Empresarial</div>
+        <h1>Checklist Documental</h1>
+        <p>Dossiê de crédito institucional. Marque os documentos conforme for reunindo; o progresso fica salvo neste navegador.</p>
+    </header>
 
-    <div class="document-wrapper">
-        <div class="progress-container">
-            <div class="progress-bar" id="progressBar"></div>
+    <main>
+        <div class="progress-card">
+            <div class="progress-head">
+                <p class="status-text" id="statusText" aria-live="polite"></p>
+                <div class="actions">
+                    <button type="button" class="btn btn-ghost" id="btnReset">↺ Limpar seleção</button>
+                    <button type="button" class="btn btn-primary" onclick="window.print()">Gerar PDF</button>
+                </div>
+            </div>
+            <div class="progress-bar-track" role="progressbar" aria-valuemin="0" aria-label="Progresso da documentação" id="progressBar">
+                <div class="progress-bar-fill" id="progressFill"></div>
+            </div>
         </div>
 
-        <header>
-            <h1>MASTER CONSULTORIA EMPRESARIAL</h1>
-            <p>Dossiê de Crédito Institucional</p>
-        </header>
+        <div id="groups"></div>
+    </main>
 
-        <main>
-            <form id="checklistForm">
-                <fieldset>
-                    <legend>Documentos Corporativos</legend>
-                    <label class="check-container">Cartão CNPJ
-                        <input type="checkbox" class="doc-check">
-                        <span class="checkmark"></span>
-                    </label>
-                    <label class="check-container">Contrato Social e alterações (se houver)
-                        <input type="checkbox" class="doc-check">
-                        <span class="checkmark"></span>
-                    </label>
-                    <label class="check-container">Faturamento dos últimos 12 meses (assinado digitalmente)
-                        <input type="checkbox" class="doc-check">
-                        <span class="checkmark"></span>
-                    </label>
-                    <label class="check-container">Comprovante de endereço da Empresa (recente)
-                        <input type="checkbox" class="doc-check">
-                        <span class="checkmark"></span>
-                    </label>
-                    <label class="check-container">Alvará de Funcionamento (se aplicável)
-                        <input type="checkbox" class="doc-check">
-                        <span class="checkmark"></span>
-                    </label>
-                    <label class="check-container">Fotos do estabelecimento (fachada e estrutura interna)
-                        <input type="checkbox" class="doc-check">
-                        <span class="checkmark"></span>
-                    </label>
-                </fieldset>
+    <footer class="footer">
+        Master Consultoria Empresarial • Edifício Top Tower Center, Sala 101 - Avenida do CPA. Cuiabá - MT
+    </footer>
+</div>
 
-                <fieldset>
-                    <legend>Documentação Societária</legend>
-                    <label class="check-container">RG ou CNH de todos os sócios
-                        <input type="checkbox" class="doc-check">
-                        <span class="checkmark"></span>
-                    </label>
-                    <label class="check-container">Comprovante de Residência de todos os sócios
-                        <input type="checkbox" class="doc-check">
-                        <span class="checkmark"></span>
-                    </label>
-                    <label class="check-container">Declaração de Imposto de Renda (Pessoa Física) completa
-                        <input type="checkbox" class="doc-check">
-                        <span class="checkmark"></span>
-                    </label>
-                    <label class="check-container">Certidão de casamento (Se houver)
-                        <input type="checkbox" class="doc-check">
-                        <span class="checkmark"></span>
-                    </label>
-                </fieldset>
+<script>
+var CHECKLIST_GROUPS = [
+    {
+        "title": "Documentos Corporativos",
+        "items": [
+            "Cartão CNPJ",
+            "Contrato Social e alterações (se houver)",
+            "Faturamento dos últimos 12 meses (assinado digitalmente)",
+            "Comprovante de endereço da Empresa (recente)",
+            "Alvará de Funcionamento (se aplicável)",
+            "Fotos do estabelecimento (fachada e estrutura interna)"
+        ]
+    },
+    {
+        "title": "Documentação Societária",
+        "items": [
+            "RG ou CNH de todos os sócios",
+            "Comprovante de Residência de todos os sócios",
+            "Declaração de Imposto de Renda (Pessoa Física) completa",
+            "Certidão de casamento (Se houver)"
+        ]
+    },
+    {
+        "title": "Credenciais de Acesso",
+        "items": [
+            "E-mail e Telefone para contato",
+            "Certificado Digital A1 (.pfx) com senha",
+            "Senha GOV.BR (sem verificação em duas etapas)"
+        ]
+    }
+];
+var STORAGE_KEY = 'master_checklist_empresa';
 
-                <fieldset>
-                    <legend>Credenciais de Acesso</legend>
-                    <label class="check-container">E-mail e Telefone para contato
-                        <input type="checkbox" class="doc-check">
-                        <span class="checkmark"></span>
-                    </label>
-                    <label class="check-container">Certificado Digital A1 (.pfx) com senha
-                        <input type="checkbox" class="doc-check">
-                        <span class="checkmark"></span>
-                    </label>
-                    <label class="check-container">Senha GOV.BR (sem verificação em duas etapas)
-                        <input type="checkbox" class="doc-check">
-                        <span class="checkmark"></span>
-                    </label>
-                </fieldset>
-            </form>
-        </main>
+function loadChecked() {
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); } catch (e) { return []; }
+}
+function saveChecked(arr) {
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(arr)); } catch (e) {}
+}
 
-        <footer>
-            <div class="status-text" id="statusText" aria-live="polite">Status: Aguardando Documentação</div>
-            <button type="button" class="btn-reset" id="btnReset">Limpar seleção</button>
-            <p>Master Consultoria Empresarial | Edifício Top Tower Center, Sala 101 - Avenida do CPA. Cuiabá - MT</p>
-        </footer>
-    </div>
+function updateProgress() {
+    var total = document.querySelectorAll('#groups input').length;
+    var done  = document.querySelectorAll('#groups input:checked').length;
+    var status = document.getElementById('statusText');
+    status.className = 'status-text' + (done === total ? ' done' : '');
+    status.innerHTML = done === total
+        ? '<strong>Documentação completa ✓</strong>'
+        : 'Progresso: <strong>' + done + ' de ' + total + '</strong> documentos reunidos';
+    document.getElementById('progressFill').style.width = (total ? done / total * 100 : 0).toFixed(1) + '%';
+    var bar = document.getElementById('progressBar');
+    bar.setAttribute('aria-valuemax', total);
+    bar.setAttribute('aria-valuenow', done);
+}
 
-    <script>
-        const STORAGE_KEY = 'master_checklist_empresa';
-        const checkboxes = document.querySelectorAll('.doc-check');
-        const progressBar = document.getElementById('progressBar');
-        const statusText = document.getElementById('statusText');
-        const total = checkboxes.length;
+function render() {
+    var checked = loadChecked();
+    var i = 0;
+    document.getElementById('groups').innerHTML = CHECKLIST_GROUPS.map(function (group) {
+        return '<section class="group"><h2 class="group-title">' + group.title + '</h2><div class="checklist-grid">' +
+            group.items.map(function (item) {
+                var idx = i++;
+                return '<label class="checklist-item" for="chk' + idx + '">' +
+                       '<input type="checkbox" id="chk' + idx + '" data-index="' + idx + '"' + (checked.indexOf(idx) !== -1 ? ' checked' : '') + '>' +
+                       '<span class="check-box" aria-hidden="true"></span>' +
+                       '<span class="item-text">' + item + '</span>' +
+                       '</label>';
+            }).join('') + '</div></section>';
+    }).join('');
+    updateProgress();
+}
 
-        function load() {
-            try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); } catch (e) { return []; }
-        }
+document.getElementById('groups').addEventListener('change', function () {
+    saveChecked(Array.prototype.map.call(this.querySelectorAll('input:checked'), function (cb) {
+        return parseInt(cb.dataset.index, 10);
+    }));
+    updateProgress();
+});
 
-        function save() {
-            const checked = [];
-            checkboxes.forEach((box, i) => { if (box.checked) checked.push(i); });
-            try { localStorage.setItem(STORAGE_KEY, JSON.stringify(checked)); } catch (e) {}
-        }
+document.getElementById('btnReset').addEventListener('click', function () {
+    if (confirm('Deseja limpar todos os documentos marcados?')) { saveChecked([]); render(); }
+});
 
-        function update() {
-            const checked = document.querySelectorAll('.doc-check:checked').length;
-            const percentage = (checked / total) * 100;
-            progressBar.style.width = percentage + '%';
+render();
+</script>
 
-            if (percentage === 0) {
-                statusText.textContent = 'Status: Aguardando Documentação';
-                statusText.style.color = '#77aaff';
-            } else if (percentage < 100) {
-                statusText.textContent = `Status: ${checked} de ${total} documentos (${Math.round(percentage)}%)`;
-                statusText.style.color = '#aabbff';
-            } else {
-                statusText.textContent = 'Status: Documentação Completa ✔';
-                statusText.style.color = '#ffffff';
-            }
-        }
-
-        const saved = load();
-        checkboxes.forEach((box, i) => {
-            box.checked = saved.indexOf(i) !== -1;
-            box.addEventListener('change', () => { save(); update(); });
-        });
-
-        document.getElementById('btnReset').addEventListener('click', () => {
-            if (!confirm('Deseja limpar todos os documentos marcados?')) return;
-            checkboxes.forEach(box => { box.checked = false; });
-            save();
-            update();
-        });
-
-        update();
-    </script>
 </body>
 </html>
