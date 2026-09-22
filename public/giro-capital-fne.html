@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="pt-br"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juros de Capital - BNB | Master Consultoria Empresarial</title>
+
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Juros de Capital - BNB | Master Consultoria Empresarial">
+    <meta property="og:description" content="Linha de crédito com taxa fixa de 0,9% a.m., via Banco do Nordeste (FNE). Liberação de até 20% do seu faturamento anual com 6 meses de carência.">
+    <meta property="og:locale" content="pt_BR">
+    <meta name="description" content="Solução financeira em parceria com o Banco do Nordeste. Até 20% do faturamento anual com taxa fixa de 0,9% a.m. e 36 meses para pagar.">
+    <meta name="theme-color" content="#04070d">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com/">
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,500;0,600;1,500&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --silver-light: #f8fafc;
+            --silver-main: #cbd5e1;
+            --silver-dark: #94a3b8;
+            --bg-deep-blue: #020408;
+            --bg-card: rgba(15, 23, 42, 0.4);
+            --border-chrome: rgba(255, 255, 255, 0.08);
+            --text-main: #f1f5f9;
+            --text-dim: #94a3b8;
+            --text-chrome: linear-gradient(180deg, #ffffff 0%, #cbd5e1 50%, #94a3b8 100%);
+            --accent-glow: rgba(16, 185, 129, 0.15);
+            --green: #10b981;
+            --green-light: #34d399;
+            --nav-h: 65px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        /* FUNDO ELEGANTE (GRADIENTE + TEXTURA FOSCA) */
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(-45deg, #020408, #0a1128, #050b14, #020408);
+            background-size: 400% 400%;
+            animation: gradientBG 20s ease infinite;
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        body::before {
+            content: '';
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: url('data:image/svg+xml;utf8,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.85%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22 opacity=%220.035%22/%3E%3C/svg%3E');
+            pointer-events: none; z-index: -1;
+        }
+
+        /* BRILHO RADIAL DE FUNDO PARA DAR PROFUNDIDADE */
+        .bg-glow {
+            position: absolute;
+            top: 10%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 800px; height: 800px;
+            background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.6;
+        }
+
+        @media (prefers-reduced-motion: no-preference) {
+            .animate-1 { animation: fadeInUp 0.8s cubic-bezier(0.16,1,0.3,1) forwards; }
+            .animate-2 { animation: fadeInUp 0.8s cubic-bezier(0.16,1,0.3,1) 0.2s forwards; opacity: 0; }
+            .animate-3 { animation: fadeInUp 0.8s cubic-bezier(0.16,1,0.3,1) 0.4s forwards; opacity: 0; }
+            @keyframes fadeInUp {
+                from { opacity: 0; transform: translateY(30px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+        }
+
+        /* NAV STICKY - MAIS CLEAN */
+        .nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            background: rgba(2, 4, 8, 0.75);
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+            height: var(--nav-h);
+            display: flex;
+            align-items: center;
+            padding: 0 24px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-inner {
+            max-width: 1050px;
+            margin: 0 auto;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+        }
+
+        .nav-brand {
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--silver-light);
+            white-space: nowrap;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 8px;
+            list-style: none;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+        }
+
+        .nav-links a {
+            color: var(--silver-dark);
+            text-decoration: none;
+            font-size: 13.5px;
+            font-weight: 500;
+            padding: 8px 16px;
+            border-radius: 30px;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .nav-links a:hover {
+            color: #ffffff;
+            background: rgba(255,255,255,0.08);
+            box-shadow: 0 0 15px rgba(255,255,255,0.05);
+        }
+
+        /* CONTAINER */
+        .container {
+            max-width: 1050px;
+            margin: 0 auto;
+            padding: 80px 24px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* HERO - MAIS IMPACTANTE */
+        .hero { text-align: center; margin-bottom: 70px; position: relative; }
+
+        .hero .tag {
+            display: inline-block;
+            color: var(--green-light);
+            font-size: 12.5px;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            margin-bottom: 24px;
+            font-weight: 600;
+            background: rgba(16, 185, 129, 0.08);
+            padding: 8px 22px;
+            border-radius: 30px;
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.1);
+            transition: all 0.4s ease;
+            cursor: default;
+        }
+
+        .hero .tag:hover {
+            transform: translateY(-2px);
+            background: rgba(16, 185, 129, 0.12);
+            box-shadow: 0 0 25px rgba(16, 185, 129, 0.2);
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(40px, 5.5vw, 62px);
+            background: var(--text-chrome);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1.15;
+            margin-bottom: 25px;
+            letter-spacing: -0.5px;
+            filter: drop-shadow(0px 10px 20px rgba(0,0,0,0.5));
+            transition: filter 0.4s ease;
+        }
+
+        .hero h1:hover { filter: drop-shadow(0px 10px 25px rgba(255,255,255,0.15)); }
+
+        .hero p {
+            font-size: 19px;
+            color: var(--silver-main);
+            max-width: 850px;
+            margin: 0 auto;
+            font-weight: 300;
+            line-height: 1.8;
+        }
+
+        /* INTRO LETTER - REFINADA */
+        .intro-letter {
+            background: linear-gradient(135deg, rgba(15,23,42,0.6) 0%, rgba(4,7,13,0.9) 100%);
+            border-left: 4px solid var(--green);
+            border-radius: 0 16px 16px 0;
+            padding: 40px 50px;
+            margin-bottom: 70px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+            border-top: 1px solid rgba(255,255,255,0.04);
+            border-right: 1px solid rgba(255,255,255,0.04);
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+            transition: transform 0.4s ease, box-shadow 0.4s ease, border-left-color 0.4s ease;
+            backdrop-filter: blur(12px);
+        }
+
+        .intro-letter:hover { 
+            transform: translateX(8px); 
+            box-shadow: -5px 20px 45px rgba(0,0,0,0.5); 
+            border-left-color: var(--green-light); 
+        }
+        .intro-letter h4 { font-family: 'Playfair Display', serif; font-size: 26px; color: #ffffff; margin-bottom: 15px; }
+        .intro-letter p { color: var(--text-dim); font-size: 17px; line-height: 1.8; margin-bottom: 15px; }
+        .intro-letter p:last-child { margin-bottom: 0; }
+
+        /* SECTION TITLE - COM DETALHE VISUAL */
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(28px, 4vw, 36px);
+            color: #ffffff;
+            margin: 80px 0 40px 0;
+            padding-bottom: 15px;
+            letter-spacing: 0.5px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .section-title::before {
+            content: '';
+            display: block;
+            width: 12px;
+            height: 12px;
+            background: var(--green);
+            border-radius: 50%;
+            box-shadow: 0 0 15px var(--green);
+        }
+
+        .section-title::after {
+            content: '';
+            flex-grow: 1;
+            height: 1px;
+            background: linear-gradient(90deg, rgba(255,255,255,0.1) 0%, transparent 100%);
+            margin-left: 15px;
+        }
+
+        /* GRID E CARDS - MAIS PROFUNDIDADE */
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; margin-bottom: 60px; }
+
+        .card {
+            background: linear-gradient(145deg, rgba(15,23,42,0.5) 0%, rgba(2,4,8,0.8) 100%);
+            border: 1px solid var(--border-chrome);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 45px;
+            box-shadow: inset 0 1px 1px rgba(255,255,255,0.05), 0 15px 35px rgba(0,0,0,0.3);
+            transition: transform 0.4s cubic-bezier(0.175,0.885,0.32,1.275), box-shadow 0.4s ease, border-color 0.4s ease;
+        }
+
+        .card:hover { 
+            transform: translateY(-10px); 
+            border-color: rgba(255,255,255,0.15); 
+            box-shadow: inset 0 1px 1px rgba(255,255,255,0.1), 0 25px 50px rgba(0,0,0,0.5), 0 0 30px rgba(16, 185, 129, 0.05); 
+        }
+
+        .card h3 {
+            font-family: 'Playfair Display', serif;
+            color: #ffffff;
+            margin-bottom: 25px;
+            font-size: 24px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        /* LISTS */
+        ul { list-style: none; }
+        li { position: relative; padding-left: 24px; margin-bottom: 18px; color: var(--text-dim); font-size: 16px; line-height: 1.6; transition: color 0.3s ease; }
+        li:hover { color: #ffffff; }
+        li strong { color: var(--silver-light); font-weight: 500; }
+        li::before { content: "✦"; position: absolute; left: 0; top: 2px; color: var(--green); font-size: 13px; opacity: 0.8; transition: transform 0.3s ease, text-shadow 0.3s ease; }
+        li:hover::before { transform: rotate(90deg) scale(1.2); text-shadow: 0 0 10px var(--green); }
+
+        /* ETAPAS - DESIGN APERFEIÇOADO */
+        .etapas-container { display: grid; grid-template-columns: 1fr; gap: 20px; }
+
+        .etapa-item {
+            background: linear-gradient(90deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.005) 100%);
+            border: 1px solid rgba(255,255,255,0.04);
+            padding: 30px 35px;
+            border-radius: 20px;
+            display: flex;
+            align-items: flex-start;
+            gap: 25px;
+            transition: all 0.4s ease;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+
+        .etapa-item:hover { 
+            background: linear-gradient(90deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.01) 100%); 
+            transform: translateX(10px); 
+            border-color: rgba(255,255,255,0.1); 
+            box-shadow: 0 15px 30px rgba(0,0,0,0.25); 
+        }
+
+        .etapa-numero {
+            font-family: 'Playfair Display', serif;
+            font-size: 38px;
+            color: transparent;
+            -webkit-text-stroke: 1px rgba(255,255,255,0.2);
+            font-weight: 600;
+            line-height: 1;
+            transition: all 0.4s ease;
+        }
+
+        .etapa-item:hover .etapa-numero { 
+            color: var(--green); 
+            -webkit-text-stroke: 0px;
+            text-shadow: 0 0 20px rgba(16, 185, 129, 0.4);
+            transform: scale(1.1) translateY(-2px); 
+        }
+        .etapa-text h4 { color: var(--silver-light); font-size: 19px; margin-bottom: 10px; transition: color 0.3s ease; }
+        .etapa-item:hover .etapa-text h4 { color: #ffffff; }
+        .etapa-text p { color: var(--text-dim); font-size: 15.5px; margin: 0; line-height: 1.7; }
+
+        /* ============================================
+           CHECKLIST - APRIMORADO
+        ============================================ */
+        .checklist-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; flex-wrap: wrap; gap: 12px; }
+        .checklist-progress-text { font-size: 15px; color: var(--text-dim); }
+        .checklist-progress-text span { color: #ffffff; font-weight: 600; }
+
+        .checklist-reset { 
+            background: rgba(255,255,255,0.03); 
+            border: 1px solid rgba(255,255,255,0.1); 
+            color: var(--silver-main); 
+            font-size: 13.5px; 
+            padding: 8px 18px; 
+            border-radius: 30px; 
+            cursor: pointer; 
+            transition: all 0.3s ease; 
+        }
+        .checklist-reset:hover { background: rgba(255,255,255,0.08); color: #fff; border-color: rgba(255,255,255,0.25); }
+
+        .progress-bar-track { height: 6px; background: rgba(255,255,255,0.05); border-radius: 3px; margin-bottom: 35px; overflow: hidden; box-shadow: inset 0 1px 3px rgba(0,0,0,0.5); }
+        .progress-bar-fill { height: 100%; background: linear-gradient(90deg, #059669, #34d399); border-radius: 3px; transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1); box-shadow: 0 0 15px rgba(16,185,129,0.6); }
+
+        .checklist-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 18px; margin-top: 20px; }
+        
+        .checklist-item {
+            display: flex; align-items: center; gap: 18px; font-size: 15px; color: var(--silver-main);
+            background: linear-gradient(145deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.005) 100%); 
+            padding: 20px 24px; border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.04); transition: all 0.3s ease; cursor: pointer;
+            user-select: none; backdrop-filter: blur(10px);
+        }
+
+        .checklist-item:hover { 
+            background: rgba(255,255,255,0.05); 
+            border-color: rgba(255,255,255,0.15); 
+            transform: translateY(-3px); 
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2); 
+            color: #ffffff;
+        }
+        .checklist-item input[type="checkbox"] { display: none; }
+        
+        .check-box {
+            width: 24px; height: 24px; border: 2px solid rgba(255,255,255,0.2); border-radius: 6px;
+            display: flex; align-items: center; justify-content: center; transition: all 0.3s ease;
+            flex-shrink: 0; background: rgba(0,0,0,0.3);
+        }
+
+        .checklist-item:hover .check-box { border-color: rgba(255,255,255,0.4); }
+
+        .checklist-item input[type="checkbox"]:checked + .check-box {
+            background-color: var(--green); border-color: var(--green); transform: scale(1.1);
+            box-shadow: 0 0 10px rgba(16, 185, 129, 0.4);
+        }
+
+        .checklist-item input[type="checkbox"]:checked + .check-box::after {
+            content: "✓"; color: #04070d; font-weight: 900; font-size: 16px;
+        }
+
+        .checklist-item input[type="checkbox"]:checked ~ .item-text {
+            color: rgba(255,255,255,0.3); text-decoration: line-through; 
+        }
+
+        /* DEPOIMENTOS - ATUALIZADOS PARA O CEARÁ COM MAIS CASOS */
+        .testimonial-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; margin-top: 40px; }
+        .testimonial-card { 
+            background: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0) 100%); 
+            border: 1px solid rgba(255,255,255,0.05); border-radius: 20px; padding: 35px; position: relative; 
+            backdrop-filter: blur(12px); transition: all 0.4s ease; 
+        }
+        .testimonial-card:hover { 
+            background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.15); 
+            transform: translateY(-8px); box-shadow: 0 20px 40px rgba(0,0,0,0.4); 
+        }
+        .testimonial-card::before { 
+            content: "\201C"; position: absolute; top: -15px; right: 25px; 
+            font-family: 'Playfair Display', serif; font-size: 90px; color: rgba(255,255,255,0.03); 
+            line-height: 1; transition: color 0.4s ease; 
+        }
+        .testimonial-card:hover::before { color: rgba(16, 185, 129, 0.1); }
+        .testimonial-text { font-size: 15.5px; color: var(--silver-main); line-height: 1.8; margin-bottom: 25px; font-style: italic; position: relative; z-index: 1; }
+        .testimonial-author { display: flex; align-items: center; gap: 15px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 20px; }
+        .author-avatar { width: 48px; height: 48px; background: rgba(255,255,255,0.05); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Playfair Display', serif; font-size: 20px; color: var(--green-light); border: 1px solid rgba(255,255,255,0.1); }
+        .author-info h5 { color: #ffffff; font-size: 16px; margin-bottom: 3px; font-weight: 600; }
+        .author-info p { color: var(--text-dim); font-size: 13.5px; margin: 0; }
+        .author-info p span { color: rgba(148,163,184,0.6); font-size: 12px; display: block; margin-top: 2px; }
+
+        /* QUEM SOMOS */
+        .about-section { 
+            background: linear-gradient(135deg, rgba(15,23,42,0.4) 0%, rgba(2,4,8,0.7) 100%); 
+            border: 1px solid rgba(255,255,255,0.05); border-radius: 24px; padding: 60px; margin-top: 40px; 
+            position: relative; overflow: hidden; backdrop-filter: blur(20px); display: flex; flex-direction: column; gap: 25px; 
+            transition: border-color 0.4s ease, box-shadow 0.4s ease; 
+        }
+        .about-section:hover { border-color: rgba(255,255,255,0.15); box-shadow: 0 25px 50px rgba(0,0,0,0.4); }
+        .about-section::after { content: ""; position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: var(--green); box-shadow: 0 0 15px var(--green); }
+        .about-section p { color: var(--silver-main); font-size: 17px; line-height: 1.8; }
+        .about-section p strong { color: #ffffff; font-weight: 500; }
+
+        /* FAQ (DÚVIDAS FREQUENTES) */
+        .faq-container { display: flex; flex-direction: column; gap: 16px; margin-top: 40px; }
+        
+        .faq-item {
+            background: rgba(15, 23, 42, 0.3);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            backdrop-filter: blur(12px);
+        }
+
+        .faq-item:hover { background: rgba(255,255,255,0.04); border-color: rgba(255,255,255,0.15); transform: translateY(-2px); box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
+        .faq-item[open] { background: rgba(15, 23, 42, 0.6); border-color: rgba(16, 185, 129, 0.4); box-shadow: 0 15px 35px rgba(0,0,0,0.3); }
+
+        .faq-question {
+            padding: 24px 28px;
+            cursor: pointer;
+            color: #ffffff;
+            font-weight: 500;
+            font-size: 17px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            list-style: none;
+            user-select: none;
+            transition: color 0.3s ease;
+        }
+
+        .faq-question::-webkit-details-marker { display: none; }
+
+        .faq-icon {
+            width: 22px; height: 22px; fill: none; stroke: var(--silver-main); stroke-width: 2;
+            stroke-linecap: round; stroke-linejoin: round;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), stroke 0.3s ease;
+            flex-shrink: 0; margin-left: 15px;
+        }
+
+        .faq-item[open] .faq-icon { transform: rotate(180deg); stroke: var(--green); }
+
+        .faq-answer {
+            padding: 0 28px 28px 28px;
+            color: var(--silver-main);
+            font-size: 15.5px;
+            line-height: 1.8;
+            animation: fadeInFAQ 0.4s ease forwards;
+        }
+
+        .faq-answer strong { color: #ffffff; font-weight: 500; }
+        .faq-divider { height: 1px; background: rgba(255,255,255,0.05); margin: 0 28px 18px 28px; }
+        @keyframes fadeInFAQ { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* DIFERENCIAL / GARANTIAS */
+        .diferencial { 
+            text-align: center; margin-top: 100px; padding: 70px 50px; 
+            background: linear-gradient(180deg, rgba(15,23,42,0.3) 0%, rgba(2,4,8,0.9) 100%); 
+            border-radius: 30px; border: 1px solid rgba(255,255,255,0.05); 
+            box-shadow: 0 30px 60px rgba(0,0,0,0.4); transition: border-color 0.4s ease; backdrop-filter: blur(15px); 
+        }
+        .diferencial:hover { border-color: rgba(255,255,255,0.15); }
+        .diferencial h3 { font-family: 'Playfair Display', serif; font-size: 34px; color: #ffffff; margin-bottom: 30px; }
+
+        .success-fee-box { 
+            background: linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.005) 100%); 
+            border: 1px solid rgba(255,255,255,0.08); padding: 40px 50px; border-radius: 20px; 
+            margin: 0 auto; max-width: 900px; text-align: left; position: relative; overflow: hidden; 
+            transition: transform 0.4s ease, box-shadow 0.4s ease; 
+        }
+        .success-fee-box:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0,0,0,0.3); border-color: rgba(255,255,255,0.2); }
+        .success-fee-box::before { content: ""; position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: var(--green); }
+        .success-fee-box h4 { color: #fff; font-size: 22px; margin-bottom: 15px; display: flex; align-items: center; gap: 12px; }
+        .success-fee-box h4::before { content: "✦"; color: var(--green); font-size: 18px; text-shadow: 0 0 10px rgba(16,185,129,0.5); }
+        .success-fee-box p { color: var(--silver-main); font-size: 16.5px; line-height: 1.8; margin-bottom: 12px; }
+
+        /* FOOTER */
+        .footer { margin-top: 100px; padding-top: 35px; border-top: 1px solid rgba(255,255,255,0.05); text-align: center; font-size: 11px; color: #475569; letter-spacing: 3px; text-transform: uppercase; }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .about-section { padding: 40px 30px; }
+            .nav-links { display: none; }
+        }
+
+        @media (max-width: 600px) {
+            .container { padding: 50px 20px; }
+            .hero h1 { font-size: 38px; }
+            .intro-letter, .card, .diferencial, .success-fee-box { padding: 35px 25px; }
+            .faq-question { font-size: 16px; padding: 20px 24px; }
+            .faq-answer { padding: 0 24px 24px 24px; font-size: 15px; }
+            .faq-divider { margin: 0 24px 15px 24px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="bg-glow"></div>
+
+<nav class="nav" aria-label="Navegação principal">
+    <div class="nav-inner">
+        <span class="nav-brand">Master Consultoria</span>
+        <ul class="nav-links">
+            <li><a href="#parametros">Parâmetros</a></li>
+            <li><a href="#processo">Processo</a></li>
+            <li><a href="#checklist">Checklist</a></li>
+            <li><a href="#sucesso">Casos</a></li>
+            <li><a href="#sobre">Sobre</a></li>
+            <li><a href="#faq">Dúvidas</a></li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container animate-1">
+
+    <header class="hero">
+        <div class="tag">MASTER CONSULTORIA EMPRESARIAL</div>
+        <h1>Linha de Crédito Juros de Capital</h1>
+        <p>Solução financeira estratégica em parceria com o Banco do Nordeste e recursos do Fundo FNE. Estruturação dedicada para impulsionar sua empresa com taxa fixa e alta previsibilidade.</p>
+    </header>
+
+    <div class="intro-letter animate-2">
+        <h4>Prezado(a) Cliente,</h4>
+        <p>Agradecemos pela oportunidade de apresentar nossa proposta de serviços de consultoria. Nosso objetivo principal é fornecer soluções financeiras estruturadas e personalizadas que ajudem a sua empresa a alcançar seus objetivos de crescimento, escalar faturamento e aumentar sua estrutura comercial de forma blindada.</p>
+    </div>
+
+    <main class="animate-2">
+
+        <h2 class="section-title" id="parametros">01 — Parâmetros da Operação</h2>
+        <section class="grid">
+            <div class="card">
+                <h3>Condições Financeiras</h3>
+                <ul>
+                    <li>Volume Máximo Liberado: <strong>Até 20% do Faturamento Anual</strong></li>
+                    <li>Taxa de Juros: <strong>0,9% ao mês (Taxa Fixa)</strong></li>
+                    <li>Reajustes: <strong>Isento de atrelamento à Selic ou IPCA</strong></li>
+                    <li>Prazo de Carência: <strong>6 Meses</strong></li>
+                    <li>Prazo Total: <strong>36 Meses (6 de carência + 30 de amortização)</strong></li>
+                </ul>
+            </div>
+            <div class="card">
+                <h3>Mecânica e Parceria</h3>
+                <p style="font-size:15px;color:var(--text-dim);margin-bottom:20px;line-height:1.7;">O programa Juros de Capital foi desenhado para alavancar o crescimento do empresário com previsibilidade, através da nossa aliança estratégica:</p>
+                <ul>
+                    <li><strong>Instituição Parceira:</strong> Operação conduzida e aprovada via Banco do Nordeste.</li>
+                    <li><strong>Origem dos Recursos:</strong> Lastreado diretamente pelos fundos de desenvolvimento do FNE.</li>
+                    <li><strong>Taxa Fixada:</strong> A principal vantagem desta linha é saber exatamente o valor da sua parcela da primeira até a última.</li>
+                </ul>
+            </div>
+        </section>
+
+        <h2 class="section-title" id="processo">02 — Etapas do Processo de Crédito</h2>
+        <p style="color:var(--text-dim);margin-bottom:30px;max-width:800px;font-size:17px;">Para garantir transparência, segurança e eficiência, nossa consultoria conduzirá sua empresa pelas seguintes etapas metodológicas junto ao Banco do Nordeste:</p>
+
+        <div class="etapas-container">
+            <div class="etapa-item">
+                <div class="etapa-numero">01</div>
+                <div class="etapa-text">
+                    <h4>Análise de Faturamento e Enquadramento</h4>
+                    <p>Avaliação aprofundada dos últimos 12 meses de faturamento para definição exata do teto de 20% de liberação.</p>
+                </div>
+            </div>
+            <div class="etapa-item">
+                <div class="etapa-numero">02</div>
+                <div class="etapa-text">
+                    <h4>Organização Fiscal e Contábil</h4>
+                    <p>Ajustes necessários e saneamento de documentos para o compliance rígido da instituição financeira.</p>
+                </div>
+            </div>
+            <div class="etapa-item">
+                <div class="etapa-numero">03</div>
+                <div class="etapa-text">
+                    <h4>Protocolo no Banco do Nordeste</h4>
+                    <p>Entrada formal e submissão do pedido de crédito estruturado na linha Juros de Capital (FNE).</p>
+                </div>
+            </div>
+            <div class="etapa-item">
+                <div class="etapa-numero">04</div>
+                <div class="etapa-text">
+                    <h4>Acompanhamento e Comitê</h4>
+                    <p>Monitoramento contínuo, defesa do dossiê em comitê e acompanhamento até a aprovação.</p>
+                </div>
+            </div>
+            <div class="etapa-item">
+                <div class="etapa-numero">05</div>
+                <div class="etapa-text">
+                    <h4>Liberação de Recursos</h4>
+                    <p>Disponibilização do crédito na conta, iniciando o período de 6 meses de carência acordado.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="animate-3" id="checklist">
+            <h2 class="section-title">03 — Checklist Documental</h2>
+
+            <div class="checklist-header">
+                <div>
+                    <p class="checklist-progress-text">Progresso: <span id="checkCount">0</span> de <span id="checkTotal">15</span> documentos reunidos</p>
+                </div>
+                <button class="checklist-reset" onclick="resetChecklist()" aria-label="Resetar checklist">↺ Limpar Seleção</button>
+            </div>
+
+            <div class="progress-bar-track" role="progressbar" aria-valuemin="0" aria-valuemax="15" aria-valuenow="0" id="progressBar" aria-label="Progresso da documentação">
+                <div class="progress-bar-fill" id="progressFill" style="width: 0%;"></div>
+            </div>
+
+            <div class="checklist-grid" id="checklistGrid"></div>
+        </div>
+
+        <div class="animate-3" id="sucesso">
+            <h2 class="section-title">04 — Casos de Sucesso</h2>
+            <p style="color:var(--text-dim);margin-bottom:30px;font-size:17px;">Confira empresas que estruturaram suas finanças e alavancaram seus negócios através do nosso acompanhamento especializado junto ao Banco do Nordeste no Ceará.</p>
+
+            <div class="testimonial-grid">
+                <div class="testimonial-card">
+                    <p class="testimonial-text">"O enquadramento na linha Juros de Capital foi perfeito. Garantimos uma taxa fixa de 0,9% que viabilizou a expansão da nossa produção de forma totalmente previsível."</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">E</div>
+                        <div class="author-info">
+                            <h5>Erica</h5>
+                            <p>Ateliê da Formiga <span>Aldeota - Fortaleza, CE</span></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <p class="testimonial-text">"A estruturação documental feita pela consultoria foi essencial. Conseguimos capital rápido e os 6 meses de carência nos deram fôlego para aumentar o estoque."</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">W</div>
+                        <div class="author-info">
+                            <h5>Wanderson</h5>
+                            <p>WMR <span>Centro - Fortaleza, CE</span></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <p class="testimonial-text">"Processo ágil e transparente. Saber que nossa taxa não vai variar com a Selic nos deu a tranquilidade necessária para investir em novas estruturas de atendimento."</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">E</div>
+                        <div class="author-info">
+                            <h5>Elivaldo</h5>
+                            <p>Rota do Açaí <span>Beira Mar - Fortaleza, CE</span></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <p class="testimonial-text">"A consultoria cuidou de todo o compliance exigido pelo Banco do Nordeste. O atendimento via Success Fee nos provou a seriedade do trabalho."</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">L</div>
+                        <div class="author-info">
+                            <h5>Diretoria</h5>
+                            <p>Lilay Modas <span>Maracanaú - CE</span></p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <p class="testimonial-text">"A Master Consultoria foi um divisor de águas. Com o crédito do FNE, conseguimos modernizar nosso maquinário mantendo o fluxo de caixa saudável graças à carência."</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">C</div>
+                        <div class="author-info">
+                            <h5>Carlos</h5>
+                            <p>Nordeste Têxtil <span>Eusébio - CE</span></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <p class="testimonial-text">"Ter uma taxa fixa nos permitiu planejar a expansão da empresa sem medo de surpresas. Não tínhamos conta no BNB e eles resolveram tudo com maestria."</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">A</div>
+                        <div class="author-info">
+                            <h5>Amanda</h5>
+                            <p>Inova Tech Solutions <span>Meireles - Fortaleza, CE</span></p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="animate-3" id="sobre">
+            <h2 class="section-title">05 — Quem Somos</h2>
+            <div class="about-section">
+                <p>A <strong>Master Consultoria Empresarial</strong> é especialista em estruturação de crédito, fomento e alavancagem financeira para empresas de médio e pequeno porte. Com forte atuação em Mato Grosso, Ceará e em franca expansão nacional, nossa missão é desburocratizar o acesso ao capital corporativo.</p>
+                <p>Trabalhamos lado a lado com o empresário brasileiro, unindo conhecimento de mercado, compliance rigoroso e relacionamento sólido com as principais instituições financeiras, como o Banco do Nordeste e fundos constitucionais de fomento (FNE), entregando soluções ágeis e blindadas para o crescimento do seu negócio.</p>
+            </div>
+        </div>
+
+        <div class="animate-3" id="faq">
+            <h2 class="section-title">06 — Dúvidas Frequentes</h2>
+            <div class="faq-container">
+                <details class="faq-item">
+                    <summary class="faq-question">
+                        A Master Consultoria cobra algum valor adiantado?
+                        <svg class="faq-icon" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"></path></svg>
+                    </summary>
+                    <div class="faq-divider"></div>
+                    <div class="faq-answer"><strong>Absolutamente não.</strong> Nosso compromisso é com o seu resultado. Operamos sob o modelo de <em>Success Fee</em> (Taxa de Sucesso), o que significa que nossos honorários só serão devidos <strong>após a efetiva aprovação e o recurso estar liberado</strong> na conta da sua empresa. Risco zero para o seu negócio.</div>
+                </details>
+                <details class="faq-item">
+                    <summary class="faq-question">
+                        A taxa de 0,9% ao mês realmente não muda?
+                        <svg class="faq-icon" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"></path></svg>
+                    </summary>
+                    <div class="faq-divider"></div>
+                    <div class="faq-answer"><strong>Exatamente.</strong> A linha Juros de Capital através da nossa parceria com o Banco do Nordeste / FNE possui <strong>Taxa Fixa</strong>. O seu contrato não sofre oscilações atreladas a índices econômicos como Selic ou IPCA. Você sabe o valor da parcela do início ao fim dos 36 meses.</div>
+                </details>
+                <details class="faq-item">
+                    <summary class="faq-question">
+                        E se a minha empresa não tiver conta no Banco do Nordeste?
+                        <svg class="faq-icon" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"></path></svg>
+                    </summary>
+                    <div class="faq-divider"></div>
+                    <div class="faq-answer"><strong>Nós cuidamos de toda a estruturação bancária.</strong> Não é impeditivo não ter conta prévia. Após a aprovação do seu perfil, nossa equipe conduzirá a abertura da conta e a negociação das reciprocidades diretamente com a gerência do banco.</div>
+                </details>
+                <details class="faq-item">
+                    <summary class="faq-question">
+                        Quanto tempo leva todo o processo até o recurso cair na conta?
+                        <svg class="faq-icon" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"></path></svg>
+                    </summary>
+                    <div class="faq-divider"></div>
+                    <div class="faq-answer">O ciclo completo, desde a análise documental inicial até a liberação do crédito, leva em média de <strong>30 a 60 dias úteis</strong>. Este prazo pode ser otimizado dependendo da rapidez no envio dos documentos do nosso checklist.</div>
+                </details>
+            </div>
+        </div>
+
+        <section class="diferencial animate-3">
+            <h3>Garantias e Transparência</h3>
+            <div class="success-fee-box">
+                <h4>Atendimento Ético e Seguro</h4>
+                <p>Para garantir a sua total segurança e confiança em nosso trabalho, os pagamentos pelos nossos serviços de consultoria e contabilidade <strong>serão devidos apenas após a aprovação e a efetiva liberação dos valores</strong> na sua conta.</p>
+                <p>Garantimos clareza e atendimento profissional, ético e transparente durante todas as fases de estruturação do seu crédito.</p>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="footer animate-3">
+        Documento Confidencial • Uso Institucional • Master Consultoria Empresarial
+    </footer>
+
+</div>
+
+<script>
+// ============================================================
+// CHECKLIST COM LOCALSTORAGE E ANIMAÇÃO
+// ============================================================
+var CHECKLIST_ITEMS = [
+    'Cartão CNPJ atualizado',
+    'Contrato Social e alterações (se houver)',
+    'Faturamento dos últimos 12 meses (assinado digitalmente)',
+    'Comprovante de endereço da Empresa (recente)',
+    'Todos os Alvarás (Obrigatórios)',
+    'Fotos do estabelecimento (fachada e estrutura interna)',
+    'RG ou CNH de todos os sócios',
+    'Comprovante de Residência de todos os sócios',
+    'Declaração de Imposto de Renda (Pessoa Física) completa',
+    'Certidão de casamento (Se houver)',
+    'E-mail e Telefone para contato',
+    'Certificado Digital A1 (.pfx)',
+    'Acesso GOV.BR (nível prata ou ouro)',
+    'Relatório de desempenho assinado pelos engenheiros CNR',
+    'e-Social (1 funcionário registrado obrigatório)'
+];
+
+var STORAGE_KEY = 'master_juros_capital_checklist_ceara';
+
+function loadChecked() {
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); } catch(e) { return []; }
+}
+function saveChecked(arr) {
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(arr)); } catch(e) {}
+}
+
+function renderChecklist() {
+    var checked = loadChecked();
+    var grid    = document.getElementById('checklistGrid');
+    var total   = CHECKLIST_ITEMS.length;
+
+    grid.innerHTML = CHECKLIST_ITEMS.map(function(item, i) {
+        var isDone = checked.indexOf(i) !== -1;
+        return '<label class="checklist-item' + (isDone ? ' done' : '') + '" for="chk' + i + '">' +
+               '<input type="checkbox" id="chk' + i + '" data-index="' + i + '"' + (isDone ? ' checked' : '') + '>' +
+               '<span class="check-box"></span>' +
+               '<span class="item-text">' + item + '</span>' +
+               '</label>';
+    }).join('');
+
+    updateProgress(checked.length, total);
+
+    grid.querySelectorAll('input[type=checkbox]').forEach(function(cb) {
+        cb.addEventListener('change', function() {
+            var idx     = parseInt(this.dataset.index);
+            var checked = loadChecked();
+            if (this.checked) {
+                if (checked.indexOf(idx) === -1) checked.push(idx);
+            } else {
+                checked = checked.filter(function(i) { return i !== idx; });
+            }
+            saveChecked(checked);
+            renderChecklist();
+        });
+    });
+}
+
+function updateProgress(done, total) {
+    document.getElementById('checkCount').textContent = done;
+    document.getElementById('checkTotal').textContent = total;
+    var pct = total > 0 ? (done / total * 100) : 0;
+    document.getElementById('progressFill').style.width = pct.toFixed(1) + '%';
+    document.getElementById('progressBar').setAttribute('aria-valuenow', done);
+}
+
+function resetChecklist() {
+    if (confirm('Deseja limpar todos os documentos marcados?')) { saveChecked([]); renderChecklist(); }
+}
+
+renderChecklist();
+
+// ============================================================
+// SCROLL SUAVE PARA ÂNCORAS
+// ============================================================
+document.querySelectorAll('a[href^="#"]').forEach(function(a) {
+    a.addEventListener('click', function(e) {
+        var target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+            e.preventDefault();
+            var navH = document.querySelector('.nav').offsetHeight;
+            var top  = target.getBoundingClientRect().top + window.scrollY - navH - 20;
+            window.scrollTo({ top: top, behavior: 'smooth' });
+        }
+    });
+});
+</script>
+
+</body></html>

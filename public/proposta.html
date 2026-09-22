@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crédito Corporativo | Master Consultoria</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --silver-light: #f8fafc;
+            --silver-main: #cbd5e1;
+            --silver-dark: #94a3b8;
+            --bg-deep-blue: #04070d;
+            --bg-card: rgba(15, 23, 42, 0.4);
+            --border-chrome: rgba(203, 213, 225, 0.15);
+            --text-main: #f1f5f9;
+            --text-dim: #94a3b8;
+            --text-chrome: linear-gradient(180deg, #ffffff 0%, #cbd5e1 50%, #94a3b8 100%);
+            --green: #10b981;
+            --nav-h: 60px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        /* FUNDO ELEGANTE (GRADIENTE + TEXTURA FOSCA) */
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(-45deg, #020408, #0a1128, #070d1c, #020408);
+            background-size: 400% 400%;
+            animation: gradientBG 20s ease infinite;
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        body::before {
+            content: '';
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: url('data:image/svg+xml;utf8,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.8%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22 opacity=%220.04%22/%3E%3C/svg%3E');
+            pointer-events: none; z-index: -1;
+        }
+
+        @media (prefers-reduced-motion: no-preference) {
+            .animate-1 { animation: fadeInUp 0.8s cubic-bezier(0.16,1,0.3,1) forwards; }
+            .animate-2 { animation: fadeInUp 0.8s cubic-bezier(0.16,1,0.3,1) 0.2s forwards; opacity: 0; }
+            .animate-3 { animation: fadeInUp 0.8s cubic-bezier(0.16,1,0.3,1) 0.4s forwards; opacity: 0; }
+            @keyframes fadeInUp {
+                from { opacity: 0; transform: translateY(30px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+        }
+
+        /* NAV STICKY */
+        .nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            background: rgba(4, 7, 13, 0.85);
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            height: var(--nav-h);
+            display: flex;
+            align-items: center;
+            padding: 0 24px;
+        }
+
+        .nav-inner {
+            max-width: 1050px;
+            margin: 0 auto;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+        }
+
+        .nav-brand {
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--silver-dark);
+            white-space: nowrap;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 4px;
+            list-style: none;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+        }
+
+        .nav-links a {
+            color: var(--silver-dark);
+            text-decoration: none;
+            font-size: 13px;
+            padding: 6px 14px;
+            border-radius: 20px;
+            transition: all 0.25s ease;
+            white-space: nowrap;
+        }
+
+        .nav-links a:hover {
+            color: var(--silver-light);
+            background: rgba(255,255,255,0.06);
+        }
+
+        /* CTA FLUTUANTE */
+        .cta-float {
+            position: fixed;
+            bottom: 28px;
+            right: 28px;
+            z-index: 200;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 10px;
+        }
+
+        .cta-label {
+            background: rgba(4,7,13,0.9);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: var(--silver-main);
+            font-size: 12px;
+            padding: 6px 14px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            opacity: 0;
+            transform: translateX(10px);
+            transition: all 0.3s ease;
+            pointer-events: none;
+            white-space: nowrap;
+        }
+
+        .cta-float:hover .cta-label {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .cta-btn {
+            width: 58px;
+            height: 58px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #1aae6f, #0d8a58);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            text-decoration: none;
+            box-shadow: 0 8px 25px rgba(16,185,129,0.4);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .cta-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 12px 35px rgba(16,185,129,0.6);
+        }
+
+        .cta-btn svg { width: 28px; height: 28px; fill: #fff; }
+
+        /* CONTAINER */
+        .container {
+            max-width: 1050px;
+            margin: 0 auto;
+            padding: 80px 24px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* HERO */
+        .hero { text-align: center; margin-bottom: 80px; }
+
+        .hero .tag {
+            display: inline-block;
+            color: var(--silver-light);
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            margin-bottom: 20px;
+            font-weight: 600;
+            background: rgba(255,255,255,0.05);
+            padding: 8px 20px;
+            border-radius: 30px;
+            border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 0 20px rgba(255,255,255,0.05);
+            transition: all 0.3s ease;
+            cursor: default;
+        }
+
+        .hero .tag:hover {
+            transform: scale(1.05);
+            background: rgba(255,255,255,0.1);
+            box-shadow: 0 0 25px rgba(255,255,255,0.15);
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(38px, 5vw, 60px);
+            background: var(--text-chrome);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1.15;
+            margin-bottom: 25px;
+            letter-spacing: -0.5px;
+            filter: drop-shadow(0px 8px 16px rgba(0,0,0,0.4));
+            transition: filter 0.3s ease;
+        }
+
+        .hero h1:hover { filter: drop-shadow(0px 8px 20px rgba(255,255,255,0.2)); }
+
+        .hero p {
+            font-size: 19px;
+            color: var(--silver-main);
+            max-width: 850px;
+            margin: 0 auto;
+            font-weight: 300;
+            line-height: 1.8;
+        }
+
+        /* SECTION TITLE */
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(26px, 4vw, 32px);
+            background: var(--text-chrome);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: 70px 0 35px 0;
+            border-bottom: 1px solid var(--border-chrome);
+            padding-bottom: 15px;
+            letter-spacing: 0.5px;
+            transition: padding-left 0.3s ease;
+        }
+
+        .section-title:hover { padding-left: 10px; }
+
+        /* GRID E CARDS */
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px; margin-bottom: 50px; }
+
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-chrome);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: inset 0 1px 1px rgba(255,255,255,0.1), 0 15px 35px rgba(0,0,0,0.4);
+            transition: transform 0.4s cubic-bezier(0.175,0.885,0.32,1.275), box-shadow 0.4s ease, border-color 0.4s ease, background 0.4s ease;
+        }
+
+        .card:hover { 
+            transform: translateY(-8px) scale(1.02); 
+            border-color: rgba(203,213,225,0.5); 
+            background: rgba(30,41,59,0.6); 
+            box-shadow: inset 0 1px 1px rgba(255,255,255,0.2), 0 25px 45px rgba(0,0,0,0.6); 
+        }
+
+        .card h3 {
+            color: var(--silver-light);
+            background: var(--text-chrome);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 25px;
+            font-size: 22px;
+            font-weight: 600;
+        }
+
+        /* LISTS */
+        ul { list-style: none; }
+        li { position: relative; padding-left: 22px; margin-bottom: 16px; color: var(--text-dim); font-size: 15.5px; line-height: 1.6; transition: color 0.3s ease; }
+        li:hover { color: #ffffff; }
+        li strong { color: var(--silver-light); font-weight: 500; }
+        li::before { content: "✦"; position: absolute; left: 0; top: 2px; color: var(--silver-main); font-size: 13px; opacity: 0.7; transition: transform 0.3s ease, color 0.3s ease; }
+        li:hover::before { transform: rotate(90deg) scale(1.2); color: #ffffff; opacity: 1; }
+
+        /* BANNER DE DESTAQUE - CUSTOS */
+        .highlight-banner {
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.8) 0%, rgba(8, 12, 22, 0.9) 100%);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 50px;
+            border-radius: 20px;
+            margin: 60px 0;
+            text-align: center;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5), inset 0 2px 15px rgba(255,255,255,0.03);
+            position: relative;
+            backdrop-filter: blur(15px);
+        }
+
+        .highlight-banner::before {
+            content: ""; position: absolute; top: 0; left: 10%; right: 10%; height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+        }
+
+        .highlight-banner h3 {
+            font-family: 'Playfair Display', serif; font-size: 30px; margin-bottom: 20px; color: #ffffff;
+        }
+
+        .cost-intro {
+            max-width: 900px; margin: 0 auto 40px auto; font-size: 17px; color: var(--silver-main); line-height: 1.8;
+        }
+
+        .cost-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; text-align: left; margin-top: 20px;
+        }
+
+        .cost-card {
+            background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); padding: 35px; border-radius: 16px; transition: all 0.3s ease;
+        }
+
+        .cost-card:hover {
+            background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.2); transform: translateY(-6px); box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        .cost-card h4 {
+            color: var(--silver-light); font-size: 22px; margin-bottom: 15px; font-family: 'Playfair Display', serif; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 15px;
+        }
+
+        .cost-card p { font-size: 15px; color: var(--text-dim); margin-bottom: 20px; }
+        .cost-card li { margin-bottom: 12px; font-size: 14.5px; }
+        .cost-card li:last-child { margin-bottom: 0; }
+
+        /* DOSSIÊ E BOTÃO PDF */
+        .btn-pdf {
+            display: inline-flex; align-items: center; justify-content: center; gap: 10px; margin-top: 20px; padding: 16px 36px;
+            background: linear-gradient(135deg, #cbd5e1 0%, #94a3b8 100%); color: #04070d; text-decoration: none; font-size: 16px; font-weight: 600;
+            border-radius: 30px; transition: all 0.3s ease; box-shadow: 0 10px 20px rgba(255,255,255,0.05); border: 2px solid transparent;
+        }
+
+        .btn-pdf:hover {
+            transform: translateY(-3px) scale(1.02); box-shadow: 0 15px 30px rgba(203, 213, 225, 0.4); background: #ffffff;
+        }
+
+        /* CHECKLIST INTERATIVO */
+        .checklist-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 12px; }
+        .checklist-progress-text { font-size: 14px; color: var(--text-dim); }
+        .checklist-progress-text span { color: var(--silver-light); font-weight: 600; }
+
+        .checklist-reset { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); color: var(--silver-dark); font-size: 13px; padding: 6px 14px; border-radius: 20px; cursor: pointer; transition: all 0.25s ease; }
+        .checklist-reset:hover { background: rgba(255,255,255,0.08); color: #fff; border-color: rgba(255,255,255,0.2); }
+
+        .progress-bar-track { height: 4px; background: rgba(255,255,255,0.06); border-radius: 2px; margin-bottom: 28px; overflow: hidden; }
+        .progress-bar-fill { height: 100%; background: linear-gradient(90deg, #10b981, #34d399); border-radius: 2px; transition: width 0.5s cubic-bezier(0.16, 1, 0.3, 1); box-shadow: 0 0 10px rgba(16,185,129,0.5); }
+
+        .checklist-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin-top: 20px; }
+        
+        .checklist-item {
+            display: flex; align-items: center; gap: 15px; font-size: 14.5px; color: var(--text-main);
+            background: rgba(255,255,255,0.02); padding: 16px 20px; border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.05); transition: all 0.3s ease; cursor: pointer;
+            user-select: none; backdrop-filter: blur(8px);
+        }
+
+        .checklist-item:hover { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.15); transform: translateX(6px); box-shadow: 0 5px 15px rgba(0,0,0,0.15); }
+        .checklist-item input[type="checkbox"] { display: none; }
+        
+        .check-box {
+            width: 22px; height: 22px; border: 2px solid var(--silver-dark); border-radius: 5px;
+            display: flex; align-items: center; justify-content: center; transition: all 0.3s ease;
+            flex-shrink: 0; background: rgba(0,0,0,0.2);
+        }
+
+        .checklist-item:hover .check-box { border-color: var(--silver-light); }
+        .checklist-item input[type="checkbox"]:checked + .check-box { background-color: var(--green); border-color: var(--green); transform: scale(1.1); }
+        .checklist-item input[type="checkbox"]:checked + .check-box::after { content: "✓"; color: #04070d; font-weight: bold; font-size: 16px; }
+        .checklist-item input[type="checkbox"]:checked ~ .item-text { color: var(--silver-dark); text-decoration: line-through; opacity: 0.6; }
+        .checklist-item.done { opacity: 0.7; }
+
+        /* PRAZO DE EXECUÇÃO BOX */
+        .execution-box {
+            background: linear-gradient(90deg, rgba(15, 23, 42, 0.4) 0%, rgba(4, 7, 13, 0.4) 100%);
+            border-left: 4px solid var(--silver-main); border-radius: 0 16px 16px 0; padding: 30px 40px; margin-top: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2); border-top: 1px solid rgba(255,255,255,0.03); border-right: 1px solid rgba(255,255,255,0.03); border-bottom: 1px solid rgba(255,255,255,0.03);
+            backdrop-filter: blur(10px); transition: transform 0.4s ease, border-color 0.3s ease;
+        }
+
+        .execution-box:hover { transform: translateX(8px); border-left-color: #fff; }
+
+        /* DIFERENCIAL / GARANTIAS */
+        .diferencial {
+            text-align: center; margin-top: 80px; padding: 60px 50px; background: linear-gradient(180deg, rgba(15, 23, 42, 0.2) 0%, rgba(4, 7, 13, 0.8) 100%);
+            border-radius: 24px; border: 1px solid rgba(203, 213, 225, 0.1); box-shadow: 0 30px 60px rgba(0,0,0,0.5); backdrop-filter: blur(8px); transition: border-color 0.4s ease;
+        }
+        
+        .diferencial:hover { border-color: rgba(203,213,225,0.3); }
+        .diferencial h3 { font-family: 'Playfair Display', serif; font-size: 32px; color: var(--silver-light); margin-bottom: 25px; letter-spacing: 0.5px; }
+
+        .diferencial p.intro {
+            color: var(--text-dim); max-width: 850px; margin: 0 auto 35px auto; font-size: 17px; line-height: 1.8;
+        }
+
+        .success-fee-box {
+            background: linear-gradient(135deg, rgba(203, 213, 225, 0.08) 0%, rgba(255, 255, 255, 0.01) 100%);
+            border: 1px solid rgba(203, 213, 225, 0.15); padding: 35px 45px; border-radius: 16px; margin: 0 auto; max-width: 900px;
+            box-shadow: inset 0 2px 10px rgba(255,255,255,0.02), 0 15px 30px rgba(0,0,0,0.4); backdrop-filter: blur(12px); position: relative;
+            text-align: left; overflow: hidden; transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        .success-fee-box:hover { transform: scale(1.02); box-shadow: 0 20px 40px rgba(0,0,0,0.5); border-color: rgba(203,213,225,0.3); }
+        .success-fee-box::before { content: ""; position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: var(--text-chrome); }
+        .success-fee-box h4 { color: #ffffff; font-size: 20px; margin-bottom: 12px; display: flex; align-items: center; gap: 10px; }
+        .success-fee-box h4::before { content: "✦"; color: var(--silver-main); font-size: 16px; }
+        .success-fee-box p { color: var(--silver-main); font-size: 16.5px; line-height: 1.7; margin: 0; font-weight: 400; }
+
+        /* FOOTER */
+        .footer { margin-top: 100px; padding-top: 30px; border-top: 1px solid rgba(255,255,255,0.05); text-align: center; font-size: 11px; color: #475569; letter-spacing: 3px; text-transform: uppercase; }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+        }
+
+        @media (max-width: 600px) {
+            .container { padding: 40px 20px; }
+            .hero h1 { font-size: 34px; }
+            .highlight-banner { padding: 40px 20px; }
+            .card { padding: 30px 25px; }
+            .cost-card { padding: 25px; }
+            .diferencial { padding: 40px 25px; }
+            .success-fee-box { padding: 30px 25px; }
+            .execution-box { padding: 25px; }
+        }
+    </style>
+</head>
+<body>
+
+<nav class="nav" aria-label="Navegação principal">
+    <div class="nav-inner">
+        <span class="nav-brand">Master Consultoria</span>
+        <ul class="nav-links">
+            <li><a href="#parametros">Parâmetros</a></li>
+            <li><a href="#custos">Custos</a></li>
+            <li><a href="#dossie">Dossiê</a></li>
+            <li><a href="#perfil">Perfil</a></li>
+            <li><a href="#checklist">Checklist</a></li>
+            <li><a href="#diferencial">Garantias</a></li>
+        </ul>
+    </div>
+</nav>
+
+<div class="cta-float" role="complementary" aria-label="Contato via WhatsApp">
+    <span class="cta-label">Fale com um consultor</span>
+    <a class="cta-btn" href="https://wa.me/5565999999999?text=Ol%C3%A1!%20Tenho%20interesse%20no%20Cr%C3%A9dito%20Corporativo." target="_blank" rel="noopener noreferrer" aria-label="Contato pelo WhatsApp">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"></path>
+        </svg>
+    </a>
+</div>
+
+<div class="container animate-1">
+    
+    <header class="hero">
+        <div class="tag">MASTER CONSULTORIA EMPRESARIAL</div>
+        
+        <h1>Crédito Corporativo sem Garantia Real</h1>
+        
+        <p>Solução financeira exclusiva de alto valor desenvolvida para indústrias, construtoras e empresas de grande porte que necessitam de injeção de capital sem o comprometimento de seus ativos imobiliários ou maquinários.</p>
+    </header>
+
+    <main class="animate-2">
+        <h2 class="section-title" id="parametros">01 — Parâmetros da Operação</h2>
+        <section class="grid">
+            <div class="card">
+                <h3>Condições Financeiras</h3>
+                <ul>
+                    <li>Volume Mínimo Liberado: <strong>R$ 5.000.000,00</strong></li>
+                    <li>Taxa Mensal Fixa de Juros: <strong>1,23% a.m.</strong></li>
+                    <li>Prazo de Pagamento: <strong>36, 60, e em 120 vezes somente com análise</strong></li>
+                    <li>Carência (Sem Pagamento): <strong>06 Meses</strong></li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Mecânica de Garantia (10%)</h3>
+                <p style="font-size: 14.5px; color: var(--text-dim); margin-bottom: 20px; line-height: 1.7;">
+                    Operação estruturada para mitigar o risco sem o uso de garantias reais. Para viabilizar a liberação, o fundo utiliza uma trava financeira equivalente a 10% do valor do crédito:
+                </p>
+                <ul>
+                    <li><strong>5% Retido na fonte:</strong> Descontado diretamente do valor liberado pelo fundo.</li>
+                    <li><strong>5% Repassado à Gerência:</strong> Valor repassado diretamente à gerência bancária estruturadora.</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="highlight-banner" id="custos">
+            <h3>Custos de Estruturação e Assessoria (10%)</h3>
+            <p class="cost-intro">
+                A viabilização de um crédito corporativo sem garantia real exige uma engenharia financeira meticulosa. Para garantir o enquadramento e a aprovação com rigor institucional, a operação contempla um custo de estruturação cobrado exclusivamente sobre o montante aprovado, remunerando toda a cadeia da operação:
+            </p>
+
+            <div class="cost-grid">
+                <div class="cost-card">
+                    <h4>3% — Retenção Institucional</h4>
+                    <p>Destinado aos trâmites internos do fundo para lastrear e formalizar a liberação do capital.</p>
+                    <ul style="margin-top: 0;">
+                        <li><strong>Due Diligence:</strong> Taxas administrativas e análise profunda de risco financeiro.</li>
+                        <li><strong>Comitê de Crédito:</strong> Custas de avaliação e aprovação institucional.</li>
+                        <li><strong>Formalização:</strong> Emissão e registro do instrumento legal de crédito.</li>
+                    </ul>
+                </div>
+
+                <div class="cost-card">
+                    <h4>7% — Assessoria</h4>
+                    <p>Remunera a estruturação de ponta a ponta, garantindo o rigor de compliance exigido pelo fundo.</p>
+                    <ul style="margin-top: 0;">
+                        <li><strong>Engenharia Contábil:</strong> Saneamento de balanços e adequação estratégica de DREs.</li>
+                        <li><strong>Blindagem Jurídica:</strong> Análise de certidões e mitigação ativa de apontamentos.</li>
+                        <li><strong>Defesa do Dossiê:</strong> Acompanhamento e argumentação técnica até a liquidez na conta.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <h2 class="section-title" id="dossie">02 — Inteligência Financeira: O Dossiê de Crédito</h2>
+        
+        <section class="grid" style="margin-bottom: 24px;">
+            <div class="card" style="grid-column: 1 / -1; display: flex; flex-direction: column; align-items: center; text-align: center;">
+                <h3>O Raio-X da Sua Empresa</h3>
+                <p style="font-size: 16.5px; color: var(--text-dim); max-width: 850px; margin-bottom: 40px;">
+                    Para aprovar um volume alto de crédito sem travar seu patrimônio, o mercado exige clareza e previsibilidade. Nós desenvolvemos um <strong>Dossiê Estratégico Corporativo</strong> sucinto e dinâmico que audita todo o cenário da sua empresa: análise completa do backlog de contratos, diagnóstico do Balanço Patrimonial e DRE, recomendação exata da estrutura de crédito e compliance de governança jurídica. É essa profundidade que blinda a operação e garante o "Sim" institucional.
+                </p>
+                
+                <div class="success-fee-box" style="margin: 0; padding: 40px; text-align: center; display: flex; flex-direction: column; align-items: center; width: 100%; max-width: 750px;">
+                    <h4 style="justify-content: center; font-size: 20px; margin-bottom: 15px;">Exemplo de Dossiê Estratégico</h4>
+                    <p style="font-size: 16px; margin-bottom: 30px;">
+                        Acesse o documento abaixo para visualizar na prática a profundidade e a estrutura do relatório que desenvolvemos para fundamentar operações de alto valor no mercado corporativo.
+                    </p>
+                    <a href="#" target="_blank" class="btn-pdf" style="margin-top: 0; width: 100%; max-width: 350px;">
+                        📄 Visualizar Exemplo (Grupo SYH)
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <div class="success-fee-box" style="margin: 0 auto 50px auto; padding: 40px; text-align: center; display: flex; flex-direction: column; align-items: center; max-width: 900px;">
+            <h4 style="justify-content: center; font-size: 20px; margin-bottom: 15px;">Elaboração do Relatório</h4>
+            <p style="font-size: 16px; margin-bottom: 25px;">
+                Sua empresa não possui este documento? A Master Consultoria se encarrega de construir o seu Dossiê do zero, garantindo o rigor técnico e o padrão de compliance exigido pelos fundos.
+            </p>
+            
+            <div style="background: rgba(255,255,255,0.03); padding: 15px 40px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); display: inline-block;">
+                <span style="display: block; font-size: 12px; color: var(--silver-dark); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 5px;">Investimento</span>
+                <strong style="color: #ffffff; font-size: 28px; font-family: 'Playfair Display', serif;">R$ 60.000,00</strong>
+            </div>
+        </div>
+
+        <h2 class="section-title" id="perfil">03 — Perfil do Cliente e Compliance</h2>
+        <section class="grid">
+            <div class="card">
+                <h3>Público e Faturamento</h3>
+                <ul>
+                    <li>Foco em <strong>Construtoras, Indústrias e Grandes Empresas</strong>.</li>
+                    <li>Faturamento anual mínimo de <strong>R$ 10.000.000,00</strong>.</li>
+                    <li>Regime Tributário: <strong>Lucro Real ou Lucro Presumido</strong>.</li>
+                    <li>Tempo de atuação: Mínimo de <strong>4 anos de CNPJ aberto</strong>.</li>
+                </ul>
+            </div>
+            <div class="card">
+                <h3>Restrições e Elegibilidade</h3>
+                <ul>
+                    <li>Ausência de <strong>Processos Judiciais</strong> graves.</li>
+                    <li>Não estar em processo de <strong>Recuperação Judicial</strong>.</li>
+                    <li>Nenhuma ocorrência de <strong>Processos Criminais</strong> atrelados aos sócios ou à empresa.</li>
+                </ul>
+            </div>
+        </section>
+
+        <div class="animate-3" id="checklist">
+            <h2 class="section-title">04 — Checklist Documental Completo</h2>
+            <p style="color: var(--text-dim); margin-bottom: 10px;">Relação detalhada de documentos necessários para início da análise. <em>Nota: Os relatórios financeiros devem estar devidamente assinados pelo contador responsável e certidão de casamento dos sócios, se houver.</em></p>
+            
+            <div class="checklist-header">
+                <div>
+                    <p class="checklist-progress-text">Progresso: <span id="checkCount">0</span> de <span id="checkTotal">11</span> documentos reunidos</p>
+                </div>
+                <button class="checklist-reset" onclick="resetChecklist()" aria-label="Resetar checklist">↺ Resetar</button>
+            </div>
+
+            <div class="progress-bar-track" role="progressbar" aria-valuemin="0" aria-valuemax="11" aria-valuenow="0" id="progressBar" aria-label="Progresso da documentação">
+                <div class="progress-bar-fill" id="progressFill" style="width: 0%;"></div>
+            </div>
+
+            <div class="checklist-grid" id="checklistGrid">
+                </div>
+
+            <div class="execution-box">
+                <h4 style="color: var(--silver-light); font-size: 20px; font-family: 'Playfair Display', serif; margin-bottom: 10px;">Prazo de Execução</h4>
+                <p style="color: var(--text-dim); font-size: 16px; line-height: 1.7; margin: 0;">
+                    Os trabalhos de assessoria serão iniciados imediatamente após a assinatura do contrato, com um <strong>prazo estimado de 60 a 90 dias úteis</strong> para a liberação do crédito.
+                </p>
+            </div>
+        </div>
+
+        <section class="diferencial animate-3" id="diferencial">
+            <h3>Diferencial Exclusivo</h3>
+            
+            <p class="intro">
+                Nosso compromisso é o alinhamento total de interesses com o seu negócio. Atuamos como verdadeiros parceiros estratégicos, garantindo um atendimento consultivo e focado exclusivamente na injeção real de liquidez para o crescimento sustentável da sua empresa. A Master Consultoria Empresarial empenha toda a sua estrutura operacional, investindo tempo, expertise técnica e forte relacionamento institucional para viabilizar o seu capital.
+            </p>
+
+            <div class="success-fee-box">
+                <h4>Modelo Success Fee (Risco Zero no Processo)</h4>
+                <p>
+                    <strong>Você não possui nenhum custo prévio.</strong> Nossos honorários de consultoria estão estritamente condicionados ao resultado e serão cobrados apenas após a finalização do dossiê, a aprovação em comitê e a <strong>efetiva liberação do crédito na conta da sua empresa</strong>.
+                </p>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer animate-3">
+        Documento Confidencial • Uso Institucional • Master Consultoria Empresarial • Edifício Top Tower Center, Sala 101 - Avenida do CPA. Cuiabá - MT
+    </footer>
+</div>
+
+<script>
+// ============================================================
+// CHECKLIST COM LOCALSTORAGE
+// ============================================================
+var CHECKLIST_ITEMS = [
+    'Cartão CNPJ atualizado',
+    'Contrato Social e todas as alterações',
+    'RG, CPF ou CNH dos sócios',
+    'Certidão de casamento (se aplicável)',
+    'Comprovante de residência dos sócios',
+    'Comprovante de endereço da empresa',
+    'Alvará de funcionamento (Importante)',
+    'Faturamento dos últimos 12 meses',
+    'Balanço Patrimonial (23, 24, 25 e 1º tri 26)',
+    'DRE (2023, 2024, 2025 e 1º tri 2026)',
+    'Relatório de Desempenho Financeiro (Engenheiros CVM)'
+];
+
+var STORAGE_KEY = 'master_corp_checklist';
+
+function loadChecked() {
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); } catch(e) { return []; }
+}
+function saveChecked(arr) {
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(arr)); } catch(e) {}
+}
+
+function renderChecklist() {
+    var checked = loadChecked();
+    var grid    = document.getElementById('checklistGrid');
+    var total   = CHECKLIST_ITEMS.length;
+
+    grid.innerHTML = CHECKLIST_ITEMS.map(function(item, i) {
+        var isDone = checked.indexOf(i) !== -1;
+        return '<label class="checklist-item' + (isDone ? ' done' : '') + '" for="chk' + i + '">' +
+               '<input type="checkbox" id="chk' + i + '" data-index="' + i + '"' + (isDone ? ' checked' : '') + '>' +
+               '<span class="check-box"></span>' +
+               '<span class="item-text">' + item + '</span>' +
+               '</label>';
+    }).join('');
+
+    updateProgress(checked.length, total);
+
+    grid.querySelectorAll('input[type=checkbox]').forEach(function(cb) {
+        cb.addEventListener('change', function() {
+            var idx     = parseInt(this.dataset.index);
+            var checked = loadChecked();
+            if (this.checked) {
+                if (checked.indexOf(idx) === -1) checked.push(idx);
+            } else {
+                checked = checked.filter(function(i) { return i !== idx; });
+            }
+            saveChecked(checked);
+            renderChecklist();
+        });
+    });
+}
+
+function updateProgress(done, total) {
+    document.getElementById('checkCount').textContent = done;
+    document.getElementById('checkTotal').textContent = total;
+    var pct = total > 0 ? (done / total * 100) : 0;
+    document.getElementById('progressFill').style.width = pct.toFixed(1) + '%';
+    document.getElementById('progressBar').setAttribute('aria-valuenow', done);
+}
+
+function resetChecklist() {
+    if (confirm('Deseja resetar o progresso do checklist?')) { saveChecked([]); renderChecklist(); }
+}
+
+renderChecklist();
+
+// ============================================================
+// SCROLL SUAVE PARA ÂNCORAS
+// ============================================================
+document.querySelectorAll('a[href^="#"]').forEach(function(a) {
+    a.addEventListener('click', function(e) {
+        var target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+            e.preventDefault();
+            var navH = document.querySelector('.nav') ? document.querySelector('.nav').offsetHeight : 0;
+            var top  = target.getBoundingClientRect().top + window.scrollY - navH - 20;
+            window.scrollTo({ top: top, behavior: 'smooth' });
+        }
+    });
+});
+</script>
+
+</body>
+</html>

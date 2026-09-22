@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dossiê Premium - Master Consultoria Empresarial</title>
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #020203;
+            --card-bg: rgba(8, 10, 14, 0.95);
+            --primary-blue: #001224;
+            --accent-blue: #0044cc;
+            --glow-blue: rgba(0, 68, 204, 0.4);
+            --text-light: #f4f4f4;
+            --text-muted: #a8a8b8;
+            --border-color: #1a1f2b;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Baskerville', 'Libre Baskerville', serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            background-image: linear-gradient(135deg, #000411 0%, #00152b 50%, #000411 100%);
+            color: var(--text-light);
+            line-height: 1.7;
+            padding: 40px 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .document-wrapper {
+            width: 100%;
+            max-width: 900px;
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border-radius: 4px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8), 0 0 30px rgba(0, 18, 36, 0.6);
+            border: 1px solid #1a2a40;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-container {
+            width: 100%;
+            height: 4px;
+            background: #000;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 10;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #002266, var(--accent-blue), #5588ff);
+            box-shadow: 0 0 15px var(--accent-blue);
+            transition: width 0.6s ease-in-out;
+        }
+
+        header {
+            padding: 60px 30px 40px;
+            text-align: center;
+            border-bottom: 1px solid #1a2a40;
+            background: radial-gradient(circle at top, rgba(0, 40, 100, 0.2), transparent 80%);
+        }
+
+        header h1 {
+            font-size: 42px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: #ffffff;
+            text-shadow: 0 4px 15px rgba(0, 0, 0, 0.9);
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        header p {
+            font-size: 15px;
+            font-weight: 400;
+            letter-spacing: 6px;
+            color: #77aaff;
+            text-transform: uppercase;
+            font-style: italic;
+        }
+
+        main {
+            padding: 50px 40px;
+        }
+
+        fieldset {
+            border: 1px solid #1a2a40;
+            border-radius: 2px;
+            margin-bottom: 50px;
+            padding: 40px 30px 25px;
+            position: relative;
+            background: rgba(0, 5, 10, 0.4);
+            transition: all 0.4s ease;
+        }
+
+        fieldset:hover {
+            border-color: #3366cc;
+            background: rgba(0, 15, 30, 0.6);
+        }
+
+        legend {
+            color: #ffffff;
+            font-size: 20px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            padding: 8px 30px;
+            background: #000a14;
+            border: 1px solid #3366cc;
+            margin-left: 10px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.8);
+            text-transform: uppercase;
+        }
+
+        .check-container {
+            display: flex;
+            align-items: center;
+            position: relative;
+            padding-left: 55px;
+            margin-bottom: 30px;
+            cursor: pointer;
+            font-size: 17px;
+            font-weight: 400;
+            color: var(--text-muted);
+            transition: all 0.4s ease;
+            letter-spacing: 0.5px;
+        }
+
+        .check-container:hover {
+            color: #ffffff;
+            transform: translateX(5px);
+        }
+
+        .check-container input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            height: 0;
+            width: 0;
+        }
+
+        .checkmark {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            left: 10px;
+            height: 24px;
+            width: 24px;
+            background-color: transparent;
+            border: 1px solid #445566;
+            transition: all 0.3s ease;
+        }
+
+        .check-container:hover .checkmark {
+            border-color: #77aaff;
+        }
+
+        .check-container input:checked ~ .checkmark {
+            background-color: var(--accent-blue);
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 20px var(--glow-blue);
+        }
+
+        .check-container input:checked ~ {
+            color: #ffffff;
+            font-weight: 700;
+        }
+
+        .checkmark:after {
+            content: "";
+            position: absolute;
+            display: none;
+            left: 7px;
+            top: 2px;
+            width: 6px;
+            height: 12px;
+            border: solid #ffffff;
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+        }
+
+        .check-container input:checked ~ .checkmark:after {
+            display: block;
+        }
+
+        footer {
+            background-color: #010102;
+            padding: 40px 30px;
+            text-align: center;
+            border-top: 1px solid #1a2a40;
+        }
+
+        .status-text {
+            font-size: 18px;
+            font-weight: 700;
+            color: #77aaff;
+            margin-bottom: 20px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        footer p {
+            font-size: 12px;
+            font-weight: 400;
+            color: #667788;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .btn-print {
+            background: transparent;
+            color: #ffffff;
+            border: 1px solid #77aaff;
+            padding: 18px 50px;
+            font-size: 16px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            cursor: pointer;
+            margin-bottom: 40px;
+            transition: all 0.4s ease;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .btn-print:hover {
+            background: #002255;
+            border-color: #ffffff;
+            box-shadow: 0 15px 40px rgba(0, 68, 204, 0.6);
+            transform: translateY(-2px);
+        }
+
+        /* AJUSTES PARA CELULAR (RESPONSIVIDADE) */
+        @media (max-width: 768px) {
+            body {
+                padding: 20px 10px;
+            }
+            header {
+                padding: 40px 20px 30px;
+            }
+            header h1 {
+                font-size: 26px; /* Letra menor para não quebrar a tela */
+                letter-spacing: 1px;
+            }
+            header p {
+                font-size: 11px;
+                letter-spacing: 3px;
+            }
+            main {
+                padding: 30px 20px;
+            }
+            fieldset {
+                padding: 30px 15px 20px;
+                margin-bottom: 40px;
+            }
+            legend {
+                font-size: 15px;
+                padding: 6px 15px;
+                margin-left: 0;
+                letter-spacing: 1px;
+                width: 90%; /* Ajuste para não vazar a borda */
+                text-align: center;
+            }
+            .check-container {
+                font-size: 15px;
+                padding-left: 45px;
+                margin-bottom: 25px;
+            }
+            .check-container:hover {
+                transform: none; /* Desativa a animação de lado no touch */
+            }
+            .checkmark {
+                height: 22px;
+                width: 22px;
+                left: 5px;
+            }
+            .btn-print {
+                padding: 15px 20px;
+                font-size: 14px;
+                width: 100%; /* Botão ocupa toda a largura */
+                letter-spacing: 2px;
+            }
+            .status-text {
+                font-size: 15px;
+            }
+            footer p {
+                font-size: 10px;
+                letter-spacing: 1px;
+            }
+        }
+
+        /* Ocultar elementos na impressão */
+        @media print {
+            body { background: #fff; color: #000; padding: 0; }
+            .document-wrapper { box-shadow: none; border: none; background: #fff; max-width: 100%; }
+            header h1, header p, legend, .check-container, footer p { color: #000; text-shadow: none; }
+            header { background: none; border-bottom: 2px solid #000; padding: 20px; }
+            legend { background: #fff; border: 1px solid #000; box-shadow: none; width: auto; }
+            fieldset { border: 1px solid #000; background: none; margin-bottom: 30px; padding: 30px 20px 20px; }
+            .checkmark { border: 1px solid #000; background: #fff !important; box-shadow: none !important; }
+            .check-container input:checked ~ .checkmark:after { border-color: #000; }
+            .btn-print, .progress-container, .status-text { display: none; }
+            footer { background: #fff; border-top: 2px solid #000; padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <button class="btn-print" onclick="window.print()">GERAR DOSSIÊ OFICIAL</button>
+
+    <div class="document-wrapper">
+        <div class="progress-container">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+
+        <header>
+            <h1>MASTER CONSULTORIA EMPRESARIAL</h1>
+            <p>Dossiê de Crédito Institucional</p>
+        </header>
+
+        <main>
+            <form id="checklistForm">
+                <fieldset>
+                    <legend>Documentos Corporativos</legend>
+                    <label class="check-container">Cartão CNPJ
+                        <input type="checkbox" class="doc-check">
+                        <span class="checkmark"></span>
+                    </label>
+                    <label class="check-container">Contrato Social e alterações (se houver)
+                        <input type="checkbox" class="doc-check">
+                        <span class="checkmark"></span>
+                    </label>
+                    <label class="check-container">Faturamento dos últimos 12 meses (assinado digitalmente)
+                        <input type="checkbox" class="doc-check">
+                        <span class="checkmark"></span>
+                    </label>
+                    <label class="check-container">Comprovante de endereço da Empresa (recente)
+                        <input type="checkbox" class="doc-check">
+                        <span class="checkmark"></span>
+                    </label>
+                    <label class="check-container">Alvará de Funcionamento (se aplicável)
+                        <input type="checkbox" class="doc-check">
+                        <span class="checkmark"></span>
+                    </label>
+                    <label class="check-container">Fotos do estabelecimento (fachada e estrutura interna)
+                        <input type="checkbox" class="doc-check">
+                        <span class="checkmark"></span>
+                    </label>
+                </fieldset>
+
+                <fieldset>
+                    <legend>Documentação Societária</legend>
+                    <label class="check-container">RG ou CNH de todos os sócios
+                        <input type="checkbox" class="doc-check">
+                        <span class="checkmark"></span>
+                    </label>
+                    <label class="check-container">Comprovante de Residência de todos os sócios
+                        <input type="checkbox" class="doc-check">
+                        <span class="checkmark"></span>
+                    </label>
+                    <label class="check-container">Declaração de Imposto de Renda (Pessoa Física) completa
+                        <input type="checkbox" class="doc-check">
+                        <span class="checkmark"></span>
+                    </label>
+                    <label class="check-container">Certidão de casamento (Se houver)
+                        <input type="checkbox" class="doc-check">
+                        <span class="checkmark"></span>
+                    </label>
+                </fieldset>
+
+                <fieldset>
+                    <legend>Credenciais de Acesso</legend>
+                    <label class="check-container">E-mail e Telefone para contato
+                        <input type="checkbox" class="doc-check">
+                        <span class="checkmark"></span>
+                    </label>
+                    <label class="check-container">Certificado Digital A1 (.pfx) com senha
+                        <input type="checkbox" class="doc-check">
+                        <span class="checkmark"></span>
+                    </label>
+                    <label class="check-container">Senha GOV.BR (sem verificação em duas etapas)
+                        <input type="checkbox" class="doc-check">
+                        <span class="checkmark"></span>
+                    </label>
+                </fieldset>
+            </form>
+        </main>
+
+        <footer>
+            <div class="status-text" id="statusText">Status: Aguardando Documentação</div>
+            <p>Master Consultoria Empresarial | Edifício Top Tower Center, Sala 101 - Avenida do CPA. Cuiabá - MT</p>
+        </footer>
+    </div>
+
+    <script>
+        const checkboxes = document.querySelectorAll('.doc-check');
+        const progressBar = document.getElementById('progressBar');
+        const statusText = document.getElementById('statusText');
+        const total = checkboxes.length;
+
+        checkboxes.forEach(box => {
+            box.addEventListener('change', () => {
+                const checked = document.querySelectorAll('.doc-check:checked').length;
+                const percentage = (checked / total) * 100;
+                progressBar.style.width = percentage + '%';
+
+                if (percentage === 0) {
+                    statusText.textContent = 'Status: Aguardando Documentação';
+                    statusText.style.color = '#77aaff';
+                } else if (percentage > 0 && percentage < 100) {
+                    statusText.textContent = `Status: Em Análise (${Math.round(percentage)}%)`;
+                    statusText.style.color = '#aabbff';
+                } else {
+                    statusText.textContent = 'Status: Dossiê Aprovado ✔';
+                    statusText.style.color = '#ffffff';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
