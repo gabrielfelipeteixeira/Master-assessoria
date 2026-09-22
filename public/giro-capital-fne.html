@@ -431,6 +431,18 @@
         .author-info p { color: var(--text-dim); font-size: 13.5px; margin: 0; }
         .author-info p span { color: rgba(148,163,184,0.6); font-size: 12px; display: block; margin-top: 2px; }
 
+        /* EMPRESAS ATENDIDAS */
+        .client-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; margin-top: 40px; }
+        .client-card {
+            display: flex; align-items: center; gap: 16px;
+            background: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0) 100%);
+            border: 1px solid rgba(255,255,255,0.05); border-radius: 16px; padding: 18px 22px;
+            transition: border-color 0.3s ease, background 0.3s ease;
+        }
+        .client-card:hover { background: rgba(255,255,255,0.05); border-color: rgba(16,185,129,0.3); }
+        .client-card .author-avatar { flex-shrink: 0; width: 42px; height: 42px; font-size: 18px; }
+        .client-name { color: var(--silver-light); font-size: 13.5px; font-weight: 500; letter-spacing: 0.8px; line-height: 1.5; }
+
         /* QUEM SOMOS */
         .about-section { 
             background: linear-gradient(135deg, rgba(15,23,42,0.4) 0%, rgba(2,4,8,0.7) 100%); 
@@ -676,7 +688,7 @@
             <li><a href="#processo">Processo</a></li>
             <li><a href="#simulador">Simulador</a></li>
             <li><a href="#checklist">Checklist</a></li>
-            <li><a href="#sucesso">Casos</a></li>
+            <li><a href="#sucesso">Clientes</a></li>
             <li><a href="#sobre">Sobre</a></li>
             <li><a href="#faq">Dúvidas</a></li>
         </ul>
@@ -823,72 +835,46 @@
         </div>
 
         <div class="reveal" id="sucesso">
-            <h2 class="section-title">05 — Casos de Sucesso</h2>
-            <p style="color:var(--text-dim);margin-bottom:30px;font-size:17px;">Confira empresas que estruturaram suas finanças e alavancaram seus negócios através do nosso acompanhamento especializado junto ao Banco do Nordeste no Ceará.</p>
+            <h2 class="section-title">05 — Empresas Atendidas</h2>
+            <p style="color:var(--text-dim);margin-bottom:30px;font-size:17px;">Algumas das empresas que estruturaram seu crédito com o acompanhamento da Master Consultoria.</p>
 
-            <div class="testimonial-grid">
-                <div class="testimonial-card">
-                    <p class="testimonial-text">"O enquadramento no FNE Giro foi perfeito. Garantimos uma taxa fixa de 0,9% que viabilizou a expansão da nossa produção de forma totalmente previsível."</p>
-                    <div class="testimonial-author">
-                        <div class="author-avatar">E</div>
-                        <div class="author-info">
-                            <h5>Erica</h5>
-                            <p>Ateliê da Formiga <span>Aldeota - Fortaleza, CE</span></p>
-                        </div>
-                    </div>
+            <div class="client-grid">
+                <div class="client-card">
+                    <div class="author-avatar" aria-hidden="true">D</div>
+                    <span class="client-name">D LIMA EXPRESS TRANSPORTE LTDA</span>
                 </div>
-                <div class="testimonial-card">
-                    <p class="testimonial-text">"A estruturação documental feita pela consultoria foi essencial. Conseguimos capital rápido e os 6 meses de carência nos deram fôlego para aumentar o estoque."</p>
-                    <div class="testimonial-author">
-                        <div class="author-avatar">W</div>
-                        <div class="author-info">
-                            <h5>Wanderson</h5>
-                            <p>WMR <span>Centro - Fortaleza, CE</span></p>
-                        </div>
-                    </div>
+                <div class="client-card">
+                    <div class="author-avatar" aria-hidden="true">L</div>
+                    <span class="client-name">LUISA REGIOLANI MENDES DIAS</span>
                 </div>
-                <div class="testimonial-card">
-                    <p class="testimonial-text">"Processo ágil e transparente. Saber que nossa taxa não vai variar com a Selic nos deu a tranquilidade necessária para investir em novas estruturas de atendimento."</p>
-                    <div class="testimonial-author">
-                        <div class="author-avatar">E</div>
-                        <div class="author-info">
-                            <h5>Elivaldo</h5>
-                            <p>Rota do Açaí <span>Beira Mar - Fortaleza, CE</span></p>
-                        </div>
-                    </div>
+                <div class="client-card">
+                    <div class="author-avatar" aria-hidden="true">N</div>
+                    <span class="client-name">NOBRE COSMETICOS E PERFUMARIA E HIGIENE PESSOAL LTDA</span>
                 </div>
-                <div class="testimonial-card">
-                    <p class="testimonial-text">"A consultoria cuidou de todo o compliance exigido pelo Banco do Nordeste. O atendimento via Success Fee nos provou a seriedade do trabalho."</p>
-                    <div class="testimonial-author">
-                        <div class="author-avatar">L</div>
-                        <div class="author-info">
-                            <h5>Diretoria</h5>
-                            <p>Lilay Modas <span>Maracanaú - CE</span></p>
-                        </div>
-                    </div>
+                <div class="client-card">
+                    <div class="author-avatar" aria-hidden="true">E</div>
+                    <span class="client-name">EDUARDO ELEUTERIO DE ALBUQUERQUE</span>
                 </div>
-                
-                <div class="testimonial-card">
-                    <p class="testimonial-text">"A Master Consultoria foi um divisor de águas. Com o crédito do FNE, conseguimos modernizar nosso maquinário mantendo o fluxo de caixa saudável graças à carência."</p>
-                    <div class="testimonial-author">
-                        <div class="author-avatar">C</div>
-                        <div class="author-info">
-                            <h5>Carlos</h5>
-                            <p>Nordeste Têxtil <span>Eusébio - CE</span></p>
-                        </div>
-                    </div>
+                <div class="client-card">
+                    <div class="author-avatar" aria-hidden="true">G</div>
+                    <span class="client-name">GUITEMBERG ALMEIDA DE LIMA</span>
                 </div>
-                <div class="testimonial-card">
-                    <p class="testimonial-text">"Ter uma taxa fixa nos permitiu planejar a expansão da empresa sem medo de surpresas. Não tínhamos conta no BNB e eles resolveram tudo com maestria."</p>
-                    <div class="testimonial-author">
-                        <div class="author-avatar">A</div>
-                        <div class="author-info">
-                            <h5>Amanda</h5>
-                            <p>Inova Tech Solutions <span>Meireles - Fortaleza, CE</span></p>
-                        </div>
-                    </div>
+                <div class="client-card">
+                    <div class="author-avatar" aria-hidden="true">M</div>
+                    <span class="client-name">MARCENARIA M&amp;R LTDA</span>
                 </div>
-
+                <div class="client-card">
+                    <div class="author-avatar" aria-hidden="true">P</div>
+                    <span class="client-name">P J GOMES DA SILVA CEREAIS</span>
+                </div>
+                <div class="client-card">
+                    <div class="author-avatar" aria-hidden="true">S</div>
+                    <span class="client-name">S L FRIGORIFICO LTDA</span>
+                </div>
+                <div class="client-card">
+                    <div class="author-avatar" aria-hidden="true">V</div>
+                    <span class="client-name">VM CONSULTORIA LTDA</span>
+                </div>
             </div>
         </div>
 
