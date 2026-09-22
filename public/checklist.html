@@ -6,7 +6,7 @@
     <meta name="robots" content="noindex">
     <title>Checklist Documental | Master Consultoria Empresarial</title>
     <meta name="theme-color" content="#04070d">
-    <script>document.documentElement.classList.add("js");</script>
+    <script>(function (d) { d.classList.add("js"); try { if (!(window.CSS && CSS.supports("animation-timeline: view()")) && "IntersectionObserver" in window && matchMedia("(prefers-reduced-motion: no-preference)").matches) d.classList.add("fx-js"); } catch (e) {} })(document.documentElement);</script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -133,7 +133,7 @@
         .checklist-item input:checked ~ .item-text { color: rgba(255,255,255,0.35); text-decoration: line-through; }
         .checklist-item input:focus-visible + .check-box, .btn:focus-visible { outline: 2px solid var(--green-light); outline-offset: 3px; }
 
-        html:not(.js) .actions, html:not(.js) .progress-bar-track { display: none; }
+        html:not(.js) .actions { display: none; }
 
         .footer {
             margin-top: 60px; padding-top: 30px;
@@ -164,9 +164,258 @@
             .checklist-item input:checked + .check-box::after { color: #000; }
             .checklist-item input:checked ~ .item-text { color: #000; text-decoration: none; }
         }
+
+        /* ============================================
+           EFEITOS VISUAIS
+           Tudo aqui funciona só com CSS (inclusive na prévia do
+           WhatsApp). O JavaScript do fim da página só ajuda
+           navegadores antigos. Quem ativou "reduzir movimento"
+           no celular não vê animações.
+        ============================================ */
+        :root {
+            --fx-accent: #10b981;
+            --fx-accent-rgb: 16, 185, 129;
+            --fx-glow-a: rgba(16, 185, 129, 0.20);
+            --fx-glow-b: rgba(37, 99, 235, 0.14);
+            --fx-glow-c: rgba(20, 184, 166, 0.10);
+            --fx-line: linear-gradient(90deg, rgba(16, 185, 129, 0.35), #10b981 60%, #6ee7b7);
+            --fx-sticky-top: calc(var(--nav-h, 0px) + 10px);
+        }
+
+        /* Luzes de fundo em movimento lento (só transform: leve no celular) */
+        .fx-aurora { position: fixed; inset: 0; z-index: -2; overflow: hidden; pointer-events: none; }
+        .fx-aurora span { position: absolute; border-radius: 50%; will-change: transform; }
+        .fx-aurora span:nth-child(1) { width: 75vmax; height: 75vmax; top: -38vmax; left: -28vmax; background: radial-gradient(circle, var(--fx-glow-a) 0%, transparent 62%); }
+        .fx-aurora span:nth-child(2) { width: 80vmax; height: 80vmax; bottom: -45vmax; right: -35vmax; background: radial-gradient(circle, var(--fx-glow-b) 0%, transparent 62%); }
+        .fx-aurora span:nth-child(3) { width: 55vmax; height: 55vmax; top: 35%; left: 30%; background: radial-gradient(circle, var(--fx-glow-c) 0%, transparent 62%); }
+
+        /* Abertura: título com brilho passando e etiqueta com reflexo */
+        .hero h1 {
+            background-image: linear-gradient(100deg, rgba(255,255,255,0) 42%, rgba(255,255,255,0.95) 50%, rgba(255,255,255,0) 58%), var(--text-chrome);
+            background-size: 250% 100%, 100% 100%;
+            background-position: 150% 0, 0 0;
+            background-repeat: no-repeat;
+            -webkit-background-clip: text;
+            background-clip: text;
+        }
+        .hero .tag { position: relative; overflow: hidden; }
+        .hero .tag::after {
+            content: ''; position: absolute; inset: 0; pointer-events: none;
+            background: linear-gradient(100deg, transparent 35%, rgba(255,255,255,0.28) 50%, transparent 65%);
+            transform: translateX(-110%);
+        }
+
+        /* Checklist: caixinha com ✓ desenhado e item marcado em destaque */
+        .checklist-item input[type="checkbox"]:checked + .check-box { transform: scale(1.08); }
+        .checklist-item input[type="checkbox"]:checked + .check-box::after {
+            content: ''; width: 6px; height: 11px; margin-top: -2px;
+            border: solid #04070d; border-width: 0 2.5px 2.5px 0;
+            transform: rotate(45deg);
+        }
+        .checklist-item:has(input:checked) { background: rgba(var(--fx-accent-rgb), 0.07); border-color: rgba(var(--fx-accent-rgb), 0.3); }
+        .checklist-item .item-text { transition: color 0.3s ease, opacity 0.3s ease; }
+
+        /* Progresso do checklist: contado pelo próprio CSS (funciona sem JavaScript)
+           e fixo no topo enquanto a lista rola */
+        .fx-scope { display: flex; flex-direction: column; counter-reset: docs; }
+        .fx-scope > .section-title, .fx-scope > .fx-head { order: -2; }
+        .fx-list input[type="checkbox"]:checked { counter-increment: docs; }
+        .fx-count::before { content: counter(docs); }
+        .fx-sticky {
+            order: -1;
+            position: -webkit-sticky; position: sticky; top: var(--fx-sticky-top); z-index: 20;
+            margin-bottom: 26px; padding: 18px 22px;
+            background: rgba(4, 7, 13, 0.84);
+            -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 18px;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+            transition: border-color 0.4s ease, box-shadow 0.4s ease;
+        }
+        .fx-sticky .checklist-header { margin-bottom: 12px; flex-wrap: nowrap; }
+        .fx-sticky .checklist-progress-text { margin: 0; }
+        .fx-sticky .progress-bar-track { margin-bottom: 0; }
+        .fx-status .fx-status-progress, .fx-status .fx-status-done { color: inherit; font-weight: inherit; }
+        .fx-status strong { color: #ffffff; font-weight: 600; }
+        .fx-status .fx-status-done { display: none; color: #34d399; font-weight: 600; }
+
+        @media (max-width: 600px) {
+            .fx-long { display: none; }
+            .fx-sticky { padding: 14px 16px; border-radius: 16px; }
+            .fx-sticky .checklist-progress-text { font-size: 14px; }
+            .fx-sticky .checklist-reset { padding: 6px 12px; font-size: 12.5px; white-space: nowrap; }
+        }
+
+        /* Barra em segmentos: cada item marcado acende um pedaço (sem JavaScript) */
+        .fx-bar { display: flex; position: relative; height: 6px; border-radius: 3px; overflow: hidden; background: rgba(255, 255, 255, 0.06); }
+        .fx-seg { flex: 1 1 0; background-color: transparent; transition: background-color 0.45s ease, box-shadow 0.45s ease; }
+        .fx-scope:has(#chk0:checked) .fx-seg:nth-child(1),
+        .fx-scope:has(#chk1:checked) .fx-seg:nth-child(2),
+        .fx-scope:has(#chk2:checked) .fx-seg:nth-child(3),
+        .fx-scope:has(#chk3:checked) .fx-seg:nth-child(4),
+        .fx-scope:has(#chk4:checked) .fx-seg:nth-child(5),
+        .fx-scope:has(#chk5:checked) .fx-seg:nth-child(6),
+        .fx-scope:has(#chk6:checked) .fx-seg:nth-child(7),
+        .fx-scope:has(#chk7:checked) .fx-seg:nth-child(8),
+        .fx-scope:has(#chk8:checked) .fx-seg:nth-child(9),
+        .fx-scope:has(#chk9:checked) .fx-seg:nth-child(10),
+        .fx-scope:has(#chk10:checked) .fx-seg:nth-child(11),
+        .fx-scope:has(#chk11:checked) .fx-seg:nth-child(12),
+        .fx-scope:has(#chk12:checked) .fx-seg:nth-child(13) {
+            order: -1; background-color: var(--fx-accent); box-shadow: 1px 0 0 var(--fx-accent), 0 0 8px rgba(var(--fx-accent-rgb), 0.5);
+        }
+
+        /* Tudo marcado */
+        .fx-scope:not(:has(.fx-list input:not(:checked))) .fx-status-progress { display: none; }
+        .fx-scope:not(:has(.fx-list input:not(:checked))) .fx-status-done { display: inline; }
+        .fx-scope:not(:has(.fx-list input:not(:checked))) .fx-sticky {
+            border-color: rgba(var(--fx-accent-rgb), 0.55);
+            box-shadow: 0 0 0 1px rgba(var(--fx-accent-rgb), 0.25), 0 12px 40px rgba(var(--fx-accent-rgb), 0.2);
+        }
+        .fx-scope:not(:has(.fx-list input:not(:checked))) .fx-bar::after {
+            content: ''; position: absolute; inset: 0;
+            background: linear-gradient(100deg, transparent 30%, rgba(255,255,255,0.65) 50%, transparent 70%);
+            transform: translateX(-110%);
+        }
+
+        /* Botões: reflexo ao passar o mouse e resposta ao toque */
+        .btn-primary, .btn-pdf { position: relative; overflow: hidden; }
+        .btn-primary::after, .btn-pdf::after {
+            content: ''; position: absolute; inset: 0; pointer-events: none;
+            background: linear-gradient(100deg, transparent 30%, rgba(255,255,255,0.45) 50%, transparent 70%);
+            transform: translateX(-120%); transition: transform 0.7s ease;
+        }
+        .btn-primary:hover::after, .btn-pdf:hover::after { transform: translateX(120%); }
+        .btn, .btn-pdf, .checklist-reset, .nav-links a, .checklist-item { -webkit-tap-highlight-color: transparent; }
+        .btn:active, .btn-pdf:active, .checklist-reset:active { transform: scale(0.97); }
+
+        /* Etapas como linha do tempo */
+        .etapas-container { position: relative; padding-left: 30px; }
+        .etapas-container::before {
+            content: ''; position: absolute; left: 10px; top: 40px; bottom: 40px; width: 2px; border-radius: 2px;
+            background: linear-gradient(180deg, var(--fx-accent), rgba(var(--fx-accent-rgb), 0.35) 70%, rgba(var(--fx-accent-rgb), 0));
+            box-shadow: 0 0 10px rgba(var(--fx-accent-rgb), 0.35);
+        }
+        .etapa-item { position: relative; }
+        .etapas-container .etapa-item:hover { transform: none; }
+        .etapa-item::before {
+            content: ''; position: absolute; left: -26px; top: 40px; z-index: 1;
+            width: 10px; height: 10px; border-radius: 50%;
+            background: #04070d; border: 2px solid var(--fx-accent);
+            box-shadow: 0 0 0 4px rgba(4, 7, 13, 0.9), 0 0 12px rgba(var(--fx-accent-rgb), 0.6);
+            transition: background-color 0.3s ease;
+        }
+        .etapa-item:hover::before { background: var(--fx-accent); }
+        @media (max-width: 600px) {
+            .etapas-container { padding-left: 24px; }
+            .etapas-container::before { left: 7px; }
+            .etapa-item::before { left: -23px; }
+        }
+
+        /* Brilho que acompanha o mouse nos cartões (só computador; posição vem do JS) */
+        .fx-spot { position: relative; }
+        .fx-spot::after {
+            content: ''; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
+            opacity: 0; transition: opacity 0.3s ease;
+            background: radial-gradient(420px circle at var(--fx-x, 50%) var(--fx-y, 50%), rgba(255,255,255,0.07), transparent 45%);
+        }
+        @media (hover: hover) and (pointer: fine) {
+            .fx-spot:hover::after { opacity: 1; }
+        }
+
+        /* Barra fina de leitura no topo */
+        .fx-progress {
+            display: none;
+            position: fixed; top: 0; left: 0; right: 0; height: 2px; z-index: 300; pointer-events: none;
+            background: var(--fx-line); box-shadow: 0 0 10px rgba(var(--fx-accent-rgb), 0.5);
+            transform-origin: 0 50%; transform: scaleX(0);
+        }
+        @supports (animation-timeline: scroll()) {
+            .fx-progress { display: block; animation: fxGrow linear both; animation-timeline: scroll(root); }
+        }
+        .fx-js-progress .fx-progress { display: block; transform: scaleX(var(--fx-p, 0)); }
+
+        /* Celular: o efeito de "passar o mouse" gruda no último item tocado.
+           Em telas de toque, nada se desloca ao tocar. */
+        @media (hover: none) {
+            .card:hover, .etapa-item:hover, .checklist-item:hover, .faq-item:hover,
+            .testimonial-card:hover, .client-card:hover, .cost-card:hover,
+            .intro-letter:hover, .success-fee-box:hover, .execution-box:hover,
+            .about-section:hover, .hero .tag:hover { transform: none; }
+            .section-title:hover { padding-left: 0; }
+        }
+
+        /* ---------- movimento (desligado para quem pediu menos movimento) ---------- */
+        @media (prefers-reduced-motion: no-preference) {
+            .fx-aurora span:nth-child(1) { animation: fxDrift1 26s ease-in-out infinite alternate; }
+            .fx-aurora span:nth-child(2) { animation: fxDrift2 32s ease-in-out infinite alternate; }
+            .fx-aurora span:nth-child(3) { animation: fxDrift3 22s ease-in-out infinite alternate; }
+
+            .hero > * { animation: fxUp 1s cubic-bezier(0.16, 1, 0.3, 1) both; }
+            .hero > :nth-child(3) { animation-delay: 0.24s; }
+            .hero h1 { animation: fxUp 1s cubic-bezier(0.16, 1, 0.3, 1) 0.12s both, fxShimmer 7s ease-in-out 1.6s infinite; }
+            .hero .tag::after { animation: fxSweep 6s ease-in-out 1.8s infinite; }
+
+            .section-title::before, .group-title::before { animation: fxPulse 2.6s ease-out infinite; }
+
+            .checklist-item input[type="checkbox"]:checked + .check-box { animation: fxPop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1); }
+            .checklist-item input[type="checkbox"]:checked + .check-box::after { animation: fxTick 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) 0.08s both; }
+            .fx-scope:not(:has(.fx-list input:not(:checked))) .fx-bar::after { animation: fxSweep 2.4s ease-in-out infinite; }
+
+            /* Blocos aparecem ao rolar: CSS puro onde o navegador suporta... */
+            @supports (animation-timeline: view()) {
+                .fx-reveal {
+                    animation: fxReveal cubic-bezier(0.2, 0.7, 0.3, 1) both;
+                    animation-timeline: view();
+                    animation-range: entry 0% entry 160px;
+                }
+            }
+            /* ...e com uma ajudinha do JS nos outros */
+            .fx-js .fx-reveal:not(.fx-in) { opacity: 0; }
+            .fx-js .fx-reveal.fx-in { animation: fxReveal 0.9s cubic-bezier(0.16, 1, 0.3, 1) var(--fx-d, 0ms) both; }
+        }
+
+        @keyframes fxDrift1 { to { transform: translate(18vmax, 14vmax) scale(1.15); } }
+        @keyframes fxDrift2 { to { transform: translate(-16vmax, -12vmax) scale(1.1); } }
+        @keyframes fxDrift3 { to { transform: translate(-20vmax, 10vmax) scale(0.9); } }
+        @keyframes fxUp { from { opacity: 0; translate: 0 22px; } to { opacity: 1; translate: none; } }
+        @keyframes fxReveal { from { opacity: 0; translate: 0 28px; } to { opacity: 1; translate: none; } }
+        @keyframes fxShimmer { 0% { background-position: 150% 0, 0 0; } 35%, 100% { background-position: -50% 0, 0 0; } }
+        @keyframes fxSweep { 0% { transform: translateX(-110%); } 30%, 100% { transform: translateX(110%); } }
+        @keyframes fxPulse {
+            0% { box-shadow: 0 0 0 0 rgba(var(--fx-accent-rgb), 0.55), 0 0 14px var(--fx-accent); }
+            70%, 100% { box-shadow: 0 0 0 10px rgba(var(--fx-accent-rgb), 0), 0 0 14px var(--fx-accent); }
+        }
+        @keyframes fxPop { 0% { transform: scale(0.8); } 60% { transform: scale(1.22); } 100% { transform: scale(1.08); } }
+        @keyframes fxTick { from { transform: rotate(45deg) scale(0); } to { transform: rotate(45deg) scale(1); } }
+        @keyframes fxGrow { to { transform: scaleX(1); } }
+
+        /* Impressão / PDF: nada de efeito, tudo visível */
+        @media print {
+            .fx-aurora, .fx-progress { display: none !important; }
+            .fx-reveal { animation: none !important; opacity: 1 !important; translate: none !important; }
+            .fx-sticky { position: static; background: none !important; border-color: #999 !important; box-shadow: none !important; -webkit-backdrop-filter: none; backdrop-filter: none; }
+            .hero h1 { background-image: none !important; animation: none !important; }
+            .hero .tag::after, .fx-spot::after { display: none; }
+            *, *::before, *::after { animation: none !important; transition: none !important; }
+            .fx-bar { display: none !important; }
+            .fx-status strong, .fx-status .fx-status-done { color: #000 !important; }
+            .checklist-item { background: none !important; border-color: #999 !important; box-shadow: none !important; transform: none !important; }
+            .check-box, .checklist-item input:checked + .check-box { border-color: #000 !important; background: #fff !important; box-shadow: none !important; transform: none !important; }
+            .checklist-item input:checked + .check-box::after { border-color: #000 !important; }
+            .checklist-item input:checked ~ .item-text { color: #000 !important; }
+        }
+
+        /* Fundo no html para as luzes aparecerem por trás do conteúdo */
+        html { background: linear-gradient(-45deg, #020408, #0a1128, #050b14, #020408) #020408; }
+        body { background: transparent; }
+        .fx-scope > .fx-actions { order: -1; justify-content: flex-end; margin-bottom: 30px; }
+        .fx-scope > .fx-sticky { margin-bottom: 14px; }
+        .fx-sticky .progress-head { margin-bottom: 14px; }
     </style>
 </head>
 <body>
+
+<div class="fx-aurora" aria-hidden="true"><span></span><span></span><span></span></div>
 
 <div class="container">
     <header class="hero">
@@ -175,50 +424,38 @@
         <p>Dossiê de crédito institucional. Marque os documentos conforme for reunindo; o progresso fica salvo neste navegador.</p>
     </header>
 
-    <main>
-        <div class="progress-card">
-            <div class="progress-head">
-                <p class="status-text" id="statusText" aria-live="polite">13 documentos necessários</p>
-                <div class="actions">
-                    <button type="button" class="btn btn-ghost" onclick="resetChecklist()">↺ Limpar seleção</button>
-                    <button type="button" class="btn btn-primary" onclick="window.print()">Gerar PDF</button>
-                </div>
-            </div>
-            <div class="progress-bar-track" role="progressbar" aria-valuemin="0" aria-valuemax="13" aria-valuenow="0" aria-label="Progresso da documentação" id="progressBar">
-                <div class="progress-bar-fill" id="progressFill"></div>
-            </div>
-        </div>
+    <main class="fx-scope">
 
-        <div id="groups">
+        <div class="fx-list" id="groups">
             <section class="group">
-                <h2 class="group-title">Documentos Corporativos</h2>
+                <h2 class="group-title fx-reveal">Documentos Corporativos</h2>
                 <div class="checklist-grid">
-                    <label class="checklist-item" for="chk0">
+                    <label class="checklist-item fx-reveal fx-spot" for="chk0">
                         <input type="checkbox" id="chk0" data-index="0">
                         <span class="check-box" aria-hidden="true"></span>
                         <span class="item-text">Cartão CNPJ</span>
                     </label>
-                    <label class="checklist-item" for="chk1">
+                    <label class="checklist-item fx-reveal fx-spot" for="chk1">
                         <input type="checkbox" id="chk1" data-index="1">
                         <span class="check-box" aria-hidden="true"></span>
                         <span class="item-text">Contrato Social e alterações (se houver)</span>
                     </label>
-                    <label class="checklist-item" for="chk2">
+                    <label class="checklist-item fx-reveal fx-spot" for="chk2">
                         <input type="checkbox" id="chk2" data-index="2">
                         <span class="check-box" aria-hidden="true"></span>
                         <span class="item-text">Faturamento dos últimos 12 meses (assinado digitalmente)</span>
                     </label>
-                    <label class="checklist-item" for="chk3">
+                    <label class="checklist-item fx-reveal fx-spot" for="chk3">
                         <input type="checkbox" id="chk3" data-index="3">
                         <span class="check-box" aria-hidden="true"></span>
                         <span class="item-text">Comprovante de endereço da Empresa (recente)</span>
                     </label>
-                    <label class="checklist-item" for="chk4">
+                    <label class="checklist-item fx-reveal fx-spot" for="chk4">
                         <input type="checkbox" id="chk4" data-index="4">
                         <span class="check-box" aria-hidden="true"></span>
                         <span class="item-text">Alvará de Funcionamento (se aplicável)</span>
                     </label>
-                    <label class="checklist-item" for="chk5">
+                    <label class="checklist-item fx-reveal fx-spot" for="chk5">
                         <input type="checkbox" id="chk5" data-index="5">
                         <span class="check-box" aria-hidden="true"></span>
                         <span class="item-text">Fotos do estabelecimento (fachada e estrutura interna)</span>
@@ -226,24 +463,24 @@
                 </div>
             </section>
             <section class="group">
-                <h2 class="group-title">Documentação Societária</h2>
+                <h2 class="group-title fx-reveal">Documentação Societária</h2>
                 <div class="checklist-grid">
-                    <label class="checklist-item" for="chk6">
+                    <label class="checklist-item fx-reveal fx-spot" for="chk6">
                         <input type="checkbox" id="chk6" data-index="6">
                         <span class="check-box" aria-hidden="true"></span>
                         <span class="item-text">RG ou CNH de todos os sócios</span>
                     </label>
-                    <label class="checklist-item" for="chk7">
+                    <label class="checklist-item fx-reveal fx-spot" for="chk7">
                         <input type="checkbox" id="chk7" data-index="7">
                         <span class="check-box" aria-hidden="true"></span>
                         <span class="item-text">Comprovante de Residência de todos os sócios</span>
                     </label>
-                    <label class="checklist-item" for="chk8">
+                    <label class="checklist-item fx-reveal fx-spot" for="chk8">
                         <input type="checkbox" id="chk8" data-index="8">
                         <span class="check-box" aria-hidden="true"></span>
                         <span class="item-text">Declaração de Imposto de Renda (Pessoa Física) completa</span>
                     </label>
-                    <label class="checklist-item" for="chk9">
+                    <label class="checklist-item fx-reveal fx-spot" for="chk9">
                         <input type="checkbox" id="chk9" data-index="9">
                         <span class="check-box" aria-hidden="true"></span>
                         <span class="item-text">Certidão de casamento (Se houver)</span>
@@ -251,25 +488,36 @@
                 </div>
             </section>
             <section class="group">
-                <h2 class="group-title">Credenciais de Acesso</h2>
+                <h2 class="group-title fx-reveal">Credenciais de Acesso</h2>
                 <div class="checklist-grid">
-                    <label class="checklist-item" for="chk10">
+                    <label class="checklist-item fx-reveal fx-spot" for="chk10">
                         <input type="checkbox" id="chk10" data-index="10">
                         <span class="check-box" aria-hidden="true"></span>
                         <span class="item-text">E-mail e Telefone para contato</span>
                     </label>
-                    <label class="checklist-item" for="chk11">
+                    <label class="checklist-item fx-reveal fx-spot" for="chk11">
                         <input type="checkbox" id="chk11" data-index="11">
                         <span class="check-box" aria-hidden="true"></span>
                         <span class="item-text">Certificado Digital A1 (.pfx) com senha</span>
                     </label>
-                    <label class="checklist-item" for="chk12">
+                    <label class="checklist-item fx-reveal fx-spot" for="chk12">
                         <input type="checkbox" id="chk12" data-index="12">
                         <span class="check-box" aria-hidden="true"></span>
                         <span class="item-text">Senha GOV.BR (sem verificação em duas etapas)</span>
                     </label>
                 </div>
             </section>
+        </div>
+
+        <div class="progress-card fx-sticky">
+            <div class="progress-head">
+                <p class="status-text fx-status"><span class="fx-status-progress"><span class="fx-long">Progresso: </span><strong><span class="fx-count"></span> de 13</strong> documentos reunidos</span><span class="fx-status-done">✓ Documentação completa</span></p>
+            </div>
+            <div class="progress-bar-track fx-bar" aria-hidden="true"><span class="fx-seg"></span><span class="fx-seg"></span><span class="fx-seg"></span><span class="fx-seg"></span><span class="fx-seg"></span><span class="fx-seg"></span><span class="fx-seg"></span><span class="fx-seg"></span><span class="fx-seg"></span><span class="fx-seg"></span><span class="fx-seg"></span><span class="fx-seg"></span><span class="fx-seg"></span></div>
+        </div>
+        <div class="actions fx-actions">
+            <button type="button" class="btn btn-ghost" onclick="resetChecklist()">↺ Limpar seleção</button>
+            <button type="button" class="btn btn-primary" onclick="window.print()">Gerar PDF</button>
         </div>
     </main>
 
@@ -280,48 +528,83 @@
 
 <script>
 // ============================================================
-// CHECKLIST: os itens já estão no HTML (abre até sem JavaScript,
-// ex.: prévia do WhatsApp). Aqui só salvamos o progresso.
+// CHECKLIST: itens e progresso funcionam só com HTML/CSS (abre até
+// na prévia do WhatsApp). Aqui só salvamos o que foi marcado neste
+// navegador e ligamos o botão de limpar.
 // ============================================================
 (function () {
     var STORAGE_KEY = 'master_checklist_empresa';
-    var grid  = document.getElementById('groups');
-    var boxes = grid.querySelectorAll('input[type=checkbox]');
+    var boxes = document.querySelectorAll('#groups input[type=checkbox]');
 
-    function load() {
-        try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); } catch (e) { return []; }
-    }
     function save() {
         var marked = [];
         for (var i = 0; i < boxes.length; i++) if (boxes[i].checked) marked.push(i);
         try { localStorage.setItem(STORAGE_KEY, JSON.stringify(marked)); } catch (e) {}
     }
 
-    function updateProgress() {
-        var total = boxes.length;
-        var done  = grid.querySelectorAll('input:checked').length;
-        var status = document.getElementById('statusText');
-        status.className = 'status-text' + (done === total ? ' done' : '');
-        status.innerHTML = done === total
-            ? '<strong>Documentação completa ✓</strong>'
-            : 'Progresso: <strong>' + done + ' de ' + total + '</strong> documentos reunidos';
-        document.getElementById('progressFill').style.width = (total ? done / total * 100 : 0).toFixed(1) + '%';
-        document.getElementById('progressBar').setAttribute('aria-valuenow', done);
-    }
+    try {
+        var saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+        for (var i = 0; i < boxes.length; i++) boxes[i].checked = saved.indexOf(i) !== -1;
+    } catch (e) {}
 
-    var saved = load();
-    for (var i = 0; i < boxes.length; i++) boxes[i].checked = saved.indexOf(i) !== -1;
-
-    grid.addEventListener('change', function () { save(); updateProgress(); });
+    for (var j = 0; j < boxes.length; j++) boxes[j].addEventListener('change', save);
 
     window.resetChecklist = function () {
         if (!confirm('Deseja limpar todos os documentos marcados?')) return;
         for (var i = 0; i < boxes.length; i++) boxes[i].checked = false;
         save();
-        updateProgress();
     };
+})();
+</script>
 
-    updateProgress();
+<script>
+// ============================================================
+// EFEITOS VISUAIS (complemento do CSS)
+// - revela os blocos ao rolar em navegadores sem animação por rolagem
+// - barra de leitura nesses mesmos navegadores
+// - brilho que segue o mouse nos cartões (só computador)
+// ============================================================
+(function () {
+    var root = document.documentElement;
+
+    if (root.classList.contains('fx-js')) {
+        var io = new IntersectionObserver(function (entries) {
+            var n = 0;
+            entries.forEach(function (entry) {
+                if (!entry.isIntersecting) return;
+                entry.target.style.setProperty('--fx-d', Math.min(n++ * 70, 350) + 'ms');
+                entry.target.classList.add('fx-in');
+                io.unobserve(entry.target);
+            });
+        }, { threshold: 0.08, rootMargin: '0px 0px -6% 0px' });
+        document.querySelectorAll('.fx-reveal').forEach(function (el) { io.observe(el); });
+    }
+
+    var bar = document.querySelector('.fx-progress');
+    if (bar && !(window.CSS && CSS.supports && CSS.supports('animation-timeline: scroll()'))) {
+        root.classList.add('fx-js-progress');
+        var ticking = false;
+        var update = function () {
+            var max = root.scrollHeight - root.clientHeight;
+            bar.style.setProperty('--fx-p', max > 0 ? Math.min(1, window.scrollY / max) : 0);
+            ticking = false;
+        };
+        window.addEventListener('scroll', function () {
+            if (!ticking) { ticking = true; requestAnimationFrame(update); }
+        }, { passive: true });
+        window.addEventListener('resize', update);
+        update();
+    }
+
+    if (window.matchMedia && matchMedia('(hover: hover) and (pointer: fine)').matches) {
+        document.addEventListener('pointermove', function (e) {
+            var el = e.target.closest ? e.target.closest('.fx-spot') : null;
+            if (!el) return;
+            var r = el.getBoundingClientRect();
+            el.style.setProperty('--fx-x', (e.clientX - r.left) + 'px');
+            el.style.setProperty('--fx-y', (e.clientY - r.top) + 'px');
+        }, { passive: true });
+    }
 })();
 </script>
 

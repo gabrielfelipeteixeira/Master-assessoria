@@ -2,7 +2,7 @@
 <html lang="pt-br"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script>document.documentElement.classList.add("js");</script>
+    <script>(function (d) { d.classList.add("js"); try { if (!(window.CSS && CSS.supports("animation-timeline: view()")) && "IntersectionObserver" in window && matchMedia("(prefers-reduced-motion: no-preference)").matches) d.classList.add("fx-js"); } catch (e) {} })(document.documentElement);</script>
     <title>PRONAMPE | Master Consultoria Empresarial</title>
 
     <meta property="og:type" content="website">
@@ -58,15 +58,6 @@
             pointer-events: none; z-index: -1;
         }
 
-        @media (prefers-reduced-motion: no-preference) {
-            .animate-1 { animation: fadeInUp 0.8s cubic-bezier(0.16,1,0.3,1) forwards; }
-            .animate-2 { animation: fadeInUp 0.8s cubic-bezier(0.16,1,0.3,1) 0.2s forwards; opacity: 0; }
-            .animate-3 { animation: fadeInUp 0.8s cubic-bezier(0.16,1,0.3,1) 0.4s forwards; opacity: 0; }
-            @keyframes fadeInUp {
-                from { opacity: 0; transform: translateY(30px); }
-                to { opacity: 1; transform: translateY(0); }
-            }
-        }
 
         /* NAV STICKY */
         .nav {
@@ -598,9 +589,260 @@
             html:not(.js) .nav-links::-webkit-scrollbar { display: none; }
             html:not(.js) .nav-links a { padding: 6px 12px; }
         }
+
+        /* ============================================
+           EFEITOS VISUAIS
+           Tudo aqui funciona só com CSS (inclusive na prévia do
+           WhatsApp). O JavaScript do fim da página só ajuda
+           navegadores antigos. Quem ativou "reduzir movimento"
+           no celular não vê animações.
+        ============================================ */
+        :root {
+            --fx-accent: #10b981;
+            --fx-accent-rgb: 16, 185, 129;
+            --fx-glow-a: rgba(16, 185, 129, 0.20);
+            --fx-glow-b: rgba(37, 99, 235, 0.14);
+            --fx-glow-c: rgba(20, 184, 166, 0.10);
+            --fx-line: linear-gradient(90deg, rgba(16, 185, 129, 0.35), #10b981 60%, #6ee7b7);
+            --fx-sticky-top: calc(var(--nav-h, 0px) + 10px);
+        }
+
+        /* Luzes de fundo em movimento lento (só transform: leve no celular) */
+        .fx-aurora { position: fixed; inset: 0; z-index: -2; overflow: hidden; pointer-events: none; }
+        .fx-aurora span { position: absolute; border-radius: 50%; will-change: transform; }
+        .fx-aurora span:nth-child(1) { width: 75vmax; height: 75vmax; top: -38vmax; left: -28vmax; background: radial-gradient(circle, var(--fx-glow-a) 0%, transparent 62%); }
+        .fx-aurora span:nth-child(2) { width: 80vmax; height: 80vmax; bottom: -45vmax; right: -35vmax; background: radial-gradient(circle, var(--fx-glow-b) 0%, transparent 62%); }
+        .fx-aurora span:nth-child(3) { width: 55vmax; height: 55vmax; top: 35%; left: 30%; background: radial-gradient(circle, var(--fx-glow-c) 0%, transparent 62%); }
+
+        /* Abertura: título com brilho passando e etiqueta com reflexo */
+        .hero h1 {
+            background-image: linear-gradient(100deg, rgba(255,255,255,0) 42%, rgba(255,255,255,0.95) 50%, rgba(255,255,255,0) 58%), var(--text-chrome);
+            background-size: 250% 100%, 100% 100%;
+            background-position: 150% 0, 0 0;
+            background-repeat: no-repeat;
+            -webkit-background-clip: text;
+            background-clip: text;
+        }
+        .hero .tag { position: relative; overflow: hidden; }
+        .hero .tag::after {
+            content: ''; position: absolute; inset: 0; pointer-events: none;
+            background: linear-gradient(100deg, transparent 35%, rgba(255,255,255,0.28) 50%, transparent 65%);
+            transform: translateX(-110%);
+        }
+
+        /* Checklist: caixinha com ✓ desenhado e item marcado em destaque */
+        .checklist-item input[type="checkbox"]:checked + .check-box { transform: scale(1.08); }
+        .checklist-item input[type="checkbox"]:checked + .check-box::after {
+            content: ''; width: 6px; height: 11px; margin-top: -2px;
+            border: solid #04070d; border-width: 0 2.5px 2.5px 0;
+            transform: rotate(45deg);
+        }
+        .checklist-item:has(input:checked) { background: rgba(var(--fx-accent-rgb), 0.07); border-color: rgba(var(--fx-accent-rgb), 0.3); }
+        .checklist-item .item-text { transition: color 0.3s ease, opacity 0.3s ease; }
+
+        /* Progresso do checklist: contado pelo próprio CSS (funciona sem JavaScript)
+           e fixo no topo enquanto a lista rola */
+        .fx-scope { display: flex; flex-direction: column; counter-reset: docs; }
+        .fx-scope > .section-title, .fx-scope > .fx-head { order: -2; }
+        .fx-list input[type="checkbox"]:checked { counter-increment: docs; }
+        .fx-count::before { content: counter(docs); }
+        .fx-sticky {
+            order: -1;
+            position: -webkit-sticky; position: sticky; top: var(--fx-sticky-top); z-index: 20;
+            margin-bottom: 26px; padding: 18px 22px;
+            background: rgba(4, 7, 13, 0.84);
+            -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 18px;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+            transition: border-color 0.4s ease, box-shadow 0.4s ease;
+        }
+        .fx-sticky .checklist-header { margin-bottom: 12px; flex-wrap: nowrap; }
+        .fx-sticky .checklist-progress-text { margin: 0; }
+        .fx-sticky .progress-bar-track { margin-bottom: 0; }
+        .fx-status .fx-status-progress, .fx-status .fx-status-done { color: inherit; font-weight: inherit; }
+        .fx-status strong { color: #ffffff; font-weight: 600; }
+        .fx-status .fx-status-done { display: none; color: #34d399; font-weight: 600; }
+
+        @media (max-width: 600px) {
+            .fx-long { display: none; }
+            .fx-sticky { padding: 14px 16px; border-radius: 16px; }
+            .fx-sticky .checklist-progress-text { font-size: 14px; }
+            .fx-sticky .checklist-reset { padding: 6px 12px; font-size: 12.5px; white-space: nowrap; }
+        }
+
+        /* Barra em segmentos: cada item marcado acende um pedaço (sem JavaScript) */
+        .fx-bar { display: flex; position: relative; height: 6px; border-radius: 3px; overflow: hidden; background: rgba(255, 255, 255, 0.06); }
+        .fx-seg { flex: 1 1 0; background-color: transparent; transition: background-color 0.45s ease, box-shadow 0.45s ease; }
+        .fx-scope:has(#chk0:checked) .fx-seg:nth-child(1),
+        .fx-scope:has(#chk1:checked) .fx-seg:nth-child(2),
+        .fx-scope:has(#chk2:checked) .fx-seg:nth-child(3),
+        .fx-scope:has(#chk3:checked) .fx-seg:nth-child(4),
+        .fx-scope:has(#chk4:checked) .fx-seg:nth-child(5),
+        .fx-scope:has(#chk5:checked) .fx-seg:nth-child(6),
+        .fx-scope:has(#chk6:checked) .fx-seg:nth-child(7),
+        .fx-scope:has(#chk7:checked) .fx-seg:nth-child(8),
+        .fx-scope:has(#chk8:checked) .fx-seg:nth-child(9),
+        .fx-scope:has(#chk9:checked) .fx-seg:nth-child(10),
+        .fx-scope:has(#chk10:checked) .fx-seg:nth-child(11),
+        .fx-scope:has(#chk11:checked) .fx-seg:nth-child(12),
+        .fx-scope:has(#chk12:checked) .fx-seg:nth-child(13) {
+            order: -1; background-color: var(--fx-accent); box-shadow: 1px 0 0 var(--fx-accent), 0 0 8px rgba(var(--fx-accent-rgb), 0.5);
+        }
+
+        /* Tudo marcado */
+        .fx-scope:not(:has(.fx-list input:not(:checked))) .fx-status-progress { display: none; }
+        .fx-scope:not(:has(.fx-list input:not(:checked))) .fx-status-done { display: inline; }
+        .fx-scope:not(:has(.fx-list input:not(:checked))) .fx-sticky {
+            border-color: rgba(var(--fx-accent-rgb), 0.55);
+            box-shadow: 0 0 0 1px rgba(var(--fx-accent-rgb), 0.25), 0 12px 40px rgba(var(--fx-accent-rgb), 0.2);
+        }
+        .fx-scope:not(:has(.fx-list input:not(:checked))) .fx-bar::after {
+            content: ''; position: absolute; inset: 0;
+            background: linear-gradient(100deg, transparent 30%, rgba(255,255,255,0.65) 50%, transparent 70%);
+            transform: translateX(-110%);
+        }
+
+        /* Botões: reflexo ao passar o mouse e resposta ao toque */
+        .btn-primary, .btn-pdf { position: relative; overflow: hidden; }
+        .btn-primary::after, .btn-pdf::after {
+            content: ''; position: absolute; inset: 0; pointer-events: none;
+            background: linear-gradient(100deg, transparent 30%, rgba(255,255,255,0.45) 50%, transparent 70%);
+            transform: translateX(-120%); transition: transform 0.7s ease;
+        }
+        .btn-primary:hover::after, .btn-pdf:hover::after { transform: translateX(120%); }
+        .btn, .btn-pdf, .checklist-reset, .nav-links a, .checklist-item { -webkit-tap-highlight-color: transparent; }
+        .btn:active, .btn-pdf:active, .checklist-reset:active { transform: scale(0.97); }
+
+        /* Etapas como linha do tempo */
+        .etapas-container { position: relative; padding-left: 30px; }
+        .etapas-container::before {
+            content: ''; position: absolute; left: 10px; top: 40px; bottom: 40px; width: 2px; border-radius: 2px;
+            background: linear-gradient(180deg, var(--fx-accent), rgba(var(--fx-accent-rgb), 0.35) 70%, rgba(var(--fx-accent-rgb), 0));
+            box-shadow: 0 0 10px rgba(var(--fx-accent-rgb), 0.35);
+        }
+        .etapa-item { position: relative; }
+        .etapas-container .etapa-item:hover { transform: none; }
+        .etapa-item::before {
+            content: ''; position: absolute; left: -26px; top: 40px; z-index: 1;
+            width: 10px; height: 10px; border-radius: 50%;
+            background: #04070d; border: 2px solid var(--fx-accent);
+            box-shadow: 0 0 0 4px rgba(4, 7, 13, 0.9), 0 0 12px rgba(var(--fx-accent-rgb), 0.6);
+            transition: background-color 0.3s ease;
+        }
+        .etapa-item:hover::before { background: var(--fx-accent); }
+        @media (max-width: 600px) {
+            .etapas-container { padding-left: 24px; }
+            .etapas-container::before { left: 7px; }
+            .etapa-item::before { left: -23px; }
+        }
+
+        /* Brilho que acompanha o mouse nos cartões (só computador; posição vem do JS) */
+        .fx-spot { position: relative; }
+        .fx-spot::after {
+            content: ''; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
+            opacity: 0; transition: opacity 0.3s ease;
+            background: radial-gradient(420px circle at var(--fx-x, 50%) var(--fx-y, 50%), rgba(255,255,255,0.07), transparent 45%);
+        }
+        @media (hover: hover) and (pointer: fine) {
+            .fx-spot:hover::after { opacity: 1; }
+        }
+
+        /* Barra fina de leitura no topo */
+        .fx-progress {
+            display: none;
+            position: fixed; top: 0; left: 0; right: 0; height: 2px; z-index: 300; pointer-events: none;
+            background: var(--fx-line); box-shadow: 0 0 10px rgba(var(--fx-accent-rgb), 0.5);
+            transform-origin: 0 50%; transform: scaleX(0);
+        }
+        @supports (animation-timeline: scroll()) {
+            .fx-progress { display: block; animation: fxGrow linear both; animation-timeline: scroll(root); }
+        }
+        .fx-js-progress .fx-progress { display: block; transform: scaleX(var(--fx-p, 0)); }
+
+        /* Celular: o efeito de "passar o mouse" gruda no último item tocado.
+           Em telas de toque, nada se desloca ao tocar. */
+        @media (hover: none) {
+            .card:hover, .etapa-item:hover, .checklist-item:hover, .faq-item:hover,
+            .testimonial-card:hover, .client-card:hover, .cost-card:hover,
+            .intro-letter:hover, .success-fee-box:hover, .execution-box:hover,
+            .about-section:hover, .hero .tag:hover { transform: none; }
+            .section-title:hover { padding-left: 0; }
+        }
+
+        /* ---------- movimento (desligado para quem pediu menos movimento) ---------- */
+        @media (prefers-reduced-motion: no-preference) {
+            .fx-aurora span:nth-child(1) { animation: fxDrift1 26s ease-in-out infinite alternate; }
+            .fx-aurora span:nth-child(2) { animation: fxDrift2 32s ease-in-out infinite alternate; }
+            .fx-aurora span:nth-child(3) { animation: fxDrift3 22s ease-in-out infinite alternate; }
+
+            .hero > * { animation: fxUp 1s cubic-bezier(0.16, 1, 0.3, 1) both; }
+            .hero > :nth-child(3) { animation-delay: 0.24s; }
+            .hero h1 { animation: fxUp 1s cubic-bezier(0.16, 1, 0.3, 1) 0.12s both, fxShimmer 7s ease-in-out 1.6s infinite; }
+            .hero .tag::after { animation: fxSweep 6s ease-in-out 1.8s infinite; }
+
+            .section-title::before, .group-title::before { animation: fxPulse 2.6s ease-out infinite; }
+
+            .checklist-item input[type="checkbox"]:checked + .check-box { animation: fxPop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1); }
+            .checklist-item input[type="checkbox"]:checked + .check-box::after { animation: fxTick 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) 0.08s both; }
+            .fx-scope:not(:has(.fx-list input:not(:checked))) .fx-bar::after { animation: fxSweep 2.4s ease-in-out infinite; }
+
+            /* Blocos aparecem ao rolar: CSS puro onde o navegador suporta... */
+            @supports (animation-timeline: view()) {
+                .fx-reveal {
+                    animation: fxReveal cubic-bezier(0.2, 0.7, 0.3, 1) both;
+                    animation-timeline: view();
+                    animation-range: entry 0% entry 160px;
+                }
+            }
+            /* ...e com uma ajudinha do JS nos outros */
+            .fx-js .fx-reveal:not(.fx-in) { opacity: 0; }
+            .fx-js .fx-reveal.fx-in { animation: fxReveal 0.9s cubic-bezier(0.16, 1, 0.3, 1) var(--fx-d, 0ms) both; }
+        }
+
+        @keyframes fxDrift1 { to { transform: translate(18vmax, 14vmax) scale(1.15); } }
+        @keyframes fxDrift2 { to { transform: translate(-16vmax, -12vmax) scale(1.1); } }
+        @keyframes fxDrift3 { to { transform: translate(-20vmax, 10vmax) scale(0.9); } }
+        @keyframes fxUp { from { opacity: 0; translate: 0 22px; } to { opacity: 1; translate: none; } }
+        @keyframes fxReveal { from { opacity: 0; translate: 0 28px; } to { opacity: 1; translate: none; } }
+        @keyframes fxShimmer { 0% { background-position: 150% 0, 0 0; } 35%, 100% { background-position: -50% 0, 0 0; } }
+        @keyframes fxSweep { 0% { transform: translateX(-110%); } 30%, 100% { transform: translateX(110%); } }
+        @keyframes fxPulse {
+            0% { box-shadow: 0 0 0 0 rgba(var(--fx-accent-rgb), 0.55), 0 0 14px var(--fx-accent); }
+            70%, 100% { box-shadow: 0 0 0 10px rgba(var(--fx-accent-rgb), 0), 0 0 14px var(--fx-accent); }
+        }
+        @keyframes fxPop { 0% { transform: scale(0.8); } 60% { transform: scale(1.22); } 100% { transform: scale(1.08); } }
+        @keyframes fxTick { from { transform: rotate(45deg) scale(0); } to { transform: rotate(45deg) scale(1); } }
+        @keyframes fxGrow { to { transform: scaleX(1); } }
+
+        /* Impressão / PDF: nada de efeito, tudo visível */
+        @media print {
+            .fx-aurora, .fx-progress { display: none !important; }
+            .fx-reveal { animation: none !important; opacity: 1 !important; translate: none !important; }
+            .fx-sticky { position: static; background: none !important; border-color: #999 !important; box-shadow: none !important; -webkit-backdrop-filter: none; backdrop-filter: none; }
+            .hero h1 { background-image: none !important; animation: none !important; }
+            .hero .tag::after, .fx-spot::after { display: none; }
+            *, *::before, *::after { animation: none !important; transition: none !important; }
+            .fx-bar { display: none !important; }
+            .fx-status strong, .fx-status .fx-status-done { color: #000 !important; }
+            .checklist-item { background: none !important; border-color: #999 !important; box-shadow: none !important; transform: none !important; }
+            .check-box, .checklist-item input:checked + .check-box { border-color: #000 !important; background: #fff !important; box-shadow: none !important; transform: none !important; }
+            .checklist-item input:checked + .check-box::after { border-color: #000 !important; }
+            .checklist-item input:checked ~ .item-text { color: #000 !important; }
+        }
+
+        /* Fundo: as luzes acima substituem o gradiente que ficava se mexendo (mais leve) */
+        body { animation: none; background-size: 100% 100%; }
+        .fx-scope { margin-top: 70px; }
+        .fx-scope > .section-title { margin-top: 0; }
+        @media (max-width: 768px) {
+            html:not(.js) { --fx-sticky-top: 92px; }
+        }
     </style>
 </head>
 <body>
+
+<div class="fx-aurora" aria-hidden="true"><span></span><span></span><span></span></div>
+<div class="fx-progress" aria-hidden="true"></div>
 
 <div class="bg-glow"></div>
 
@@ -622,7 +864,7 @@
     </div>
 </nav>
 
-<div class="container animate-1">
+<div class="container">
 
     <header class="hero">
         <div class="tag">MASTER CONSULTORIA EMPRESARIAL</div>
@@ -630,16 +872,16 @@
         <p>Solução financeira governamental com condições subsidiadas. Estruturação dedicada ao fomento, investimento e capital de giro para empresas de médio e pequeno porte.</p>
     </header>
 
-    <div class="intro-letter animate-2">
+    <div class="intro-letter fx-reveal">
         <h4>Prezado(a) Cliente,</h4>
         <p>Agradecemos pela oportunidade de apresentar nossa proposta de serviços de consultoria. Nosso objetivo principal é fornecer soluções financeiras estruturadas e personalizadas que ajudem a sua empresa a alcançar seus objetivos de crescimento, escalar faturamento e aumentar sua estrutura comercial sem comprometer o seu patrimônio.</p>
     </div>
 
-    <main class="animate-2">
+    <main>
 
-        <h2 class="section-title" id="parametros">01 — Parâmetros da Operação</h2>
+        <h2 class="section-title fx-reveal" id="parametros">01 — Parâmetros da Operação</h2>
         <section class="grid">
-            <div class="card">
+            <div class="card fx-reveal fx-spot">
                 <h3>Condições Financeiras</h3>
                 <ul>
                     <li>Volume Máximo Liberado: <strong>Até R$ 250.000,00</strong></li>
@@ -648,7 +890,7 @@
                     <li>Condição na Carência: <strong>Pagamento exclusivo de juros</strong> (o saldo devedor fica congelado).</li>
                 </ul>
             </div>
-            <div class="card">
+            <div class="card fx-reveal fx-spot">
                 <h3>Mecânica e Garantias</h3>
                 <p style="font-size:14.5px;color:var(--text-dim);margin-bottom:20px;line-height:1.7;">O programa foi desenhado para alavancar o crescimento do empresário sem engessar a sua operação. O modelo de garantia é facilitado:</p>
                 <ul>
@@ -658,39 +900,39 @@
             </div>
         </section>
 
-        <h2 class="section-title" id="processo">02 — Etapas do Processo de Crédito</h2>
+        <h2 class="section-title fx-reveal" id="processo">02 — Etapas do Processo de Crédito</h2>
         <p style="color:var(--text-dim);margin-bottom:25px;max-width:800px;font-size:16.5px;">Para garantir transparência, segurança e eficiência, nossa consultoria conduzirá sua empresa pelas seguintes etapas metodológicas:</p>
 
         <div class="etapas-container">
-            <div class="etapa-item">
+            <div class="etapa-item fx-reveal fx-spot">
                 <div class="etapa-numero">01</div>
                 <div class="etapa-text">
                     <h4>Análise Inicial do Perfil Empresarial</h4>
                     <p>Avaliação aprofundada da situação financeira, cadastral e estrutural da empresa.</p>
                 </div>
             </div>
-            <div class="etapa-item">
+            <div class="etapa-item fx-reveal fx-spot">
                 <div class="etapa-numero">02</div>
                 <div class="etapa-text">
                     <h4>Organização da Estrutura Fiscal e Contábil</h4>
                     <p>Ajustes necessários e saneamento de documentos para o enquadramento rígido nas exigências da instituição financeira.</p>
                 </div>
             </div>
-            <div class="etapa-item">
+            <div class="etapa-item fx-reveal fx-spot">
                 <div class="etapa-numero">03</div>
                 <div class="etapa-text">
                     <h4>Enquadramento na Linha PRONAMPE</h4>
                     <p>Identificação da melhor estratégia de apresentação conforme as regras vigentes do programa.</p>
                 </div>
             </div>
-            <div class="etapa-item">
+            <div class="etapa-item fx-reveal fx-spot">
                 <div class="etapa-numero">04</div>
                 <div class="etapa-text">
                     <h4>Protocolo do Processo na Instituição</h4>
                     <p>Entrada formal e submissão do pedido de crédito estruturado junto ao banco parceiro.</p>
                 </div>
             </div>
-            <div class="etapa-item">
+            <div class="etapa-item fx-reveal fx-spot">
                 <div class="etapa-numero">05</div>
                 <div class="etapa-text">
                     <h4>Acompanhamento até a Liberação</h4>
@@ -699,9 +941,9 @@
             </div>
         </div>
 
-        <h2 class="section-title" id="custos">03 — Orçamento e Custos da Operação</h2>
+        <h2 class="section-title fx-reveal" id="custos">03 — Orçamento e Custos da Operação</h2>
 
-        <section class="orcamento-banner">
+        <section class="orcamento-banner fx-reveal">
             <h3>Detalhamento das Taxas</h3>
             <p class="orcamento-sub">Referência de todos os componentes de custo, por categoria</p>
 
@@ -758,98 +1000,95 @@
             </div>
         </section>
 
-        <div class="animate-3" id="checklist">
-            <h2 class="section-title">04 — Checklist Documental</h2>
+        <div class="fx-scope" id="checklist">
+            <h2 class="section-title fx-reveal">04 — Checklist Documental</h2>
 
-            <div class="checklist-header">
-                <div>
-                    <p class="checklist-progress-text">Progresso: <span id="checkCount">0</span> de <span id="checkTotal">13</span> documentos reunidos</p>
-                </div>
-                <button type="button" class="checklist-reset" onclick="resetChecklist()" aria-label="Resetar checklist">↺ Resetar</button>
-            </div>
-
-            <div class="progress-bar-track" role="progressbar" aria-valuemin="0" aria-valuemax="13" aria-valuenow="0" id="progressBar" aria-label="Progresso da documentação">
-                <div class="progress-bar-fill" id="progressFill" style="width: 0%;"></div>
-            </div>
-
-            <div class="checklist-grid" id="checklistGrid">
+            <div class="checklist-grid fx-list" id="checklistGrid">
                 <h3 class="checklist-group-title">Documentos Corporativos</h3>
-                <label class="checklist-item" for="chk0">
+                <label class="checklist-item fx-reveal fx-spot" for="chk0">
                     <input type="checkbox" id="chk0" data-index="0">
                     <span class="check-box" aria-hidden="true"></span>
                     <span class="item-text">Cartão CNPJ</span>
                 </label>
-                <label class="checklist-item" for="chk1">
+                <label class="checklist-item fx-reveal fx-spot" for="chk1">
                     <input type="checkbox" id="chk1" data-index="1">
                     <span class="check-box" aria-hidden="true"></span>
                     <span class="item-text">Contrato Social e alterações (se houver)</span>
                 </label>
-                <label class="checklist-item" for="chk2">
+                <label class="checklist-item fx-reveal fx-spot" for="chk2">
                     <input type="checkbox" id="chk2" data-index="2">
                     <span class="check-box" aria-hidden="true"></span>
                     <span class="item-text">Faturamento dos últimos 12 meses (assinado digitalmente)</span>
                 </label>
-                <label class="checklist-item" for="chk3">
+                <label class="checklist-item fx-reveal fx-spot" for="chk3">
                     <input type="checkbox" id="chk3" data-index="3">
                     <span class="check-box" aria-hidden="true"></span>
                     <span class="item-text">Comprovante de endereço da Empresa (recente)</span>
                 </label>
-                <label class="checklist-item" for="chk4">
+                <label class="checklist-item fx-reveal fx-spot" for="chk4">
                     <input type="checkbox" id="chk4" data-index="4">
                     <span class="check-box" aria-hidden="true"></span>
                     <span class="item-text">Alvará de Funcionamento (se aplicável)</span>
                 </label>
-                <label class="checklist-item" for="chk5">
+                <label class="checklist-item fx-reveal fx-spot" for="chk5">
                     <input type="checkbox" id="chk5" data-index="5">
                     <span class="check-box" aria-hidden="true"></span>
                     <span class="item-text">Fotos do estabelecimento (fachada e estrutura interna)</span>
                 </label>
                 <h3 class="checklist-group-title">Documentação Societária</h3>
-                <label class="checklist-item" for="chk6">
+                <label class="checklist-item fx-reveal fx-spot" for="chk6">
                     <input type="checkbox" id="chk6" data-index="6">
                     <span class="check-box" aria-hidden="true"></span>
                     <span class="item-text">RG ou CNH de todos os sócios</span>
                 </label>
-                <label class="checklist-item" for="chk7">
+                <label class="checklist-item fx-reveal fx-spot" for="chk7">
                     <input type="checkbox" id="chk7" data-index="7">
                     <span class="check-box" aria-hidden="true"></span>
                     <span class="item-text">Comprovante de Residência de todos os sócios</span>
                 </label>
-                <label class="checklist-item" for="chk8">
+                <label class="checklist-item fx-reveal fx-spot" for="chk8">
                     <input type="checkbox" id="chk8" data-index="8">
                     <span class="check-box" aria-hidden="true"></span>
                     <span class="item-text">Declaração de Imposto de Renda (Pessoa Física) completa</span>
                 </label>
-                <label class="checklist-item" for="chk9">
+                <label class="checklist-item fx-reveal fx-spot" for="chk9">
                     <input type="checkbox" id="chk9" data-index="9">
                     <span class="check-box" aria-hidden="true"></span>
                     <span class="item-text">Certidão de casamento (Se houver)</span>
                 </label>
                 <h3 class="checklist-group-title">Credenciais de Acesso</h3>
-                <label class="checklist-item" for="chk10">
+                <label class="checklist-item fx-reveal fx-spot" for="chk10">
                     <input type="checkbox" id="chk10" data-index="10">
                     <span class="check-box" aria-hidden="true"></span>
                     <span class="item-text">E-mail e Telefone para contato</span>
                 </label>
-                <label class="checklist-item" for="chk11">
+                <label class="checklist-item fx-reveal fx-spot" for="chk11">
                     <input type="checkbox" id="chk11" data-index="11">
                     <span class="check-box" aria-hidden="true"></span>
                     <span class="item-text">Certificado Digital A1 (.pfx) com senha</span>
                 </label>
-                <label class="checklist-item" for="chk12">
+                <label class="checklist-item fx-reveal fx-spot" for="chk12">
                     <input type="checkbox" id="chk12" data-index="12">
                     <span class="check-box" aria-hidden="true"></span>
                     <span class="item-text">Senha GOV.BR (sem verificação em duas etapas)</span>
                 </label>
             </div>
+
+            <div class="fx-sticky">
+                <div class="checklist-header">
+                    <p class="checklist-progress-text fx-status"><span class="fx-status-progress"><span class="fx-long">Progresso: </span><strong><span class="fx-count"></span> de 13</strong> documentos reunidos</span><span class="fx-status-done">✓ Documentação completa</span></p>
+                    <button type="button" class="checklist-reset" onclick="resetChecklist()" aria-label="Limpar checklist">↺ Limpar<span class="fx-long"> seleção</span></button>
+                </div>
+                <div class="progress-bar-track fx-bar" aria-hidden="true"><span class="fx-seg"></span><span class="fx-seg"></span><span class="fx-seg"></span><span class="fx-seg"></span><span class="fx-seg"></span><span class="fx-seg"></span><span class="fx-seg"></span><span class="fx-seg"></span><span class="fx-seg"></span><span class="fx-seg"></span><span class="fx-seg"></span><span class="fx-seg"></span><span class="fx-seg"></span></div>
+            </div>
         </div>
 
-        <div class="animate-3" id="sucesso">
-            <h2 class="section-title">05 — Casos de Sucesso</h2>
+        <div id="sucesso">
+            <h2 class="section-title fx-reveal">05 — Casos de Sucesso</h2>
             <p style="color:var(--text-dim);margin-bottom:25px;font-size:16.5px;">Confira empresas que estruturaram suas finanças e alavancaram seus negócios através do nosso acompanhamento especializado no PRONAMPE.</p>
 
             <div class="testimonial-grid">
-                <div class="testimonial-card">
+                <div class="testimonial-card fx-reveal fx-spot">
                     <p class="testimonial-text">"O enquadramento no PRONAMPE foi perfeito. Garantimos uma taxa subsidiada que viabilizou a expansão da nossa produção de forma totalmente segura."</p>
                     <div class="testimonial-author">
                         <div class="author-avatar">E</div>
@@ -859,7 +1098,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="testimonial-card">
+                <div class="testimonial-card fx-reveal fx-spot">
                     <p class="testimonial-text">"A estruturação documental feita pela consultoria foi essencial. Conseguimos capital de giro rápido, permitindo aumentar nosso estoque para a alta temporada."</p>
                     <div class="testimonial-author">
                         <div class="author-avatar">W</div>
@@ -869,7 +1108,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="testimonial-card">
+                <div class="testimonial-card fx-reveal fx-spot">
                     <p class="testimonial-text">"Processo ágil e transparente do início ao fim. O lastro governamental nos deu a tranquilidade necessária para investir em novas estruturas sem comprometer bens físicos."</p>
                     <div class="testimonial-author">
                         <div class="author-avatar">E</div>
@@ -879,7 +1118,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="testimonial-card">
+                <div class="testimonial-card fx-reveal fx-spot">
                     <p class="testimonial-text">"A consultoria cuidou de todo o compliance exigido pela instituição financeira. Ter a carência de 11 meses estabilizou completamente nosso caixa."</p>
                     <div class="testimonial-author">
                         <div class="author-avatar">W</div>
@@ -889,7 +1128,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="testimonial-card">
+                <div class="testimonial-card fx-reveal fx-spot">
                     <p class="testimonial-text">"Excelente assessoria contábil e fiscal durante todo o processo. Conduziram a defesa do nosso dossiê no comitê com extrema maestria."</p>
                     <div class="testimonial-author">
                         <div class="author-avatar">A</div>
@@ -899,7 +1138,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="testimonial-card">
+                <div class="testimonial-card fx-reveal fx-spot">
                     <p class="testimonial-text">"Alavancamos nossa estrutura comercial sem engessar a operação diária. O trabalho focado no 'Success Fee' nos passou muita confiança para fechar o negócio."</p>
                     <div class="testimonial-author">
                         <div class="author-avatar">L</div>
@@ -912,18 +1151,18 @@
             </div>
         </div>
 
-        <div class="animate-3" id="sobre">
-            <h2 class="section-title">06 — Quem Somos</h2>
-            <div class="about-section">
+        <div id="sobre">
+            <h2 class="section-title fx-reveal">06 — Quem Somos</h2>
+            <div class="about-section fx-reveal">
                 <p>A <strong>Master Consultoria Empresarial</strong> é especialista em estruturação de crédito, fomento e alavancagem financeira para empresas de médio e pequeno porte. Com forte atuação em Mato Grosso (baseados na região de Cuiabá) e franca expansão nacional, nossa missão é desburocratizar o acesso ao capital corporativo.</p>
                 <p>Trabalhamos lado a lado com o empresário brasileiro, unindo conhecimento de mercado, compliance rigoroso e relacionamento sólido com as principais instituições financeiras e órgãos de fomento do país, entregando soluções ágeis e blindadas para o crescimento do seu negócio.</p>
             </div>
         </div>
 
-        <div class="animate-3" id="faq">
-            <h2 class="section-title">07 — Dúvidas Frequentes</h2>
+        <div id="faq">
+            <h2 class="section-title fx-reveal">07 — Dúvidas Frequentes</h2>
             <div class="faq-container">
-                <details class="faq-item">
+                <details class="faq-item fx-reveal fx-spot">
                     <summary class="faq-question">
                         A Master Consultoria cobra algum valor adiantado?
                         <svg class="faq-icon" aria-hidden="true" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"></path></svg>
@@ -931,7 +1170,7 @@
                     <div class="faq-divider"></div>
                     <div class="faq-answer"><strong>Absolutamente não.</strong> Nosso compromisso é com o seu resultado. Operamos sob o modelo de <em>Success Fee</em> (Taxa de Sucesso), o que significa que nossos honorários só serão devidos <strong>após a efetiva aprovação e o recurso estar liberado</strong> na conta da sua empresa. Risco zero para o seu negócio.</div>
                 </details>
-                <details class="faq-item">
+                <details class="faq-item fx-reveal fx-spot">
                     <summary class="faq-question">
                         Preciso colocar minha casa ou veículo como garantia?
                         <svg class="faq-icon" aria-hidden="true" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"></path></svg>
@@ -939,7 +1178,7 @@
                     <div class="faq-divider"></div>
                     <div class="faq-answer"><strong>Não há necessidade de alienação de bens físicos.</strong> A linha PRONAMPE utiliza o Fundo Garantidor de Operações (FGO) do Governo Federal, que atua como o principal avalista da sua operação perante a instituição financeira, protegendo o seu patrimônio pessoal e empresarial.</div>
                 </details>
-                <details class="faq-item">
+                <details class="faq-item fx-reveal fx-spot">
                     <summary class="faq-question">
                         E se a minha empresa não tiver conta no banco parceiro?
                         <svg class="faq-icon" aria-hidden="true" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"></path></svg>
@@ -947,7 +1186,7 @@
                     <div class="faq-divider"></div>
                     <div class="faq-answer"><strong>Nós cuidamos de toda a estruturação bancária.</strong> Não é impeditivo não ter conta prévia. Após a aprovação do seu perfil nas etapas de compliance, nossa equipe conduzirá a abertura da conta e a negociação das reciprocidades diretamente com a gerência do banco.</div>
                 </details>
-                <details class="faq-item">
+                <details class="faq-item fx-reveal fx-spot">
                     <summary class="faq-question">
                         Quanto tempo leva todo o processo até o recurso cair na conta?
                         <svg class="faq-icon" aria-hidden="true" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"></path></svg>
@@ -958,7 +1197,7 @@
             </div>
         </div>
 
-        <section class="diferencial animate-3">
+        <section class="diferencial fx-reveal">
             <h3>Garantias e Transparência</h3>
             <div class="success-fee-box">
                 <h4>Atendimento Ético e Seguro</h4>
@@ -969,7 +1208,7 @@
 
     </main>
 
-    <footer class="footer animate-3">
+    <footer class="footer">
         Master Consultoria Empresarial • Edifício Top Tower Center, Sala 101 - Avenida do CPA. Cuiabá - MT
     </footer>
 
@@ -977,43 +1216,32 @@
 
 <script>
 // ============================================================
-// CHECKLIST: os itens já estão no HTML (abre até sem JavaScript,
-// ex.: prévia do WhatsApp). Aqui só salvamos o progresso.
+// CHECKLIST: itens e progresso funcionam só com HTML/CSS (abre até
+// na prévia do WhatsApp). Aqui só salvamos o que foi marcado neste
+// navegador e ligamos o botão de limpar.
 // ============================================================
 (function () {
     var STORAGE_KEY = 'master_pronampe_checklist_v2';
-    var grid  = document.getElementById('checklistGrid');
-    var boxes = grid.querySelectorAll('input[type=checkbox]');
+    var boxes = document.querySelectorAll('#checklistGrid input[type=checkbox]');
 
-    function load() {
-        try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); } catch (e) { return []; }
-    }
     function save() {
         var marked = [];
         for (var i = 0; i < boxes.length; i++) if (boxes[i].checked) marked.push(i);
         try { localStorage.setItem(STORAGE_KEY, JSON.stringify(marked)); } catch (e) {}
     }
 
-    function updateProgress() {
-        var done = grid.querySelectorAll('input:checked').length;
-        document.getElementById('checkCount').textContent = done;
-        document.getElementById('progressFill').style.width = (boxes.length ? done / boxes.length * 100 : 0).toFixed(1) + '%';
-        document.getElementById('progressBar').setAttribute('aria-valuenow', done);
-    }
+    try {
+        var saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+        for (var i = 0; i < boxes.length; i++) boxes[i].checked = saved.indexOf(i) !== -1;
+    } catch (e) {}
 
-    var saved = load();
-    for (var i = 0; i < boxes.length; i++) boxes[i].checked = saved.indexOf(i) !== -1;
-
-    grid.addEventListener('change', function () { save(); updateProgress(); });
+    for (var j = 0; j < boxes.length; j++) boxes[j].addEventListener('change', save);
 
     window.resetChecklist = function () {
         if (!confirm('Deseja limpar todos os documentos marcados?')) return;
         for (var i = 0; i < boxes.length; i++) boxes[i].checked = false;
         save();
-        updateProgress();
     };
-
-    updateProgress();
 })();
 
 // ============================================================
@@ -1047,6 +1275,57 @@ document.querySelectorAll('a[href^="#"]').forEach(function(a) {
     document.querySelectorAll('.nav-links a').forEach(function (a) {
         a.addEventListener('click', function () { setOpen(false); });
     });
+})();
+</script>
+
+<script>
+// ============================================================
+// EFEITOS VISUAIS (complemento do CSS)
+// - revela os blocos ao rolar em navegadores sem animação por rolagem
+// - barra de leitura nesses mesmos navegadores
+// - brilho que segue o mouse nos cartões (só computador)
+// ============================================================
+(function () {
+    var root = document.documentElement;
+
+    if (root.classList.contains('fx-js')) {
+        var io = new IntersectionObserver(function (entries) {
+            var n = 0;
+            entries.forEach(function (entry) {
+                if (!entry.isIntersecting) return;
+                entry.target.style.setProperty('--fx-d', Math.min(n++ * 70, 350) + 'ms');
+                entry.target.classList.add('fx-in');
+                io.unobserve(entry.target);
+            });
+        }, { threshold: 0.08, rootMargin: '0px 0px -6% 0px' });
+        document.querySelectorAll('.fx-reveal').forEach(function (el) { io.observe(el); });
+    }
+
+    var bar = document.querySelector('.fx-progress');
+    if (bar && !(window.CSS && CSS.supports && CSS.supports('animation-timeline: scroll()'))) {
+        root.classList.add('fx-js-progress');
+        var ticking = false;
+        var update = function () {
+            var max = root.scrollHeight - root.clientHeight;
+            bar.style.setProperty('--fx-p', max > 0 ? Math.min(1, window.scrollY / max) : 0);
+            ticking = false;
+        };
+        window.addEventListener('scroll', function () {
+            if (!ticking) { ticking = true; requestAnimationFrame(update); }
+        }, { passive: true });
+        window.addEventListener('resize', update);
+        update();
+    }
+
+    if (window.matchMedia && matchMedia('(hover: hover) and (pointer: fine)').matches) {
+        document.addEventListener('pointermove', function (e) {
+            var el = e.target.closest ? e.target.closest('.fx-spot') : null;
+            if (!el) return;
+            var r = el.getBoundingClientRect();
+            el.style.setProperty('--fx-x', (e.clientX - r.left) + 'px');
+            el.style.setProperty('--fx-y', (e.clientY - r.top) + 'px');
+        }, { passive: true });
+    }
 })();
 </script>
 
