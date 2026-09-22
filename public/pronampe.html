@@ -593,9 +593,95 @@
             .faq-answer { padding: 0 20px 20px 20px; font-size: 14.5px; }
             .faq-divider { margin: 0 20px 15px 20px; }
         }
+
+        /* ============================================
+           PADRÃO DE CORES DO FNE (verde)
+        ============================================ */
+        :root { --green-light: #34d399; --accent-glow: rgba(16, 185, 129, 0.15); --border-chrome: rgba(255, 255, 255, 0.08); }
+
+        .bg-glow {
+            position: absolute; top: 10%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: min(800px, 100vw); height: 800px;
+            background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+            pointer-events: none; z-index: 0; opacity: 0.6;
+        }
+
+        .nav-brand { color: var(--silver-light); font-size: 13px; }
+
+        .hero .tag {
+            color: var(--green-light);
+            background: rgba(16, 185, 129, 0.08);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.1);
+        }
+        .hero .tag:hover { transform: translateY(-2px); background: rgba(16, 185, 129, 0.12); box-shadow: 0 0 25px rgba(16, 185, 129, 0.2); }
+
+        .intro-letter { border-left-color: var(--green); }
+        .intro-letter:hover { border-left-color: var(--green-light); }
+        .intro-letter h4 { color: #ffffff; }
+
+        .section-title {
+            background: none; -webkit-text-fill-color: #ffffff; color: #ffffff;
+            border-bottom: 0;
+            display: flex; align-items: center; gap: 15px;
+        }
+        .section-title:hover { padding-left: 0; }
+        .section-title::before {
+            content: ''; display: block; flex-shrink: 0;
+            width: 12px; height: 12px; border-radius: 50%;
+            background: var(--green); box-shadow: 0 0 15px var(--green);
+        }
+        .section-title::after {
+            content: ''; flex-grow: 1; height: 1px; margin-left: 15px;
+            background: linear-gradient(90deg, rgba(255,255,255,0.1) 0%, transparent 100%);
+        }
+
+        .card { background: linear-gradient(145deg, rgba(15,23,42,0.5) 0%, rgba(2,4,8,0.8) 100%); border-radius: 24px; }
+        .card:hover {
+            transform: translateY(-10px); background: linear-gradient(145deg, rgba(15,23,42,0.5) 0%, rgba(2,4,8,0.8) 100%);
+            border-color: rgba(255,255,255,0.15);
+            box-shadow: inset 0 1px 1px rgba(255,255,255,0.1), 0 25px 50px rgba(0,0,0,0.5), 0 0 30px rgba(16, 185, 129, 0.05);
+        }
+        .card h3 { font-family: 'Playfair Display', serif; background: none; -webkit-text-fill-color: #ffffff; color: #ffffff; font-size: 24px; }
+
+        li::before { color: var(--green); opacity: 0.8; }
+        li:hover::before { color: var(--green); text-shadow: 0 0 10px var(--green); }
+
+        .etapa-numero { color: transparent; -webkit-text-stroke: 1px rgba(255,255,255,0.2); opacity: 1; font-size: 38px; }
+        .etapa-item:hover .etapa-numero { color: var(--green); -webkit-text-stroke: 0; text-shadow: 0 0 20px rgba(16, 185, 129, 0.4); }
+
+        .calc-input:focus { border-color: var(--green); }
+        .calc-slider { accent-color: var(--green); }
+        .calc-slider::-webkit-slider-thumb { background: var(--green); box-shadow: 0 0 12px rgba(16,185,129,0.5); }
+        .calc-slider::-webkit-slider-thumb:hover { background: var(--green-light); }
+        .calc-preset.active { background: rgba(16,185,129,0.12); border-color: rgba(16,185,129,0.4); color: var(--green-light); }
+        .calc-total-box { border-color: rgba(16,185,129,0.3); background: rgba(16,185,129,0.06); }
+        .calc-total-val.highlight { background: none; -webkit-text-fill-color: var(--green-light); color: var(--green-light); filter: none; }
+
+        .checklist-reset { font-size: 13.5px; padding: 8px 18px; border-radius: 30px; }
+        .progress-bar-track { height: 6px; }
+        .check-box { border-color: rgba(255,255,255,0.2); border-radius: 6px; width: 24px; height: 24px; background: rgba(0,0,0,0.3); }
+        .checklist-item:hover { transform: translateY(-3px); }
+        .checklist-item:hover .check-box { border-color: rgba(255,255,255,0.4); }
+        .checklist-item input[type="checkbox"]:checked + .check-box { box-shadow: 0 0 10px rgba(16, 185, 129, 0.4); }
+
+        .testimonial-card:hover::before { color: rgba(16, 185, 129, 0.1); }
+        .author-avatar { color: var(--green-light); }
+        .author-info h5 { color: #ffffff; }
+
+        .about-section::after { background: var(--green); box-shadow: 0 0 15px var(--green); }
+
+        .faq-item[open] { border-color: rgba(16, 185, 129, 0.4); }
+
+        .diferencial h3 { color: #ffffff; }
+        .success-fee-box::before { background: var(--green); }
+        .success-fee-box h4::before { color: var(--green); text-shadow: 0 0 10px rgba(16,185,129,0.5); }
     </style>
 </head>
 <body>
+
+<div class="bg-glow"></div>
 
 <nav class="nav" aria-label="Navegação principal">
     <div class="nav-inner">
