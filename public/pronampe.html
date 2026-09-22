@@ -396,6 +396,14 @@
         .progress-bar-fill { height: 100%; background: linear-gradient(90deg, #10b981, #34d399); border-radius: 2px; transition: width 0.5s cubic-bezier(0.16, 1, 0.3, 1); box-shadow: 0 0 10px rgba(16,185,129,0.5); }
 
         .checklist-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin-top: 20px; }
+        .checklist-group-title {
+            grid-column: 1 / -1;
+            font-family: 'Playfair Display', serif;
+            font-size: 20px; font-weight: 500; color: var(--silver-light);
+            margin-top: 22px; padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+        .checklist-group-title:first-child { margin-top: 0; }
         
         .checklist-item {
             display: flex; align-items: center; gap: 15px; font-size: 14.5px; color: var(--text-main);
@@ -431,17 +439,18 @@
 
         .checklist-item.done { opacity: 0.7; }
 
-        /* EMPRESAS ATENDIDAS */
-        .client-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; margin-top: 30px; }
-        .client-card {
-            display: flex; align-items: center; gap: 16px;
-            background: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0) 100%);
-            border: 1px solid rgba(255,255,255,0.05); border-radius: 16px; padding: 18px 22px;
-            transition: border-color 0.3s ease, background 0.3s ease;
-        }
-        .client-card:hover { background: rgba(255,255,255,0.05); border-color: rgba(203,213,225,0.25); }
-        .author-avatar { flex-shrink: 0; width: 42px; height: 42px; background: rgba(255,255,255,0.05); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Playfair Display', serif; font-size: 18px; color: var(--silver-light); border: 1px solid rgba(255,255,255,0.1); }
-        .client-name { color: var(--silver-light); font-size: 13.5px; font-weight: 500; letter-spacing: 0.8px; line-height: 1.5; }
+        /* DEPOIMENTOS */
+        .testimonial-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; margin-top: 30px; }
+        .testimonial-card { background: linear-gradient(145deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0) 100%); border: 1px solid rgba(255,255,255,0.05); border-radius: 16px; padding: 30px; position: relative; backdrop-filter: blur(10px); transition: all 0.4s ease; }
+        .testimonial-card:hover { background: rgba(255,255,255,0.04); border-color: rgba(203,213,225,0.2); transform: translateY(-5px); box-shadow: 0 15px 30px rgba(0,0,0,0.3); }
+        .testimonial-card::before { content: "\201C"; position: absolute; top: -10px; right: 20px; font-family: 'Playfair Display', serif; font-size: 80px; color: rgba(203,213,225,0.1); line-height: 1; transition: color 0.4s ease; }
+        .testimonial-card:hover::before { color: rgba(203,213,225,0.2); }
+        .testimonial-text { font-size: 15px; color: var(--silver-main); line-height: 1.7; margin-bottom: 25px; font-style: italic; position: relative; z-index: 1; }
+        .testimonial-author { display: flex; align-items: center; gap: 15px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 20px; }
+        .author-avatar { width: 45px; height: 45px; background: rgba(255,255,255,0.05); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Playfair Display', serif; font-size: 20px; color: var(--silver-light); border: 1px solid rgba(255,255,255,0.1); }
+        .author-info h5 { color: var(--silver-light); font-size: 16px; margin-bottom: 2px; }
+        .author-info p { color: var(--text-dim); font-size: 13px; margin: 0; }
+        .author-info p span { color: rgba(148,163,184,0.7); font-size: 12px; display: block; }
 
         /* QUEM SOMOS */
         .about-section { background: rgba(15,23,42,0.3); border: 1px solid rgba(255,255,255,0.05); border-radius: 20px; padding: 50px; margin-top: 30px; position: relative; overflow: hidden; backdrop-filter: blur(15px); display: flex; flex-direction: column; gap: 20px; transition: border-color 0.4s ease, box-shadow 0.4s ease; }
@@ -599,7 +608,7 @@
             <li><a href="#processo">Processo</a></li>
             <li><a href="#custos">Custos</a></li>
             <li><a href="#checklist">Checklist</a></li>
-            <li><a href="#clientes">Clientes</a></li>
+            <li><a href="#sucesso">Casos</a></li>
             <li><a href="#sobre">Sobre</a></li>
             <li><a href="#faq">Dúvidas</a></li>
         </ul>
@@ -772,58 +781,82 @@
 
             <div class="checklist-header">
                 <div>
-                    <p class="checklist-progress-text">Progresso: <span id="checkCount">0</span> de <span id="checkTotal">15</span> documentos reunidos</p>
+                    <p class="checklist-progress-text">Progresso: <span id="checkCount">0</span> de <span id="checkTotal">13</span> documentos reunidos</p>
                 </div>
                 <button type="button" class="checklist-reset" onclick="resetChecklist()" aria-label="Resetar checklist">↺ Resetar</button>
             </div>
 
-            <div class="progress-bar-track" role="progressbar" aria-valuemin="0" aria-valuemax="15" aria-valuenow="0" id="progressBar" aria-label="Progresso da documentação">
+            <div class="progress-bar-track" role="progressbar" aria-valuemin="0" aria-valuemax="13" aria-valuenow="0" id="progressBar" aria-label="Progresso da documentação">
                 <div class="progress-bar-fill" id="progressFill" style="width: 0%;"></div>
             </div>
 
             <div class="checklist-grid" id="checklistGrid"></div>
         </div>
 
-        <div class="animate-3" id="clientes">
-            <h2 class="section-title">05 — Empresas Atendidas</h2>
-            <p style="color:var(--text-dim);margin-bottom:25px;font-size:16.5px;">Algumas das empresas que estruturaram seu crédito com o acompanhamento da Master Consultoria.</p>
+        <div class="animate-3" id="sucesso">
+            <h2 class="section-title">05 — Casos de Sucesso</h2>
+            <p style="color:var(--text-dim);margin-bottom:25px;font-size:16.5px;">Confira empresas que estruturaram suas finanças e alavancaram seus negócios através do nosso acompanhamento especializado no PRONAMPE.</p>
 
-            <div class="client-grid">
-                <div class="client-card">
-                    <div class="author-avatar" aria-hidden="true">D</div>
-                    <span class="client-name">D LIMA EXPRESS TRANSPORTE LTDA</span>
+            <div class="testimonial-grid">
+                <div class="testimonial-card">
+                    <p class="testimonial-text">"O enquadramento no PRONAMPE foi perfeito. Garantimos uma taxa subsidiada que viabilizou a expansão da nossa produção de forma totalmente segura."</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">E</div>
+                        <div class="author-info">
+                            <h5>Erica</h5>
+                            <p>Ateliê da Formiga <span>Tangará da Serra - MT</span></p>
+                        </div>
+                    </div>
                 </div>
-                <div class="client-card">
-                    <div class="author-avatar" aria-hidden="true">L</div>
-                    <span class="client-name">LUISA REGIOLANI MENDES DIAS</span>
+                <div class="testimonial-card">
+                    <p class="testimonial-text">"A estruturação documental feita pela consultoria foi essencial. Conseguimos capital de giro rápido, permitindo aumentar nosso estoque para a alta temporada."</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">W</div>
+                        <div class="author-info">
+                            <h5>Wanderson</h5>
+                            <p>WMR <span>Barra do Garças - MT</span></p>
+                        </div>
+                    </div>
                 </div>
-                <div class="client-card">
-                    <div class="author-avatar" aria-hidden="true">N</div>
-                    <span class="client-name">NOBRE COSMETICOS E PERFUMARIA E HIGIENE PESSOAL LTDA</span>
+                <div class="testimonial-card">
+                    <p class="testimonial-text">"Processo ágil e transparente do início ao fim. O lastro governamental nos deu a tranquilidade necessária para investir em novas estruturas sem comprometer bens físicos."</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">E</div>
+                        <div class="author-info">
+                            <h5>Elivaldo</h5>
+                            <p>Rota do Açaí <span>Tangará da Serra - MT</span></p>
+                        </div>
+                    </div>
                 </div>
-                <div class="client-card">
-                    <div class="author-avatar" aria-hidden="true">E</div>
-                    <span class="client-name">EDUARDO ELEUTERIO DE ALBUQUERQUE</span>
+                <div class="testimonial-card">
+                    <p class="testimonial-text">"A consultoria cuidou de todo o compliance exigido pela instituição financeira. Ter a carência de 11 meses estabilizou completamente nosso caixa."</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">W</div>
+                        <div class="author-info">
+                            <h5>Wesley</h5>
+                            <p>Empreendedor <span>Barra do Garças - MT</span></p>
+                        </div>
+                    </div>
                 </div>
-                <div class="client-card">
-                    <div class="author-avatar" aria-hidden="true">G</div>
-                    <span class="client-name">GUITEMBERG ALMEIDA DE LIMA</span>
+                <div class="testimonial-card">
+                    <p class="testimonial-text">"Excelente assessoria contábil e fiscal durante todo o processo. Conduziram a defesa do nosso dossiê no comitê com extrema maestria."</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">A</div>
+                        <div class="author-info">
+                            <h5>Alan</h5>
+                            <p>AS Seguros <span>Palmas - TO</span></p>
+                        </div>
+                    </div>
                 </div>
-                <div class="client-card">
-                    <div class="author-avatar" aria-hidden="true">M</div>
-                    <span class="client-name">MARCENARIA M&amp;R LTDA</span>
-                </div>
-                <div class="client-card">
-                    <div class="author-avatar" aria-hidden="true">P</div>
-                    <span class="client-name">P J GOMES DA SILVA CEREAIS</span>
-                </div>
-                <div class="client-card">
-                    <div class="author-avatar" aria-hidden="true">S</div>
-                    <span class="client-name">S L FRIGORIFICO LTDA</span>
-                </div>
-                <div class="client-card">
-                    <div class="author-avatar" aria-hidden="true">V</div>
-                    <span class="client-name">VM CONSULTORIA LTDA</span>
+                <div class="testimonial-card">
+                    <p class="testimonial-text">"Alavancamos nossa estrutura comercial sem engessar a operação diária. O trabalho focado no 'Success Fee' nos passou muita confiança para fechar o negócio."</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">L</div>
+                        <div class="author-info">
+                            <h5>Diretoria</h5>
+                            <p>Lilay Modas <span>Sinop - MT</span></p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -960,25 +993,32 @@ calcUpdate(150000);
 // ============================================================
 // CHECKLIST COM LOCALSTORAGE E CORREÇÃO DO BUG VISUAL
 // ============================================================
-var CHECKLIST_ITEMS = [
-    'Cartão CNPJ atualizado',
-    'Contrato Social e alterações (se houver)',
-    'Faturamento dos últimos 12 meses (assinado digitalmente)',
-    'Comprovante de endereço da Empresa (recente)',
-    'Todos os Alvarás (Obrigatórios)',
-    'Fotos do estabelecimento (fachada e estrutura interna)',
-    'RG ou CNH de todos os sócios',
-    'Comprovante de Residência de todos os sócios',
-    'Declaração de Imposto de Renda (Pessoa Física) completa',
-    'Certidão de casamento (Se houver)',
-    'E-mail e Telefone para contato',
-    'Certificado Digital A1 (.pfx)',
-    'Acesso GOV.BR (nível prata ou ouro)',
-    'Relatório de desempenho assinado pelos engenheiros CNR',
-    'e-Social (1 funcionário registrado obrigatório)'
+var CHECKLIST_GROUPS = [
+    { title: 'Documentos Corporativos', items: [
+        'Cartão CNPJ',
+        'Contrato Social e alterações (se houver)',
+        'Faturamento dos últimos 12 meses (assinado digitalmente)',
+        'Comprovante de endereço da Empresa (recente)',
+        'Alvará de Funcionamento (se aplicável)',
+        'Fotos do estabelecimento (fachada e estrutura interna)'
+    ]},
+    { title: 'Documentação Societária', items: [
+        'RG ou CNH de todos os sócios',
+        'Comprovante de Residência de todos os sócios',
+        'Declaração de Imposto de Renda (Pessoa Física) completa',
+        'Certidão de casamento (Se houver)'
+    ]},
+    { title: 'Credenciais de Acesso', items: [
+        'E-mail e Telefone para contato',
+        'Certificado Digital A1 (.pfx) com senha',
+        'Senha GOV.BR (sem verificação em duas etapas)'
+    ]}
 ];
 
-var STORAGE_KEY = 'master_pronampe_checklist';
+// Lista plana (usada para contagem e para salvar o progresso)
+var CHECKLIST_ITEMS = CHECKLIST_GROUPS.reduce(function (acc, g) { return acc.concat(g.items); }, []);
+
+var STORAGE_KEY = 'master_pronampe_checklist_v2';
 
 function loadChecked() {
     try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); } catch(e) { return []; }
@@ -989,12 +1029,17 @@ function saveChecked(arr) {
 
 function renderChecklist() {
     var checked = loadChecked();
-    document.getElementById('checklistGrid').innerHTML = CHECKLIST_ITEMS.map(function(item, i) {
-        return '<label class="checklist-item" for="chk' + i + '">' +
-               '<input type="checkbox" id="chk' + i + '" data-index="' + i + '"' + (checked.indexOf(i) !== -1 ? ' checked' : '') + '>' +
-               '<span class="check-box" aria-hidden="true"></span>' +
-               '<span class="item-text">' + item + '</span>' +
-               '</label>';
+    var i = 0;
+    document.getElementById('checklistGrid').innerHTML = CHECKLIST_GROUPS.map(function(group) {
+        return '<h3 class="checklist-group-title">' + group.title + '</h3>' +
+            group.items.map(function(item) {
+                var idx = i++;
+                return '<label class="checklist-item" for="chk' + idx + '">' +
+                       '<input type="checkbox" id="chk' + idx + '" data-index="' + idx + '"' + (checked.indexOf(idx) !== -1 ? ' checked' : '') + '>' +
+                       '<span class="check-box" aria-hidden="true"></span>' +
+                       '<span class="item-text">' + item + '</span>' +
+                       '</label>';
+            }).join('');
     }).join('');
     updateProgress();
 }
